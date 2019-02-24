@@ -8,11 +8,27 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-regular-svg-icons": "^5.7.2",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "@fortawesome/pro-light-svg-icons": "^5.7.2",
+    "@fortawesome/vue-fontawesome": "^0.1.5",
+    "apollo-boost": "^0.1.28",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.13",
+    "graphql": "^14.1.1",
+    "normalize-scss": "^7.0.1",
+    "nprogress": "^0.2.0",
+    "pusher-js": "^4.4.0",
     "vue": "^2.5.22",
+    "vue-apollo": "^3.0.0-beta.28",
     "vue-router": "^3.0.1",
+    "vue-shortkey": "^3.1.6",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
@@ -24,6 +40,7 @@
     "lint-staged": "^8.1.0",
     "sass": "^1.16.0",
     "sass-loader": "^7.1.0",
+    "vue-cli-plugin-vuetify": "^0.4.6",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {
@@ -35,7 +52,47 @@
       "plugin:vue/essential",
       "@vue/airbnb"
     ],
-    "rules": {},
+    "rules": {
+      "computed-property-spacing": "off",
+      "no-multiple-empty-lines": [
+        2,
+        {
+          "max": 1,
+          "maxEOF": 0,
+          "maxBOF": 0
+        }
+      ],
+      "no-use-before-define": [
+        2,
+        {
+          "functions": false
+        }
+      ],
+      "prefer-const": 1,
+      "complexity": "off",
+      "import/prefer-default-export": "off",
+      "no-param-reassign": "off",
+      "array-bracket-spacing": "off",
+      "object-curly-newline": "off",
+      "comma-dangle": "off",
+      "quotes": "off",
+      "indent": "off",
+      "max-len": "off",
+      "operator-linebreak": "off",
+      "semi": "off",
+      "template-curly-spacing": "off",
+      "import/no-extraneous-dependencies": "off",
+      "no-console": "off",
+      "arrow-parens": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "js": "never",
+          "vue": "never"
+        }
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

@@ -1,29 +1,66 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <div>
+    <CheckToken></CheckToken>
     <router-view/>
+    <UpdateBar/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<script>
+import CheckToken from "./utils/token";
+import UpdateBar from "./components/shared/UpdateBar";
+
+export default {
+  name: "App",
+  components: {
+    CheckToken,
+    UpdateBar
+  },
+  data() {
+    return {
+      updateChannel: undefined
+    };
+  },
+  created() {
+    this.updateChannel = this.$pusher.subscribe("updates");
+    this.updateChannel.bind("Updated", () => this.$store.commit('update', true));
   }
+};
+</script>
+
+<style>
+html,
+body {
+  height: 100%;
+  font-family: Roboto!important;
+}
+body.login {
+  background-image: url("./assets/lyanna-bg.jpg");
+}
+.bg-dark-grey {
+  background-color: rgb(10, 10, 10);
+  color: white;
+}
+.hover-pointer-cursor{cursor:pointer;}
+[role="main"] {
+    padding-top: 133px; /* Space for fixed navbar */
+}
+
+@media (min-width: 768px) {
+    [role="main"] {
+        padding-top: 48px; /* Space for fixed navbar */
+    }
+}
+.small-select {
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.375rem 0.375rem 0.375rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  vertical-align: middle;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 </style>
