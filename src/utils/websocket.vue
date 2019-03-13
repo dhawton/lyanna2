@@ -50,7 +50,7 @@ export default {
       });
       channel.bind("ChannelHeld", e => {
         EventBus.$emit("channel-held", e.held);
-      }); // Soon(TM) @TODO
+      });
       channel.bind("EditCall", e => {
         e.call.assigned = JSON.parse(e.call.assigned);
         this.$store.commit("call", e.call);

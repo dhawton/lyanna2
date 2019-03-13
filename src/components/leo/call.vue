@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <button class="btn btn-primary btn-darkblue">Clear Call</button>
+          <button class="btn btn-darkblue">Clear Call</button>
         </td>
       </tr>
     </table>
@@ -56,5 +56,12 @@ export default {
 .btn-darkblue:hover {
   background-color: rgb(0, 0, 100);
   color: #fff;
+}
+table td {
+  color: #fff;
+}
+.table-info td {
+  background-color: rgb(0, 0, 100);
+  border: 1px solid white;
 }
 </style>

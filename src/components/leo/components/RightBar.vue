@@ -2,14 +2,15 @@
   <b-col md="1" class="bg-green sidebar">
     <div class="sidebar-sticky">
       <b-nav vertical class="flex-column" v-if="signon !== undefined">
-        <b-nav-item class="purewhite text-center"
-          >Department
-          <br />
+        <b-nav-item v-if="channelHeld === true">
+          <b-button variant="danger" block>Channel Held</b-button>
+        </b-nav-item>
+        <b-nav-item class="purewhite text-center">Department
+          <br>
           <span class="text-info">{{ agencyAbbreviations[department.role] }}</span>
         </b-nav-item>
-        <b-nav-item class="purewhite text-center"
-          >Status
-          <br />
+        <b-nav-item class="purewhite text-center">Status
+          <br>
           <span class="text-info">{{ signon.status }}</span>
         </b-nav-item>
         <b-nav-item class="pd-0 pt-3">
@@ -19,16 +20,16 @@
             class="text-center"
             :variant="signon.status === 'Available' ? 'success' : 'outline-success'"
             block
-            >Available</b-button
-          >
+          >Available</b-button>
           <b-button
             v-else
             disabled
             class="text-center"
             :variant="signon.status === 'Available' ? 'success' : 'outline-success'"
             block
-            ><b-spinner small
-          /></b-button>
+          >
+            <b-spinner small/>
+          </b-button>
         </b-nav-item>
         <b-nav-item class="pd-0 pt-1">
           <b-button
@@ -37,16 +38,16 @@
             class="text-center"
             :variant="signon.status === 'Busy' ? 'warning' : 'outline-warning'"
             block
-            >Busy</b-button
-          >
+          >Busy</b-button>
           <b-button
             v-else
             disabled
             class="text-center"
             :variant="signon.status === 'Busy' ? 'warning' : 'outline-warning'"
             block
-            ><b-spinner small
-          /></b-button>
+          >
+            <b-spinner small/>
+          </b-button>
         </b-nav-item>
         <b-nav-item class="pd-0 pt-1">
           <b-button
@@ -55,16 +56,16 @@
             class="text-center"
             :variant="signon.status === 'Out of Service' ? 'danger' : 'outline-danger'"
             block
-            >Out of Service</b-button
-          >
+          >Out of Service</b-button>
           <b-button
             v-else
             disabled
             class="text-center"
             :variant="signon.status === 'Out of Service' ? 'danger' : 'outline-danger'"
             block
-            ><b-spinner small
-          /></b-button>
+          >
+            <b-spinner small/>
+          </b-button>
         </b-nav-item>
         <b-nav-item class="pd-0 pt-1">
           <b-button
@@ -73,16 +74,16 @@
             class="text-center"
             :variant="signon.status === 'En-Route' ? 'primary' : 'outline-primary'"
             block
-            >En-Route</b-button
-          >
+          >En-Route</b-button>
           <b-button
             v-else
             disabled
             class="text-center"
             :variant="signon.status === 'En-Route' ? 'primary' : 'outline-primary'"
             block
-            ><b-spinner small
-          /></b-button>
+          >
+            <b-spinner small/>
+          </b-button>
         </b-nav-item>
         <b-nav-item class="pd-0 pt-1">
           <b-button
@@ -91,21 +92,19 @@
             class="text-center"
             :variant="signon.status === 'On Scene' ? 'light' : 'outline-light'"
             block
-            >On Scene</b-button
-          >
+          >On Scene</b-button>
           <b-button
             v-else
             disabled
             class="text-center"
             :variant="signon.status === 'On Scene' ? 'light' : 'outline-light'"
             block
-            ><b-spinner small
-          /></b-button>
+          >
+            <b-spinner small/>
+          </b-button>
         </b-nav-item>
         <b-nav-item class="pd-0 pt-1">
-          <b-button @click="status('Panic')" class="text-center" variant="danger" block
-            >Panic</b-button
-          >
+          <b-button @click="status('Panic')" class="text-center" variant="danger" block>Panic</b-button>
         </b-nav-item>
       </b-nav>
       <span v-else>Loading...</span>
@@ -114,12 +113,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { agencyAbbreviations } from '@/utils/commondata';
-import { CHANGE_STATUS } from '../../../store/queries/user';
+import { mapGetters } from "vuex";
+import { agencyAbbreviations } from "@/utils/commondata";
+import { CHANGE_STATUS } from "../../../store/queries/user";
 
 export default {
-  name: 'RightBar',
+  name: "RightBar",
   data() {
     return {
       agencyAbbreviations,
@@ -127,7 +126,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['department', 'signon'])
+    ...mapGetters(["department", "signon", "channelHeld"])
   },
   methods: {
     status(s) {

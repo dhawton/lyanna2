@@ -4,6 +4,7 @@
     <router-view/>
     <UpdateBar/>
     <WebSocket/>
+    <SoundHandler/>
   </div>
 </template>
 
@@ -11,13 +12,15 @@
 import CheckToken from "./utils/token";
 import UpdateBar from "./components/shared/UpdateBar";
 import WebSocket from "./utils/websocket";
+import SoundHandler from "./soundhandler";
 
 export default {
   name: "App",
   components: {
     CheckToken,
     UpdateBar,
-    WebSocket
+    WebSocket,
+    SoundHandler
   },
   data() {
     return {
@@ -35,7 +38,7 @@ export default {
 html,
 body {
   height: 100%;
-  font-family: Roboto !important;
+  font-family: "Roboto Slab" !important;
 }
 body.login {
   background-image: url("./assets/lyanna-bg.jpg");

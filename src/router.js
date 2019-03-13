@@ -21,6 +21,7 @@ import MDTPC from "./components/leo/personcheck";
 import MDTPCCharacter from "./components/leo/character";
 import MDTVC from "./components/leo/vehiclecheck";
 import MDTChangeDept from "./components/leo/chgdept";
+import MDTActiveUnits from "./components/leo/units";
 
 Vue.use(Router);
 
@@ -111,6 +112,10 @@ export default new Router({
         {
           path: "dept",
           component: MDTChangeDept
+        },
+        {
+          path: "units",
+          component: MDTActiveUnits
         }
       ]
     }

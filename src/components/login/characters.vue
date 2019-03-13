@@ -70,14 +70,14 @@ export default {
     ...mapGetters(["department", "me", "server"])
   },
   created() {
-    if (this.department.role === "police") this.prefix = "P";
+    /*     if (this.department.role === "police") this.prefix = "P";
     if (this.department.role === "sheriff") this.prefix = "C";
     if (
       this.department.role === "highway" ||
       this.department.role === "state"
     ) {
       this.prefix = "S";
-    }
+    } */
     if (this.department.role === "intel") this.prefix = "I";
     this.$apollo
       .query({

@@ -44,7 +44,9 @@ export default new Vuex.Store({
     calls: [],
     units: [],
     bolos: [],
-    assignedCall: null
+    assignedCall: null,
+    channelHeld: false,
+    phoneCall: false
   },
   mutations: {
     loggedIn: (state, payload) => {
@@ -91,7 +93,8 @@ export default new Vuex.Store({
         console.dir(i);
         if (v.id === payload.id) {
           console.log(`Expanding payload onto ${i}`);
-          state.units[i] = { ...state.units[i], ...payload };
+          Vue.set(state.units, i, { ...state.units[i], ...payload });
+          /*           state.units[i] = { ...state.units[i], ...payload }; */
           changed = true;
         }
       });
@@ -107,7 +110,8 @@ export default new Vuex.Store({
       let changed = false;
       state.calls.forEach((v, i) => {
         if (v.callnumber === payload.callnumber) {
-          state.calls[i] = { ...state.calls[i], ...payload };
+          Vue.set(state.calls, i, { ...state.calls[i], ...payload });
+          /*           state.calls[i] = { ...state.calls[i], ...payload }; */
           changed = true;
         }
       });
@@ -120,6 +124,12 @@ export default new Vuex.Store({
     },
     assignedCall: (state, payload) => {
       state.assignedCall = payload;
+    },
+    channelHeld: (state, payload) => {
+      state.channelHeld = payload;
+    },
+    phoneCall: (state, payload) => {
+      state.phoneCall = payload;
     }
   },
   getters: {
@@ -139,6 +149,8 @@ export default new Vuex.Store({
     units: state => state.units,
     unit: state => identifier => state.units.find(unit => unit.session_identifier === identifier),
     unitById: state => id => state.units.find(unit => unit.id === id),
-    assignedCall: state => state.assignedCall
+    assignedCall: state => state.assignedCall,
+    channelHeld: state => state.channelHeld,
+    phoneCall: state => state.phoneCall
   }
 });
