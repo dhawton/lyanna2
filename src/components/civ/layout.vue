@@ -1,12 +1,14 @@
 <template>
   <div>
-    <TopBar/>
+    <TopBar />
     <b-container fluid>
       <b-row>
-        <LeftBar/>
+        <LeftBar />
 
         <b-col role="main" md="11" px="4" class="ml-sm-auto">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
             <h1 class="h2" id="mainheader">Civilian Department</h1>
           </div>
 
@@ -18,11 +20,11 @@
 </template>
 
 <script>
-import TopBar from "./components/TopBar";
-import LeftBar from "./components/LeftBar";
+import TopBar from './components/TopBar';
+import LeftBar from './components/LeftBar';
 
 export default {
-  name: "Civ",
+  name: 'Civ',
   components: {
     TopBar,
     LeftBar
@@ -33,6 +35,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

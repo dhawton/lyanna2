@@ -4,7 +4,7 @@
       <Flags :documents="documents" />
     </b-col>
     <b-col md="5">
-      <table class="table table-info table-sm table-borderless">
+      <table class="table table-info table-sm table-borderless" style="color: #000 !important;">
         <tr>
           <td colspan="2">
             <h3>San Andreas Department of Motor Vehicles</h3>
@@ -13,22 +13,25 @@
         <tr>
           <td rowspan="6" style="width: 150px; text-align: center;">
             <img
-              :src="(character.photo !== null) ? character.photo : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'"
+              :src="
+                character.photo !== null
+                  ? character.photo
+                  : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'
+              "
               id="profilepic"
               style="width: 150px;"
               ref="pic"
-            >
-            <br>
-            <h2
-              v-if="character.licensestatus != 'Valid'"
-              class="label"
-            >{{ character.licensestatus }}</h2>
+            />
+            <br />
+            <h2 v-if="character.licensestatus != 'Valid'" class="label">
+              {{ character.licensestatus }}
+            </h2>
           </td>
           <td>
             4d
             <b class="label">LIC NO:</b>
             {{ character.idnumber }}
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <b class="label">Status:</b>
             {{ character.licensestatus }}
           </td>
@@ -59,7 +62,7 @@
             8
             <b class="label">Address</b>
             {{ character.address }}
-            <br>
+            <br />
             {{ character.city }}, SA
           </td>
         </tr>
@@ -69,16 +72,15 @@
             <b class="label">SEX:</b>
             {{ character.gender }} 16
             <b class="label">HGT:</b>
-            {{character.height_feet}}' {{character.height_inches}}"
+            {{ character.height_feet }}' {{ character.height_inches }}"
           </td>
         </tr>
         <tr>
-          <td class="signature">{{character.firstname}} {{character.lastname}}</td>
+          <td class="signature">{{ character.firstname }} {{ character.lastname }}</td>
           <td>
             17
             <b class="label">WGT:</b>
-            {{ character.weight }} lbs
-            18
+            {{ character.weight }} lbs 18
             <b class="label">RCE:</b>
             {{ character.race }}
             19
@@ -90,12 +92,12 @@
           <td colspan="2" style="padding-left: 10px; padding-right: 10px;">
             <b-input-group>
               <b-form-select id="dmvlicensestatus" v-model="licensestatus">
-                <option v-for="(status, i) in commonLicenseStatus" :key="i">{{status}}</option>
+                <option v-for="(status, i) in commonLicenseStatus" :key="i">{{ status }}</option>
               </b-form-select>
               <b-input-group-addon>
                 <b-button v-if="!processing" variant="black" @click="edit">Change</b-button>
                 <b-button v-else variant="black" disabled>
-                  <b-spinner small/>
+                  <b-spinner small />
                 </b-button>
                 <b-button variant="grey" @click="editInfo">Edit Info</b-button>
               </b-input-group-addon>
@@ -108,20 +110,19 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Flags from "./Flags";
-import { licensestatus as commonLicenseStatus } from "@/utils/commondata";
-import { EDIT_CHARACTER } from "@/store/queries/civ";
+import Flags from './Flags';
+import { licensestatus as commonLicenseStatus } from '@/utils/commondata';
+import { EDIT_CHARACTER } from '@/store/queries/civ';
 
 export default {
-  name: "License",
+  name: 'License',
   components: {
     Flags
   },
   data() {
     return {
       processing: false,
-      licensestatus: "Valid",
+      licensestatus: 'Valid',
       commonLicenseStatus
     };
   },
@@ -133,9 +134,9 @@ export default {
     documents: {
       default: undefined
     },
-  },
-  computed: {
-    ...mapGetters(["character"])
+    character: {
+      default: undefined
+    }
   },
   created() {
     this.licensestatus = this.character.licensestatus;
@@ -152,7 +153,7 @@ export default {
           }
         })
         .then(r => {
-          this.$store.commit("character", r.data.editCharacter);
+          this.$store.commit('character', r.data.editCharacter);
           this.processing = false;
         })
         .catch(err => {
@@ -161,7 +162,7 @@ export default {
         });
     },
     editInfo() {
-      this.$router.push("/civ/edit");
+      this.$router.push('/civ/edit');
     }
   }
 };
@@ -206,7 +207,7 @@ table {
   border-radius: 10px;
   border-style: hidden; /* hide standard table (collapsed) border */
   box-shadow: 0 0 0 1px #000000; /* this draws the table border  */
-  background: url("../../assets/licensebg.png");
+  background: url('../../assets/licensebg.png');
   background-size: cover;
 }
 
@@ -231,7 +232,7 @@ td {
   border-radius: 0.25rem;
 }
 .signature {
-  font-family: "Homemade Apple", cursive;
+  font-family: 'Homemade Apple', cursive;
   text-align: center;
   font-size: 0.7rem;
   white-space: nowrap;

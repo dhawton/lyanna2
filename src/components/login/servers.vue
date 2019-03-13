@@ -2,19 +2,16 @@
   <b-container fluid class="fill">
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
-        <b-img src="../../assets/logo_sq_white.png" fluid class="pb-2"/>
+        <b-img src="../../assets/logo_sq_white.png" fluid class="pb-2" />
         <b-card header="Select Server">
           <div v-if="!prepared" class="text-center">
-            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
+            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
           </div>
           <div v-else-if="prepared">
             <div v-for="server in servers" :key="server.id" style="margin-bottom: -5px;">
-              <b-button
-                block
-                variant="black"
-                dark
-                @click="selectServer(server)"
-              >{{ server.name }}</b-button>
+              <b-button block variant="black" dark @click="selectServer(server)">{{
+                server.name
+              }}</b-button>
             </div>
           </div>
         </b-card>
@@ -24,12 +21,12 @@
 </template>
 
 <script>
-import { GET_SERVERS } from "../../store/queries/misc";
+import { GET_SERVERS } from '../../store/queries/misc';
 
 export default {
-  name: "Servers",
+  name: 'Servers',
   beforeCreate() {
-    document.body.className = "login";
+    document.body.className = 'login';
   },
   data() {
     return {
@@ -53,8 +50,8 @@ export default {
       this.error = undefined;
     },
     selectServer(server) {
-      this.$store.commit("server", server);
-      this.$router.push("/login/departments");
+      this.$store.commit('server', server);
+      this.$router.push('/login/departments');
     }
   }
 };
@@ -93,7 +90,7 @@ h1 {
 }
 
 .btn-black:hover {
-  background-color: rgba(10,10,10,0.8);
+  background-color: rgba(10, 10, 10, 0.8);
   color: lightgray;
   margin-bottom: 1rem;
 }

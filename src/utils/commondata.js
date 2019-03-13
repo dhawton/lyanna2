@@ -1,10 +1,4 @@
-export const licensestatus = [
-  "Valid",
-  "Suspended",
-  "Revoked",
-  "Learner's Permit",
-  "ID Card"
-];
+export const licensestatus = ["Valid", "Suspended", "Revoked", "Learner's Permit", "ID Card"];
 
 export const cities = [
   "Chumash",
@@ -28,19 +22,22 @@ export const agencies = {
   State: "SASP",
   Sheriff: "BCSO",
   Police: "LSPD",
-  Court: "Court"
+  Court: "Court",
+  Intelligence: "SADI"
 };
 
 export const agencyLongNames = {
   highway: "San Andreas State Police",
   sheriff: "Blaine County Sheriff's Office",
-  police: "Los Santos Police Department"
+  police: "Los Santos Police Department",
+  intel: "San Andreas Department of Intelligence"
 };
 
 export const agencyAbbreviations = {
   police: "LSPD",
   sheriff: "BCSO",
-  highway: "SASP"
+  highway: "SASP",
+  intel: "SADI"
 };
 
-export const unitPrefixes = ("abcdefghijklmnopqrstuvwyz").toUpperCase().split("");
+export const unitPrefixes = "abcdefghijklmnopqrstuvwyz".toUpperCase().split("");

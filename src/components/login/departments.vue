@@ -15,7 +15,8 @@
             >
               <b-button
                 block
-                variant="black" :class="'btn-' + department.role"
+                variant="black"
+                :class="'btn-' + department.role"
                 v-if="hasRole(department.role)"
                 @click="selectDepartment(department)"
               >{{ department.name }}</b-button>
@@ -43,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([ "roles" ])
+    ...mapGetters(["roles"])
   },
   created() {
     this.$apollo
@@ -53,11 +54,14 @@ export default {
       .then(r => {
         this.departments = r.data.departments;
         const roles = [];
-        r.data.me.roles.forEach((v) => {
+        r.data.me.roles.forEach(v => {
           roles.push(v.role);
         });
         this.$store.commit("roles", roles);
-        this.$store.commit("me", { identifier: r.data.me.community_identifier, name: r.data.me.name });
+        this.$store.commit("me", {
+          identifier: r.data.me.community_identifier,
+          name: r.data.me.name
+        });
         this.prepared = true;
       })
       .catch(err => console.error(err));
@@ -121,7 +125,9 @@ h1 {
 .btn-civ:hover {
   background-color: rgb(0, 50, 0);
 }
-.btn-police:hover, .btn-sheriff:hover, .btn-highway:hover {
+.btn-police:hover,
+.btn-sheriff:hover,
+.btn-highway:hover {
   background-color: rgb(0, 0, 50);
 }
 .btn-fire:hover {
@@ -129,6 +135,9 @@ h1 {
 }
 .btn-dispatch:hover {
   background-color: rgb(50, 0, 50);
+}
+.btn-intel:hover {
+  background-color: rgb(104, 74, 0);
 }
 
 .btn-gray {

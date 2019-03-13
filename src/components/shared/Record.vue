@@ -41,7 +41,12 @@
 
     <b-row>
       <b-col md="6" class="my-1">
-        <b-form-group label-cols-sm="2" label="Entries per page" class="mb-0" label-text-align="right">
+        <b-form-group
+          label-cols-sm="2"
+          label="Entries per page"
+          class="mb-0"
+          label-text-align="right"
+        >
           <b-form-select class="small-select" :options="pageOptions" v-model="perPage" />
         </b-form-group>
       </b-col>
@@ -58,10 +63,10 @@
 </template>
 
 <script>
-import { agencies } from "@/utils/commondata";
+import { agencies } from '@/utils/commondata';
 
 export default {
-  name: "Record",
+  name: 'Record',
   data() {
     return {
       commonAgencies: agencies,
@@ -77,7 +82,7 @@ export default {
       perPage: 25,
       totalRows: this.items.length,
       pageOptions: [5, 10, 15, 25, 50, 100],
-      sortBy: "date",
+      sortBy: 'date',
       sortDesc: false,
       sortDirection: 'desc',
       filter: null,
@@ -88,14 +93,12 @@ export default {
   computed: {
     sortOptions() {
       // Create an options list from our fields
-      return this.fields
-        .filter(f => f.sortable)
-        .map(f => ({ text: f.label, value: f.key }));
+      return this.fields.filter(f => f.sortable).map(f => ({ text: f.label, value: f.key }));
     }
   },
   methods: {
     violations(value) {
-      return `<ul class="violations"><li>${ value.join("</li><li>") }</li></ul>`;
+      return `<ul class="violations"><li>${value.join('</li><li>')}</li></ul>`;
     },
     resetModal() {
       this.modalInfo.title = '';

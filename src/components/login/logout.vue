@@ -1,15 +1,15 @@
 <template>
-  <div/>
+  <div />
 </template>
 
 <script>
 export default {
-  name: "Logout",
+  name: 'Logout',
   created() {
-    window.localStorage.setItem("t", "");
-    window.localStorage.setItem("te", "");
+    window.localStorage.setItem('t', '');
+    window.localStorage.setItem('te', '');
     this.$store.commit('loggedIn', false);
-    this.$router.push("/login");
+    this.$router.push('/login');
   }
-}
+};
 </script>

@@ -22,11 +22,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import TopBar from "./components/TopBar";
 import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
-import { mapGetters } from "vuex";
 import { agencyLongNames } from "@/utils/commondata";
+import { EventBus } from "@/EventBus";
 
 export default {
   name: "MDT",
@@ -49,10 +50,12 @@ export default {
   },
   created() {
     this.darkMode = window.localStorage.getItem("darkMode") || true;
-    this.buildWS();
+    if (this.server !== undefined && this.server !== null) {
+      this.buildWS();
+    }
   },
   beforeDestroy() {
-    this.$pusher.unsubscribe(`server${ this.server.id }`);
+    this.$pusher.unsubscribe(`server${this.server.id}`);
     // We should do other cleanup here...
   },
   methods: {
@@ -61,18 +64,7 @@ export default {
       window.localStorage.setItem("darkMode", this.darkMode);
     },
     buildWS() {
-      // Subscribe to WS channel
-      const channel = this.$pusher.subscribe(`server${this.server.id}`);
-      // Bind events to channel
-      channel.bind("ChangeUnit", (e) => {
-        if (this.signon.id === e.id) {
-          this.$store.commit("signon", {
-            session_identifier: e.session_identifier,
-            status: e.status
-          });
-          this.$store.commit("department", e.dept);
-        }
-      });
+      EventBus.$emit("bind-server", this.server.id);
     }
   }
 };

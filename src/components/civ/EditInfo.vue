@@ -10,26 +10,31 @@
               dismissible
               v-model="showDismissibleAlert"
               @dismissed="clearError"
-            >{{error}}</b-alert>
+              >{{ error }}</b-alert
+            >
           </td>
         </tr>
         <tr>
-          <input type="hidden" id="photo" value>
+          <input type="hidden" id="photo" value />
           <td rowspan="7" style="width: 150px;">
             <img
-              :src="(character.photo !== null) ? character.photo : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'"
+              :src="
+                character.photo !== null
+                  ? character.photo
+                  : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'
+              "
               id="profilepic"
               style="width: 150px;"
               ref="pic"
-            >
-            <br>
+            />
+            <br />
             <input
               type="file"
               ref="file"
               id="newphoto"
               style="display: none;"
               @change="photoChanged"
-            >
+            />
             <b-button variant="black" @click="launchFilePicker">Upload</b-button>
           </td>
           <td>
@@ -48,7 +53,7 @@
               id="dob"
               placeholder="YYYY-MM-DD"
               v-model="character.dob"
-            >
+            />
           </td>
         </tr>
         <tr>
@@ -75,7 +80,7 @@
               placeholder="Firstname"
               v-model="character.firstname"
               required
-            >
+            />
           </td>
         </tr>
         <tr>
@@ -88,11 +93,11 @@
               id="address"
               v-model="character.address"
               required
-            >
+            />
             <b class="label">City</b>
             <select id="city" v-model="character.city" class="mt-2 small-select">
-              <option v-for="(city, i) in commonCities" :key="i">{{ city }}</option>
-            </select>, SA
+              <option v-for="(city, i) in commonCities" :key="i">{{ city }}</option> </select
+            >, SA
           </td>
         </tr>
         <tr>
@@ -107,17 +112,17 @@
               size="1"
               maxsize="1"
               required
-            > 16
+            />
+            16
             <b class="label">HGT:</b>
             <select id="height_feet" v-model="character.height_feet" class="small-select">
-              <option v-for="height in [4,5,6]" :key="height">{{ height }}</option>
-            </select>' -
+              <option v-for="height in [4, 5, 6]" :key="height">{{ height }}</option> </select
+            >' -
             <select id="height_inches" v-model="character.height_inches" class="small-select">
-              <option
-                v-for="inches in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"
-                :key="inches"
-              >{{ inches }}</option>
-            </select>"
+              <option v-for="inches in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]" :key="inches">{{
+                inches
+              }}</option> </select
+            >"
           </td>
         </tr>
         <tr>
@@ -132,7 +137,8 @@
                 class="small-select"
                 size="5"
                 required
-              > lbs
+              />
+              lbs
             </b>
             18
             <b class="label">RCE:</b>
@@ -144,7 +150,7 @@
                 class="small-select"
                 size="15"
                 required
-              >
+              />
             </b>
             19
             <b class="label">HAIR:</b>
@@ -156,7 +162,7 @@
                 class="small-select"
                 size="15"
                 required
-              >
+              />
             </b>
           </td>
         </tr>
@@ -164,12 +170,12 @@
           <td colspan="2">
             <b-input-group class="mb-3">
               <b-form-select id="dmvlicensestatus" v-model="character.licensestatus">
-                <option v-for="(status, i) in commonLicenseStatus" :key="i">{{status}}</option>
+                <option v-for="(status, i) in commonLicenseStatus" :key="i">{{ status }}</option>
               </b-form-select>
               <b-input-group-addon>
                 <b-button v-if="!processing" variant="black" @click="editCharacter">Save</b-button>
                 <b-button v-else variant-black disabled>
-                  <b-spinner small/>
+                  <b-spinner small />
                 </b-button>
                 <b-button variant="red" @click="$router.push('/civ')">Cancel</b-button>
               </b-input-group-addon>
@@ -182,15 +188,12 @@
 </template>
 
 <script>
-import {
-  cities as commonCities,
-  licensestatus as commonLicenseStatus
-} from "@/utils/commondata";
-import { mapGetters } from "vuex";
-import { EDIT_CHARACTER } from "../../store/queries/civ";
+import { cities as commonCities, licensestatus as commonLicenseStatus } from '@/utils/commondata';
+import { mapGetters } from 'vuex';
+import { EDIT_CHARACTER } from '../../store/queries/civ';
 
 export default {
-  name: "EditInfo",
+  name: 'EditInfo',
   data() {
     return {
       processing: false,
@@ -201,7 +204,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["character"])
+    ...mapGetters(['character'])
   },
   methods: {
     launchFilePicker() {
@@ -210,7 +213,7 @@ export default {
     photoChanged() {
       const reader = new FileReader();
       reader.addEventListener(
-        "load",
+        'load',
         () => {
           this.character.photo = reader.result;
         },
@@ -244,7 +247,7 @@ export default {
             }
           })
           .then(() => {
-            this.$router.push("/civ");
+            this.$router.push('/civ');
           })
           .catch(err => {
             this.error = err.debugMessage;
@@ -257,46 +260,43 @@ export default {
     },
     validForm() {
       if (this.character.firstname.length < 1) {
-        this.error = "Firstname is required.";
+        this.error = 'Firstname is required.';
         this.showDismissibleAlert = true;
         return false;
       }
       if (this.character.lastname.length < 1) {
-        this.error = "Last name is required.";
+        this.error = 'Last name is required.';
         this.showDismissibleAlert = true;
         return false;
       }
       if (!this.character.address.match(/^\d+ .+/)) {
-        this.error =
-          "Address does not meet format requirements. Please format as street address.";
+        this.error = 'Address does not meet format requirements. Please format as street address.';
         this.showDismissibleAlert = true;
         return false;
       }
-      if (
-        this.character.gender.toUpperCase() !== "M" &&
-        this.gender.toUpperCase() !== "F"
-      ) {
-        this.error = "Invalid sex (M or F)";
+      if (this.character.gender.toUpperCase() !== 'M' && this.gender.toUpperCase() !== 'F') {
+        this.error = 'Invalid sex (M or F)';
         this.showDismissibleAlert = true;
         return false;
       }
       if (this.character.race.length < 1) {
-        this.error = "Invalid race";
+        this.error = 'Invalid race';
         this.showDismissibleAlert = true;
         return false;
       }
       if (this.character.haircolor.length < 1) {
-        this.error = "Invalid hair color";
+        this.error = 'Invalid hair color';
         this.showDismissibleAlert = true;
         return false;
       }
       if (this.character.weight < 80) {
-        this.error = "Invalid weight, please define in pounds.";
+        this.error = 'Invalid weight, please define in pounds.';
         this.showDismissibleAlert = true;
         return false;
       }
       if (this.character.photo === null) {
-        this.error = "Photos are not optional. If you need a good screenshot program, look up LightShot.";
+        this.error =
+          'Photos are not optional. If you need a good screenshot program, look up LightShot.';
         this.showDismissibleAlert = true;
         return false;
       }
@@ -370,7 +370,7 @@ table {
   border-radius: 10px;
   border-style: hidden; /* hide standard table (collapsed) border */
   box-shadow: 0 0 0 1px #000000; /* this draws the table border  */
-  background: url("../../assets/licensebg.png");
+  background: url('../../assets/licensebg.png');
   background-size: cover;
 }
 

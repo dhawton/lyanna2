@@ -8,7 +8,12 @@
             <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
           </div>
           <div v-else-if="prepared && !myLoggedIn">
-            <b-alert variant="danger" dismissible v-model="showDismissibleAlert" @dismissed="clearError">
+            <b-alert
+              variant="danger"
+              dismissible
+              v-model="showDismissibleAlert"
+              @dismissed="clearError"
+            >
               Login failed. Please check your email address and password and try again.
             </b-alert>
             <b-form @submit.prevent="onSubmit">
@@ -18,7 +23,12 @@
                 label="Email"
                 label-for="email"
               >
-                <b-form-input id="email" type="email" v-model="form.email" placeholder="Enter Email" />
+                <b-form-input
+                  id="email"
+                  type="email"
+                  v-model="form.email"
+                  placeholder="Enter Email"
+                />
               </b-form-group>
               <b-form-group
                 id="fieldsetHorizontal"
@@ -26,12 +36,17 @@
                 label="Password"
                 label-for="password"
               >
-                <b-form-input id="password" type="password" v-model="form.password" placeholder="Enter Password" />
+                <b-form-input
+                  id="password"
+                  type="password"
+                  v-model="form.password"
+                  placeholder="Enter Password"
+                />
               </b-form-group>
               <b-button v-if="!loggingIn" type="submit" variant="black" block>Submit</b-button>
-              <b-button v-else variant="black" block disabled><b-spinner small /></b-button>
+              <b-button v-else variant="black" block disabled><b-spinner small/></b-button>
             </b-form>
-            <p  class="mb-0">If you have forgotten your password, please contact HR.</p>
+            <p class="mb-0">If you have forgotten your password, please contact HR.</p>
           </div>
         </b-card>
       </b-col>
@@ -40,10 +55,10 @@
 </template>
 
 <script>
-import { CHECK_AUTH, LOGIN } from "@/store/queries/user";
+import { CHECK_AUTH, LOGIN } from '@/store/queries/user';
 
 export default {
-  name: "Login",
+  name: 'Login',
   beforeCreate() {
     document.body.className = 'login';
   },
@@ -55,56 +70,64 @@ export default {
       error: undefined,
       showDismissibleAlert: false,
       form: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
       }
     };
   },
   created() {
-    if (window.localStorage.getItem("t") !== null
-      && window.localStorage.getItem('te') !== null
-      && Math.floor((new Date()).getTime() / 1000) < (window.localStorage.getItem('te') - 300)) {
-      this.$apollo.query({
-        query: CHECK_AUTH,
-      }).then((r) => {
-        if (r.data.me.id !== undefined) {
+    if (
+      window.localStorage.getItem('t') !== null &&
+      window.localStorage.getItem('te') !== null &&
+      Math.floor(new Date().getTime() / 1000) < window.localStorage.getItem('te') - 300
+    ) {
+      this.$apollo
+        .query({
+          query: CHECK_AUTH
+        })
+        .then(r => {
+          if (r.data.me.id !== undefined) {
+            this.prepared = true;
+            this.myLoggedIn = true;
+            this.$store.commit('loggedIn', true);
+            this.$router.push('/login/servers');
+          }
+        })
+        .catch(() => {
           this.prepared = true;
-          this.myLoggedIn = true;
-          this.$store.commit('loggedIn', true);
-          this.$router.push("/login/servers");
-        }
-      }).catch(() => {
-        this.prepared = true;
-        this.myLoggedIn = false;
-        window.localStorage.setItem("t", "");
-        window.localStorage.setItem("te", "");
-      });
+          this.myLoggedIn = false;
+          window.localStorage.setItem('t', '');
+          window.localStorage.setItem('te', '');
+        });
     } else {
       this.prepared = true;
       this.myLoggedIn = false;
-      window.localStorage.setItem("t", "");
-      window.localStorage.setItem("te", "");
+      window.localStorage.setItem('t', '');
+      window.localStorage.setItem('te', '');
     }
   },
   methods: {
     onSubmit() {
       this.loggingIn = true;
-      this.$apollo.mutate({
-        mutation: LOGIN,
-        variables: { email: this.form.email, password: this.form.password }
-      }).then((r) => {
-        window.localStorage.setItem("t", r.data.Login.token);
-        window.localStorage.setItem("te", r.data.Login.expiresAt);
-        this.myLoggedIn = true;
-        this.loggingIn = false;
-        this.$store.commit('loggedIn', true);
-        this.$router.push("/login/servers");
-      }).catch((err) => {
-        this.error = err.debugMessage;
-        this.showDismissibleAlert = true;
-        this.loggingIn = false;
-        this.password = "";
-      });
+      this.$apollo
+        .mutate({
+          mutation: LOGIN,
+          variables: { email: this.form.email, password: this.form.password }
+        })
+        .then(r => {
+          window.localStorage.setItem('t', r.data.Login.token);
+          window.localStorage.setItem('te', r.data.Login.expiresAt);
+          this.myLoggedIn = true;
+          this.loggingIn = false;
+          this.$store.commit('loggedIn', true);
+          this.$router.push('/login/servers');
+        })
+        .catch(err => {
+          this.error = err.debugMessage;
+          this.showDismissibleAlert = true;
+          this.loggingIn = false;
+          this.password = '';
+        });
     },
     clearError() {
       this.error = undefined;
@@ -121,27 +144,32 @@ h1 {
   min-height: 100%;
   height: 100%;
 }
-.vertical-center{min-height:100%;min-height:100vh;display:flex;align-items:center}
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
 .card-header {
   background-color: rgb(40, 44, 44);
   color: white;
 }
 .card {
   border: 0;
-  background-color: rgba(255,255,255,0.6);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 .card-body {
   color: black;
 }
 
 .btn-black {
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   margin-bottom: 1rem;
 }
 
 .btn-black:hover {
-  background-color: rgba(50,50,50,0.8);
+  background-color: rgba(50, 50, 50, 0.8);
   color: darkgray;
   margin-bottom: 1rem;
 }

@@ -6,7 +6,9 @@ export const identity = {
     name: ''
   },
   getters: {
-    identity(state) { return state; }
+    identity(state) {
+      return state;
+    }
   },
   mutators: {
     identity: (state, payload) => {

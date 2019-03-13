@@ -26,7 +26,7 @@ VuePusher.prototype.subscribe = (channelName, callback) => {
  *
  * @param  {String} channel
  */
-VuePusher.prototype.unsubscribe = (channel) => {
+VuePusher.prototype.unsubscribe = channel => {
   this.pusher.unsubscribe(channel);
 };
 

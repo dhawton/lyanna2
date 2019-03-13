@@ -35,12 +35,18 @@ export const PING = gql`
 `;
 
 export const SIGNON = gql`
-  mutation($identifier: String, $department: Int!, $server: Int!, $prefix: String!, $character_id: Int!) {
+  mutation(
+    $identifier: String
+    $department: Int!
+    $server: Int!
+    $prefix: String
+    $character_id: Int!
+  ) {
     signon(
-      identifier: $identifier,
-      department: $department,
-      server: $server,
-      prefix: $prefix,
+      identifier: $identifier
+      department: $department
+      server: $server
+      prefix: $prefix
       character_id: $character_id
     ) {
       id
@@ -57,6 +63,15 @@ export const CHANGE_STATUS = gql`
     ChangeStatus(identifier: $identifier, status: $status) {
       id
       status
+    }
+  }
+`;
+
+export const CHANGE_SIGNON = gql`
+  mutation($id: ID, $identifier: String!, $dept: String!) {
+    ChangeSignOn(id: $id, identifier: $identifier, dept: $dept) {
+      id
+      session_identifier
     }
   }
 `;

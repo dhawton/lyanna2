@@ -9,9 +9,12 @@
           </div>
           <div v-else-if="prepared">
             <div v-if="department.role !== 'civ'" class="mb-2">
-              Unit Identifier <select v-model="prefix" class="small-select">
-              <option v-for="p in unitPrefixes" :key="p">{{p}}</option>
-            </select> {{me.identifier}}
+              Unit Identifier
+              <select v-model="prefix" class="small-select">
+                <option value selected>&nbsp;</option>
+                <option v-for="p in unitPrefixes" :key="p">{{ p }}</option>
+              </select>
+              {{ me.identifier }}
             </div>
             <b-list-group>
               <b-list-group-item
@@ -26,7 +29,7 @@
                   @click="selectCharacter(character)"
                 >{{ character.firstname }} {{ character.lastname }}</span>
                 <span class="hover-pointer-cursor text-danger" @click="deleteCharacter(character)">
-                  <font-awesome-icon :icon="['fal', 'trash-alt']"/>
+                  <i class="fa fa-trash-alt"/>
                 </span>
               </b-list-group-item>
               <b-list-group-item>
@@ -45,7 +48,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import { CIV_CHARACTER_LIST, DELETE_CHARACTER } from "../../store/queries/civ";
 import { SIGNON } from "@/store/queries/user";
 import { unitPrefixes } from "@/utils/commondata";
@@ -59,18 +62,25 @@ export default {
     return {
       prepared: false,
       characters: [],
-      prefix: '',
+      prefix: "",
       unitPrefixes
     };
   },
   computed: {
-    ...mapGetters(['department', 'me', 'server'])
+    ...mapGetters(["department", "me", "server"])
   },
   created() {
     if (this.department.role === "police") this.prefix = "P";
     if (this.department.role === "sheriff") this.prefix = "C";
-    if (this.department.role === "highway" || this.department.role === "state") this.prefix = "S";
-    this.$apollo.query({
+    if (
+      this.department.role === "highway" ||
+      this.department.role === "state"
+    ) {
+      this.prefix = "S";
+    }
+    if (this.department.role === "intel") this.prefix = "I";
+    this.$apollo
+      .query({
         query: CIV_CHARACTER_LIST
       })
       .then(r => {
@@ -85,7 +95,8 @@ export default {
     },
     deleteCharacter(character) {
       this.prepared = false;
-      this.$apollo.mutate({
+      this.$apollo
+        .mutate({
           mutation: DELETE_CHARACTER,
           variables: { id: character.id }
         })
@@ -100,18 +111,21 @@ export default {
     selectCharacter(character) {
       this.$store.commit("character", character);
       if (this.department.role !== "civ") {
-        this.$apollo.mutate({
-          mutation: SIGNON,
-          variables: {
-            identifier: this.me.identifier,
-            department: this.department.id,
-            server: this.server.id,
-            prefix: this.prefix,
-            character_id: character.id
-          }
-        }).then((r) => {
-          this.$store.commit('signon', r.data.signon);
-        });
+        this.$apollo
+          .mutate({
+            mutation: SIGNON,
+            variables: {
+              identifier: this.me.identifier,
+              department: this.department.id,
+              server: this.server.id,
+              prefix: this.prefix,
+              character_id: character.id
+            }
+          })
+          .then(r => {
+            r.data.signon.id = parseInt(r.data.signon.id, 10);
+            this.$store.commit("signon", r.data.signon);
+          });
       }
       switch (this.department.role) {
         case "civ":
@@ -120,6 +134,7 @@ export default {
         case "police":
         case "sheriff":
         case "highway":
+        case "intel":
           this.$router.push("/mdt");
           break;
         case "dispatch":

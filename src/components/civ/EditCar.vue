@@ -1,11 +1,8 @@
 <template>
   <div>
-    <b-alert
-      variant="danger"
-      dismissible
-      v-model="showDismissibleAlert"
-      @dismissed="clearError"
-    >{{error}}</b-alert>
+    <b-alert variant="danger" dismissible v-model="showDismissibleAlert" @dismissed="clearError">{{
+      error
+    }}</b-alert>
 
     <b-form-group
       label-cols-sm="4"
@@ -14,7 +11,7 @@
       label-for="licenseplate"
       label-align="right"
     >
-      <b-form-input id="licenseplate" type="text" v-model="vehicleInfo.licenseplate"/>
+      <b-form-input id="licenseplate" type="text" v-model="vehicleInfo.licenseplate" />
     </b-form-group>
     <b-form-group
       label-cols-sm="4"
@@ -23,7 +20,7 @@
       label-for="make"
       label-align="right"
     >
-      <b-form-input id="make" type="text" v-model="vehicleInfo.make"/>
+      <b-form-input id="make" type="text" v-model="vehicleInfo.make" />
     </b-form-group>
     <b-form-group
       label-cols-sm="4"
@@ -32,7 +29,7 @@
       label-for="model"
       label-align="right"
     >
-      <b-form-input id="model" type="text" v-model="vehicleInfo.model"/>
+      <b-form-input id="model" type="text" v-model="vehicleInfo.model" />
     </b-form-group>
     <b-form-group
       label-cols-sm="4"
@@ -41,7 +38,7 @@
       label-for="color"
       label-align="right"
     >
-      <b-form-input id="color" type="text" v-model="vehicleInfo.color"/>
+      <b-form-input id="color" type="text" v-model="vehicleInfo.color" />
     </b-form-group>
     <b-form-group
       label-cols-sm="4"
@@ -50,7 +47,7 @@
       label-for="insurance"
       label-align="right"
     >
-      <b-form-checkbox switch id="insurance" v-model="vehicleInfo.insurance"/>
+      <b-form-checkbox switch id="insurance" v-model="vehicleInfo.insurance" />
     </b-form-group>
     <b-form-group
       label-cols-sm="4"
@@ -59,7 +56,7 @@
       label-for="stolen"
       label-align="right"
     >
-      <b-form-checkbox switch id="stolen" v-model="vehicleInfo.stolen"/>
+      <b-form-checkbox switch id="stolen" v-model="vehicleInfo.stolen" />
     </b-form-group>
     <b-button variant="black" @click="saveCar">Save</b-button>
     <b-button variant="red" @click="cancelCar" class="ml-1">Cancel</b-button>
@@ -67,26 +64,26 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { EDIT_VEHICLE } from "@/store/queries/civ";
+import { mapGetters } from 'vuex';
+import { EDIT_VEHICLE } from '@/store/queries/civ';
 
 export default {
-  name: "EditCar",
+  name: 'EditCar',
   data() {
     return {
       processing: false,
       vehicleInfo: {
         id: 0,
-        licenseplate: "",
-        oldlicenseplate: "0",
-        make: "",
-        model: "",
-        color: "",
+        licenseplate: '',
+        oldlicenseplate: '0',
+        make: '',
+        model: '',
+        color: '',
         insurance: true,
         stolen: false
       },
       showDismissibleAlert: false,
-      error: ""
+      error: ''
     };
   },
   props: {
@@ -95,45 +92,49 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["character"])
+    ...mapGetters(['character'])
   },
   created() {
     // If we're editing a car, merge the objects together
     // if it's new, there will be nothing to overright
     this.vehicleInfo = { ...this.vehicleInfo, ...this.vehicle };
-    this.vehicleInfo.oldlicenseplate = this.vehicle.licenseplate || this.vehicleInfo.oldlicenseplate;
+    this.vehicleInfo.oldlicenseplate =
+      this.vehicle.licenseplate || this.vehicleInfo.oldlicenseplate;
   },
   methods: {
     saveCar() {
       this.processing = true;
-      this.$apollo.mutate({
-        mutation: EDIT_VEHICLE,
-        variables: {
-          oldlicenseplate: this.vehicleInfo.oldlicenseplate.replace(" ", "").toUpperCase(),
-          licenseplate: this.vehicleInfo.licenseplate.replace(" ", "").toUpperCase(),
-          make: this.vehicleInfo.make,
-          model: this.vehicleInfo.model,
-          color: this.vehicleInfo.color,
-          insurance: this.vehicleInfo.insurance,
-          stolen: this.vehicleInfo.stolen,
-          character_id: this.character.id
-        }
-      }).then(r => {
-        if (r.errors) {
-          this.error = r.errors[0].debugMessage;
+      this.$apollo
+        .mutate({
+          mutation: EDIT_VEHICLE,
+          variables: {
+            oldlicenseplate: this.vehicleInfo.oldlicenseplate.replace(' ', '').toUpperCase(),
+            licenseplate: this.vehicleInfo.licenseplate.replace(' ', '').toUpperCase(),
+            make: this.vehicleInfo.make,
+            model: this.vehicleInfo.model,
+            color: this.vehicleInfo.color,
+            insurance: this.vehicleInfo.insurance,
+            stolen: this.vehicleInfo.stolen,
+            character_id: this.character.id
+          }
+        })
+        .then(r => {
+          if (r.errors) {
+            this.error = r.errors[0].debugMessage;
+            this.showDismissibleAlert = true;
+          } else {
+            this.processing = false;
+            this.$emit('done-edit');
+          }
+        })
+        .catch(err => {
           this.showDismissibleAlert = true;
-        } else {
-          this.processing = false;
-          this.$emit('done-edit');
-        }
-      }).catch(err => {
-        this.showDismissibleAlert = true;
-        this.error = err.debugMessage
-        console.dir(err);
-      });
+          this.error = err.debugMessage;
+          console.dir(err);
+        });
     },
     cancelCar() {
-      this.$emit("done-edit");
+      this.$emit('done-edit');
     },
     clearError() {
       this.showDismissibleAlert = false;

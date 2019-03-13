@@ -1,9 +1,9 @@
-import store from "../store";
+import store from '../store';
 
 export default (to, from, next) => {
   if (!store.getters.isLoggedIn) {
     next({
-      path: "/login"
+      path: '/login'
     });
   } else {
     next();

@@ -3,18 +3,21 @@
     <CheckToken></CheckToken>
     <router-view/>
     <UpdateBar/>
+    <WebSocket/>
   </div>
 </template>
 
 <script>
 import CheckToken from "./utils/token";
 import UpdateBar from "./components/shared/UpdateBar";
+import WebSocket from "./utils/websocket";
 
 export default {
   name: "App",
   components: {
     CheckToken,
-    UpdateBar
+    UpdateBar,
+    WebSocket
   },
   data() {
     return {
@@ -23,7 +26,7 @@ export default {
   },
   created() {
     this.updateChannel = this.$pusher.subscribe("updates");
-    this.updateChannel.bind("Updated", () => this.$store.commit('update', true));
+    this.updateChannel.bind("Updated", () => this.$store.commit("update", true));
   }
 };
 </script>
@@ -32,7 +35,7 @@ export default {
 html,
 body {
   height: 100%;
-  font-family: Roboto!important;
+  font-family: Roboto !important;
 }
 body.login {
   background-image: url("./assets/lyanna-bg.jpg");
@@ -41,15 +44,26 @@ body.login {
   background-color: rgb(10, 10, 10);
   color: white;
 }
-.hover-pointer-cursor{cursor:pointer;}
+.btn-darkblue {
+  background-color: rgb(0, 0, 40);
+  color: #fff;
+  border: 1px solid rgb(0, 0, 255);
+}
+.btn-darkblue:hover {
+  background-color: rgb(0, 0, 100);
+  color: #fff;
+}
+.hover-pointer-cursor {
+  cursor: pointer;
+}
 [role="main"] {
-    padding-top: 133px; /* Space for fixed navbar */
+  padding-top: 133px; /* Space for fixed navbar */
 }
 
 @media (min-width: 768px) {
-    [role="main"] {
-        padding-top: 48px; /* Space for fixed navbar */
-    }
+  [role="main"] {
+    padding-top: 48px; /* Space for fixed navbar */
+  }
 }
 .small-select {
   height: calc(1.5em + 0.75rem + 2px);

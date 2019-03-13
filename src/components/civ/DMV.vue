@@ -1,6 +1,6 @@
 <template>
   <div>
-    <License v-if="!showEdit" :showedit="true" />
+    <License v-if="!showEdit" :showedit="true" :character="character" />
     <b-row v-if="!showEdit">
       <b-col md="12">
         <table v-if="prepared" class="table table-striped">
@@ -9,7 +9,10 @@
               <th>License Plate</th>
               <th>Make, Model, Color</th>
               <th>Flags</th>
-              <th>Actions <b-button variant="grey" style="float:right" @click="edit({})">Register</b-button></th>
+              <th>
+                Actions
+                <b-button variant="grey" style="float:right" @click="edit({})">Register</b-button>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -24,15 +27,17 @@
               <td>
                 <b-button variant="black" class="mr-1" @click="edit(vehicle)">Edit</b-button>
                 <b-button v-if="delProcessing" variant="black" disabled>
-                  <b-spinner small/>
+                  <b-spinner small />
                 </b-button>
-                <b-button v-if="!delProcessing" variant="red" @click="del(vehicle)">Delete</b-button>
+                <b-button v-if="!delProcessing" variant="red" @click="del(vehicle)"
+                  >Delete</b-button
+                >
               </td>
             </tr>
           </tbody>
         </table>
         <div v-if="!prepared" class="text-center">
-          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
+          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
         </div>
       </b-col>
     </b-row>
@@ -45,13 +50,13 @@
 </template>
 
 <script>
-import License from "@/components/shared/License";
-import EditCar from "@/components/civ/EditCar";
+import License from '@/components/shared/License';
+import EditCar from '@/components/civ/EditCar';
 import { mapGetters } from 'vuex';
 import { GET_CHARACTER_VEHICLES, DELETE_VEHICLE } from '../../store/queries/civ';
 
 export default {
-  name: "CivDMV",
+  name: 'CivDMV',
   components: {
     License,
     EditCar
@@ -69,15 +74,18 @@ export default {
     ...mapGetters(['character'])
   },
   created() {
-    this.$apollo.query({
+    this.$apollo
+      .query({
         query: GET_CHARACTER_VEHICLES,
         variables: {
           id: this.character.id
         }
-      }).then((r) => {
+      })
+      .then(r => {
         this.vehicles = r.data.Character.vehicles;
         this.prepared = true;
-      }).catch((err) => {
+      })
+      .catch(err => {
         console.error(err);
       });
   },
@@ -88,33 +96,39 @@ export default {
     },
     del(vehicle) {
       this.delProcessing = true;
-      this.$apollo.mutate({
-        mutation: DELETE_VEHICLE,
-        variables: {
-          licenseplate: vehicle.licenseplate
-        }
-      }).then((r) => {
-        this.delProcessing = false;
-        this.vehicles = this.vehicles.filter(v => v.id !== r.data.deleteVehicle.id);
-      }).catch((err) => {
-        console.error(err);
-      });
+      this.$apollo
+        .mutate({
+          mutation: DELETE_VEHICLE,
+          variables: {
+            licenseplate: vehicle.licenseplate
+          }
+        })
+        .then(r => {
+          this.delProcessing = false;
+          this.vehicles = this.vehicles.filter(v => v.id !== r.data.deleteVehicle.id);
+        })
+        .catch(err => {
+          console.error(err);
+        });
     },
     doneEdit() {
       this.showEdit = false;
       this.vehicle = {};
       this.prepared = false;
-      this.$apollo.query({
-        query: GET_CHARACTER_VEHICLES,
-        variables: {
-          id: this.character.id
-        }
-      }).then((r) => {
-        this.vehicles = r.data.Character.vehicles;
-        this.prepared = true;
-      }).catch((err) => {
-        console.error(err);
-      });
+      this.$apollo
+        .query({
+          query: GET_CHARACTER_VEHICLES,
+          variables: {
+            id: this.character.id
+          }
+        })
+        .then(r => {
+          this.vehicles = r.data.Character.vehicles;
+          this.prepared = true;
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   }
 };
