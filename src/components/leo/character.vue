@@ -2,25 +2,31 @@
   <div>
     <b-row v-if="!isLoaded">
       <b-col md="12" class="text-center">
-        <b-spinner variant="primary" style="width: 3rem; height: 3rem;" />
+        <b-spinner variant="primary" style="width: 3rem; height: 3rem;"/>
       </b-col>
     </b-row>
     <div v-else>
-      <License :documents="character.documents" :character="character" />
+      <License :documents="this.documents" :character="character"/>
       <b-card no-body>
         <b-tabs content-class="mt-3">
-          <b-tab title-link-class="titlegray" title="Record" active>
+          <b-tab title-link-class="titlegray" ref="records" title="Record" active>
             <b-spinner
               variant="primary"
               style="width: 3rem; height: 3rem;"
               v-if="documents === undefined"
             />
-            <Record v-else v-bind:items="documents" />
+            <Record v-else v-bind:items="documents"/>
           </b-tab>
-          <b-tab title-link-class="titlegray" title="New Document">New Document</b-tab>
+          <b-tab title-link-class="titlegray" title="New Document">
+            <Document
+              :character="character"
+              :documents="documents"
+              v-on:has-issued="updateDocuments(); $refs.records.activate();"
+            />
+          </b-tab>
           <b-tab title-link-class="titlegray" title="Vehicles">
             <div v-if="this.vehicles === undefined">
-              <b-spinner variant="primary" style="width: 3rem; height: 3rem;" />
+              <b-spinner variant="primary" style="width: 3rem; height: 3rem;"/>
             </div>
             <div v-else>
               <table class="table table-small">
@@ -51,11 +57,12 @@
 </template>
 
 <script>
-import License from '@/components/shared/License';
-import Record from '@/components/shared/Record';
-import { SEARCH_CHARACTERS, GET_CHARACTER_VEHICLES } from '@/store/queries/civ';
-import { GET_CHARACTER_DOCUMENTS } from '@/store/queries/legal';
-import { mapGetters } from 'vuex';
+import License from "@/components/shared/License";
+import Record from "@/components/shared/Record";
+import Document from "@/components/leo/components/document";
+import { SEARCH_CHARACTERS, GET_CHARACTER_VEHICLES } from "@/store/queries/civ";
+import { GET_CHARACTER_DOCUMENTS } from "@/store/queries/legal";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -70,13 +77,14 @@ export default {
   },
   components: {
     License,
-    Record
+    Record,
+    Document
   },
   computed: {
-    ...mapGetters(['leocharacter'])
+    ...mapGetters(["leocharacter"])
   },
-  name: 'MDTPCCharacter',
-  props: ['idnumber'],
+  name: "MDTPCCharacter",
+  props: ["idnumber"],
   created() {
     if (
       this.leocharacter !== undefined &&
@@ -134,17 +142,17 @@ export default {
               docs[i].violations = JSON.parse(docs[i].violations);
             }
             docs[i].violations.forEach((v2, i2) => {
-              if (typeof vs !== 'string') {
+              if (typeof vs !== "string") {
                 docs[i].violations[i2] = `${v2.code} ${v2.title} [${v2.type}]`;
               }
             });
-            docs[i].violationList = docs[i].violations.join('<br/>');
-            let dt = new Date(docs[i].created_at).toLocaleString('en-US', {
-              timeZone: 'America/Chicago',
+            docs[i].violationList = docs[i].violations.join("<br/>");
+            let dt = new Date(docs[i].created_at).toLocaleString("en-US", {
+              timeZone: "America/Chicago",
               hour12: false
             });
             dt = dt.substr(0, dt.length - 3);
-            docs[i].created_at = dt.replace(',', '');
+            docs[i].created_at = dt.replace(",", "");
           });
           this.documents = docs;
           this.prepared = true;
@@ -173,11 +181,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .titlegray {
   background-color: rgb(10, 10, 10) !important;
   color: #fff !important;
-  border-color: rgb(100, 100, 100) !important;
+  border-color: rgb(40, 40, 40) !important;
+  > .active {
+    background-color: rgb(40, 40, 40);
+  }
+}
+.nav-link.active {
+  background-color: rgb(40, 40, 100) !important;
 }
 .active {
   border-color: #fff !important;

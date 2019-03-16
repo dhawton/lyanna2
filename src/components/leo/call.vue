@@ -29,7 +29,10 @@
       </tr>
       <tr>
         <td colspan="2">
-          <button class="btn btn-darkblue">Clear Call</button>
+          <button class="btn btn-darkblue" @click="clearCall" v-if="!clearing">Clear Call</button>
+          <button class="btn btn-darkblue" disabled v-if="clearing">
+            <b-spinner variant="primary"/>
+          </button>
         </td>
       </tr>
     </table>
@@ -38,11 +41,28 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { CALL_CLEAR } from "@/store/queries/calls";
 
 export default {
   name: "MDTCall",
+  data() {
+    return {
+      clearing: false
+    };
+  },
   computed: {
-    ...mapGetters(["assignedCall"])
+    ...mapGetters(["assignedCall", "signon"])
+  },
+  methods: {
+    clearCall() {
+      this.$apollo.mutate({
+        mutation: CALL_CLEAR,
+        variables: {
+          identifier: this.signon.session_identifier,
+          callnumber: this.assignedCall.callnumber
+        }
+      });
+    }
   }
 };
 </script>

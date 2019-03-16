@@ -39,14 +39,46 @@ export default new Vuex.Store({
         make: null,
         model: null,
         color: null
+      },
+      cases: {
+        title: null,
+        status: null,
+        entry: null
+      },
+      document: {
+        type: null,
+        casenumber: null,
+        character_id: null,
+        licenseplate: null,
+        make: null,
+        model: null,
+        color: null,
+        address: null,
+        city: null,
+        violations: []
+      },
+      newcall: {
+        type: null,
+        address: null,
+        city: null,
+        description: null,
+        console: null
       }
     },
     calls: [],
     units: [],
     bolos: [],
+    cases: [],
     assignedCall: null,
     channelHeld: false,
-    phoneCall: false
+    phoneCall: false,
+    laws: [],
+    dispatch: {
+      channelHeld: false,
+      phoneRing: false,
+      channelHeldStage: 0,
+      phoneRingStage: 0
+    }
   },
   mutations: {
     loggedIn: (state, payload) => {
@@ -83,23 +115,33 @@ export default new Vuex.Store({
     forms: (state, payload) => {
       state.forms = { ...state.forms, ...payload };
     },
+    formcases: (state, payload) => {
+      state.forms.cases = { ...state.forms.cases, ...payload };
+    },
+    formdocument: (state, payload) => {
+      state.forms.document = { ...state.forms.document, ...payload };
+    },
+    formnewcall: (state, payload) => {
+      state.forms.newcall = { ...state.forms.newcall, ...payload };
+    },
     calls: (state, payload) => {
       state.calls[payload.id] = payload.call;
+    },
+    fillunits: (state, payload) => {
+      state.units = payload;
+    },
+    fillcalls: (state, payload) => {
+      state.calls = payload;
     },
     unit: (state, payload) => {
       let changed = false;
       state.units.forEach((v, i) => {
-        console.dir(v);
-        console.dir(i);
         if (v.id === payload.id) {
-          console.log(`Expanding payload onto ${i}`);
           Vue.set(state.units, i, { ...state.units[i], ...payload });
-          /*           state.units[i] = { ...state.units[i], ...payload }; */
           changed = true;
         }
       });
       if (!changed) {
-        console.log("No change, pushing payload");
         state.units.push(payload);
       }
     },
@@ -130,6 +172,42 @@ export default new Vuex.Store({
     },
     phoneCall: (state, payload) => {
       state.phoneCall = payload;
+    },
+    bolo: (state, payload) => {
+      let changed = false;
+      state.bolos.forEach((v, i) => {
+        if (v.id === payload.id) {
+          if (payload.status !== "live") {
+            state.bolos = state.bolos.filter(b => b.id !== parseInt(payload.id, 10));
+          } else {
+            Vue.set(state.bolos, i, { ...state.bolos[i], ...payload });
+          }
+          changed = true;
+        }
+      });
+      if (!changed && payload.status === "live") {
+        state.bolos.push(payload);
+      }
+    },
+    bolos: (state, payload) => {
+      state.bolos = payload;
+    },
+    cases: (state, payload) => {
+      state.cases = payload;
+    },
+    case: (state, payload) => {
+      let change = false;
+      state.cases.forEach((v, i) => {
+        if (v.id === payload.id) {
+          Vue.set(state.cases, i, { ...state.cases[i], ...payload });
+          change = true;
+        }
+      });
+
+      if (!change) state.cases.push(payload);
+    },
+    laws: (state, payload) => {
+      state.laws = payload;
     }
   },
   getters: {
@@ -151,6 +229,9 @@ export default new Vuex.Store({
     unitById: state => id => state.units.find(unit => unit.id === id),
     assignedCall: state => state.assignedCall,
     channelHeld: state => state.channelHeld,
-    phoneCall: state => state.phoneCall
+    phoneCall: state => state.phoneCall,
+    bolos: state => state.bolos,
+    cases: state => state.cases,
+    laws: state => state.laws
   }
 });

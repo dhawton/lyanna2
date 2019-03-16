@@ -33,11 +33,26 @@ export const agencyLongNames = {
   intel: "San Andreas Department of Intelligence"
 };
 
+export const agencyRoleToDB = {
+  highway: "State",
+  state: "State",
+  sheriff: "Sheriff",
+  police: "Police",
+  intel: "Intelligence"
+};
+
 export const agencyAbbreviations = {
   police: "LSPD",
   sheriff: "BCSO",
   highway: "SASP",
   intel: "SADI"
+};
+
+export const agencySuperShort = {
+  police: "PD",
+  sheriff: "BC",
+  highway: "SP",
+  intel: "DI"
 };
 
 export const unitPrefixes = "abcdefghijklmnopqrstuvwyz".toUpperCase().split("");

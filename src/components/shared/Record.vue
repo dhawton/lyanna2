@@ -5,7 +5,7 @@
       <b-col md="6" class="my-1" offset-md="6">
         <b-form-group label-cols-sm="1" label="Filter" class="mb-0">
           <b-input-group>
-            <b-form-input v-model="filter" placeholder="Type to Search" />
+            <b-form-input v-model="filter" placeholder="Type to Search"/>
             <b-input-group-append>
               <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
             </b-input-group-append>
@@ -28,15 +28,19 @@
       :sort-direction="sortDirection"
       @filtered="onFiltered"
     >
-      <template slot="agency" slot-scope="row" v-bind:commonAgencies="commonAgencies">
-        {{ commonAgencies[row.value] }}
+      <template slot="agency" slot-scope="data" v-bind:commonAgencies="commonAgencies">
+        {{ data.item.issuer }}
+        <br>
+        {{ commonAgencies[data.item.agency] }}
       </template>
 
       <template slot="location" slot-scope="row">
-        {{ row.item.address }}, {{ row.item.city }}, SA
+        {{ row.item.address }},
+        <br>
+        {{ row.item.city }}, SA
       </template>
 
-      <span slot="violations" slot-scope="data" v-html="data.value || Hi" />
+      <span slot="violations" slot-scope="data" v-html="data.value || Hi"/>
     </b-table>
 
     <b-row>
@@ -47,7 +51,7 @@
           class="mb-0"
           label-text-align="right"
         >
-          <b-form-select class="small-select" :options="pageOptions" v-model="perPage" />
+          <b-form-select class="small-select" :options="pageOptions" v-model="perPage"/>
         </b-form-group>
       </b-col>
       <b-col md="6" class="my-1">
@@ -63,46 +67,58 @@
 </template>
 
 <script>
-import { agencies } from '@/utils/commondata';
+import { agencies } from "@/utils/commondata";
 
 export default {
-  name: 'Record',
+  name: "Record",
   data() {
     return {
       commonAgencies: agencies,
       fields: [
-        { key: 'id', label: 'Document ID', sortable: true, sortDirection: 'desc' },
-        { key: 'type', label: 'Type', sortable: true },
-        { key: 'agency', label: 'Agency', sortable: true },
-        { key: 'location', label: 'Address, City', sortable: true },
-        { key: 'violations', label: 'Violations', sortable: true, formatter: 'violations' },
-        { key: 'created_at', label: 'Date/Time', sortable: true }
+        {
+          key: "id",
+          label: "Document ID",
+          sortable: true,
+          sortDirection: "desc"
+        },
+        { key: "type", label: "Type", sortable: true },
+        { key: "agency", label: "Issuer", sortable: true },
+        { key: "location", label: "Address, City", sortable: true },
+        {
+          key: "violations",
+          label: "Violations",
+          sortable: true,
+          formatter: "violations"
+        },
+        { key: "created_at", label: "Date/Time", sortable: true }
       ],
       currentPage: 1,
       perPage: 25,
       totalRows: this.items.length,
       pageOptions: [5, 10, 15, 25, 50, 100],
-      sortBy: 'date',
+      sortBy: "date",
       sortDesc: false,
-      sortDirection: 'desc',
+      sortDirection: "desc",
       filter: null,
-      modalInfo: { title: '', content: '' }
+      modalInfo: { title: "", content: "" }
     };
   },
-  props: ['items'],
+  props: ["items"],
   computed: {
     sortOptions() {
       // Create an options list from our fields
-      return this.fields.filter(f => f.sortable).map(f => ({ text: f.label, value: f.key }));
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => ({ text: f.label, value: f.key }));
     }
   },
   methods: {
     violations(value) {
-      return `<ul class="violations"><li>${value.join('</li><li>')}</li></ul>`;
+      return `<ul class="violations"><li>${value.join("</li><li>")}</li></ul>`;
     },
     resetModal() {
-      this.modalInfo.title = '';
-      this.modalInfo.content = '';
+      this.modalInfo.title = "";
+      this.modalInfo.content = "";
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering

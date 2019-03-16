@@ -79,9 +79,7 @@ export default {
     },
     selectDepartment(department) {
       this.$store.commit("department", department);
-      if (department.role !== "dispatch") {
-        this.$router.push({ path: "/login/characters" });
-      }
+      this.$router.push({ path: "/login/characters" });
     }
   }
 };

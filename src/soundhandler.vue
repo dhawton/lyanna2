@@ -30,12 +30,28 @@ export default {
       if (msg && this.heldInterval === undefined) {
         const { priority, tone } = this;
         priority.play();
-        setTimeout(() => tone.play(), 1000);
+        setTimeout(() => tone.play(), 2000);
         this.heldInterval = setInterval(() => tone.play(), 10000);
       } else if (!msg) {
         clearInterval(this.heldInterval);
+        this.heldInterval = undefined;
       }
       this.$store.commit("channelHeld", msg);
+    });
+    EventBus.$on("login-sound", () => {
+      const { login } = this;
+      login.volume = 0.5;
+      login.play();
+    });
+    EventBus.$on("call-assigned", () => {
+      const { assign } = this;
+      assign.volume = 0.5;
+      assign.play();
+    });
+    EventBus.$on("call-cleared", () => {
+      const { unassign } = this;
+      unassign.volume = 0.5;
+      unassign.play();
     });
   },
   methods: {

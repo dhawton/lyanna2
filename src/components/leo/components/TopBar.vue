@@ -6,18 +6,17 @@
     fixed="top"
     v-if="signon !== undefined"
   >
-    <b-navbar-brand to="/" class="pl-1">
-      Lyanna MDT - {{ server.name }} - {{ signon.session_identifier }} {{ signon.session_name }}
-    </b-navbar-brand>
+    <b-navbar-brand
+      to="/"
+      class="pl-1"
+    >Lyanna MDT - {{ server.name }} - {{ signon.session_identifier }} {{ signon.session_name }}</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
       <b-nav-item href="#" class="pr-1">{{ currentTime }}</b-nav-item>
       <b-nav-item to="/logout">Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
   <b-navbar dark class="bg-green flex-md-nowrap p-0" type="dark" fixed="top" v-else>
-    <b-navbar-brand to="/" class="pl-1">
-      Lyanna MDT - {{ server.name }} - loading...
-    </b-navbar-brand>
+    <b-navbar-brand to="/" class="pl-1">Lyanna MDT - {{ server.name }} - loading...</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
       <b-nav-item href="#" class="pr-1">{{ currentTime }}</b-nav-item>
       <b-nav-item to="/logout">Logout</b-nav-item>
@@ -26,18 +25,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'TopBar',
+  name: "TopBar",
   data() {
     return {
-      currentTime: '',
+      currentTime: "",
       timerCurrentTime: undefined
     };
   },
   computed: {
-    ...mapGetters(['server', 'character', 'signon'])
+    ...mapGetters(["server", "character", "signon"])
   },
   created() {
     this.updateTime();
@@ -46,9 +45,9 @@ export default {
   methods: {
     updateTime() {
       this.currentTime = new Date().toLocaleTimeString([], {
-        timeZone: 'America/Chicago',
-        hour: 'numeric',
-        minute: 'numeric',
+        timeZone: "America/Chicago",
+        hour: "numeric",
+        minute: "numeric",
         hour12: true
       });
     }

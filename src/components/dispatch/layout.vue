@@ -1,43 +1,51 @@
 <template>
-  <div>
+  <div v-hotkey="keymap">
     <TopBar/>
     <b-container fluid>
       <b-row>
-        <LeftBar @toggle-dark="toggleDark"/>
-
-        <b-col role="main" md="10" px="4" class="ml-sm-auto" :class="{ maindark: darkMode }">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
-            <h1 class="h2" id="mainheader">{{ agencyLongNames[department.role] }}</h1>
-          </div>
-
+        <b-col
+          role="main"
+          md="10"
+          px="4"
+          class="ml-sm-auto fullheight"
+          :class="{ maindark: darkMode }"
+        >
           <router-view></router-view>
         </b-col>
-
-        <RightBar/>
+        <b-col
+          role="main"
+          md="2"
+          px="4"
+          class="ml-sm-auto fullheight"
+          :class="{ maindark: darkMode }"
+        >
+          <Units/>
+        </b-col>
       </b-row>
     </b-container>
+    <ConsoleInterpreter/>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import TopBar from "./components/TopBar";
-import LeftBar from "./components/LeftBar";
-import RightBar from "./components/RightBar";
+import Units from "./components/units";
+import ConsoleInterpreter from "@/ConsoleInterpreter";
 import { agencyLongNames } from "@/utils/commondata";
 import { EventBus } from "@/EventBus";
-import { GET_BOLOS, GET_SERVER_CALLS_USERS } from "@/store/queries/misc";
-import { GET_CASES } from "@/store/queries/cases";
-import { GET_LAWS } from "@/store/queries/legal";
+import {
+  GET_BOLOS,
+  GET_SERVER_CALLS_USERS,
+  TOGGLE_HOLD
+} from "@/store/queries/misc";
 
 export default {
   name: "MDT",
   components: {
     TopBar,
-    LeftBar,
-    RightBar
+    Units,
+    ConsoleInterpreter
   },
   data() {
     return {
@@ -46,7 +54,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["department", "server", "signon"])
+    ...mapGetters(["department", "server", "signon"]),
+    keymap() {
+      return {
+        F1: this.handleKey,
+        F2: this.handleKey,
+        F5: this.handleKey
+      };
+    }
   },
   beforeCreate() {
     document.body.className = "dark";
@@ -56,15 +71,6 @@ export default {
     this.darkMode = window.localStorage.getItem("darkMode") || true;
     if (this.server !== undefined && this.server !== null) {
       this.buildWS();
-    }
-    if (this.$store.getters.laws.length === 0) {
-      this.$apollo
-        .query({
-          query: GET_LAWS
-        })
-        .then(r => {
-          this.$store.commit("laws", r.data.laws);
-        });
     }
     if (this.$store.getters.units.length === 0) {
       // API needs to settle for a couple seconds
@@ -90,6 +96,11 @@ export default {
             r.data.server.signedons = r.data.server.signedons.filter(
               u => u.dept.role !== "civ" && u.dept.role !== "dispatch"
             );
+            r.data.server.calls.forEach((v, i) => {
+              r.data.server.calls[i].assigned = JSON.parse(
+                r.data.server.calls[i].assigned
+              );
+            });
             this.$store.commit("fillunits", r.data.server.signedons);
             this.$store.commit("fillcalls", r.data.server.calls);
             EventBus.$emit("channel-held", r.data.server.channel_held);
@@ -112,18 +123,6 @@ export default {
           this.$store.commit("bolos", r.data.BOLOs);
         });
     }
-    if (this.$store.getters.cases.length === 0) {
-      this.$apollo
-        .query({
-          query: GET_CASES
-        })
-        .then(r => {
-          r.data.cases.forEach((v, i) => {
-            r.data.cases[i].id = parseInt(v.id, 10);
-          });
-          this.$store.commit("cases", r.data.cases);
-        });
-    }
   },
   beforeDestroy() {
     this.$pusher.unsubscribe(`server${this.server.id}`);
@@ -137,6 +136,30 @@ export default {
     buildWS() {
       EventBus.$emit("bind-cases");
       EventBus.$emit("bind-server", this.server.id);
+    },
+    handleKey(e) {
+      e.preventDefault();
+      if (e.code === "F1") {
+        if (this.$router.currentRoute.path === "/cad") {
+          EventBus.$emit("focus-console");
+        }
+      }
+      if (e.code === "F2") {
+        if (this.$router.currentRoute.path === "/cad") {
+          EventBus.$emit("focus-new-call");
+        } else {
+          this.$router.push({ path: "/cad" });
+        }
+      }
+      if (e.code === "F5") {
+        console.log("Caught F5");
+        this.$apollo.mutate({
+          mutation: TOGGLE_HOLD,
+          variables: {
+            id: this.$store.getters.server.id
+          }
+        });
+      }
     }
   }
 };
@@ -144,7 +167,15 @@ export default {
 
 <style lang="scss" scoped>
 .maindark {
-  background-color: black;
-  color: white;
+  background-color: rgb(10, 15, 40);
+  color: rgb(128, 168, 255);
+}
+.fullheight {
+  position: relative;
+  top: 0;
+  height: calc(100vh);
+  padding-top: 165px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

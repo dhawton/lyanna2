@@ -4,6 +4,7 @@
 
 <script>
 import { EventBus } from "@/EventBus";
+import { GET_CASE } from "@/store/queries/cases";
 
 export default {
   name: "WebSocket",
@@ -13,14 +14,28 @@ export default {
     };
   },
   mounted() {
+    EventBus.$on("bind-cases", () => {
+      const channel = this.$pusher.subscribe("cases");
+      channel.bind("LCase", e => {
+        this.$apollo
+          .query({
+            query: GET_CASE,
+            variables: {
+              id: e.lcase.id
+            }
+          })
+          .then(r => {
+            r.data.case.id = parseInt(r.data.case.id, 10);
+            this.$store.commit("case", r.data.case);
+          });
+      });
+    });
     EventBus.$on("bind-server", msg => {
-      console.log(`Trying to mount server ${msg}`);
       const channel = this.$pusher.subscribe(`server${msg}`);
       // Bind events to channel
       channel.bind("ChangeUnit", e => {
         e.id = parseInt(e.id, 10);
         if (this.$store.getters.signon.id === e.id) {
-          console.log("Should be changing my status...");
           this.$store.commit("signon", {
             session_identifier: e.session_identifier,
             status: e.status
@@ -38,6 +53,11 @@ export default {
       });
       channel.bind("SignOff", e => {
         this.$store.commit("removeunit", e.id);
+        if (this.$store.getters.signon.id === e.id) {
+          // eslint-disable-next-line no-alert
+          alert("You have been signed off remotely.");
+          this.$router.push({ path: "/logout" });
+        }
       });
       channel.bind("ArchiveCall", e => {
         this.$store.commit("removecall", e.call.callnumber);
@@ -50,6 +70,32 @@ export default {
       });
       channel.bind("ChannelHeld", e => {
         EventBus.$emit("channel-held", e.held);
+      });
+      channel.bind("NewCall", e => {
+        e.call.assigned = JSON.parse(e.call.assigned);
+        this.$store.commit("call", e.call);
+
+        if (
+          ["police", "highway", "sheriff", "intel"].includes(
+            this.$store.getters.department.role
+          )
+        ) {
+          if (
+            e.call.assigned.includes(
+              this.$store.getters.signon.session_identifier
+            )
+          ) {
+            if (this.$store.getters.assignedCall === null) {
+              EventBus.$emit("call-assigned");
+            }
+            this.$store.commit("assignedCall", e.call);
+          } else if (
+            this.$store.getters.assignedCall.callnumber === e.call.callnumber
+          ) {
+            EventBus.$emit("call-cleared");
+            this.$store.commit("assignedCall", null);
+          }
+        }
       });
       channel.bind("EditCall", e => {
         e.call.assigned = JSON.parse(e.call.assigned);
@@ -76,6 +122,9 @@ export default {
             this.$store.commit("assignedCall", null);
           }
         }
+      });
+      channel.bind("BOLO", e => {
+        this.$store.commit("bolo", e.bolo);
       });
     });
   }

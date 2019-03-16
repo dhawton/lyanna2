@@ -39,7 +39,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="character in results" :key="character.id" @click="showCharacter(character)">
+        <tr
+          v-for="character in results"
+          :key="character.id"
+          @click="$emit('character-select', character)"
+        >
           <td>
             <img
               :src="
@@ -141,12 +145,6 @@ export default {
         .catch(err => {
           console.error(err);
         });
-    },
-    showCharacter(character) {
-      this.$store.commit("leocharacter", character);
-      this.$router.push({
-        path: `/mdt/pc/${character.idnumber}`
-      });
     }
   }
 };

@@ -67,11 +67,27 @@ export const CHANGE_STATUS = gql`
   }
 `;
 
+export const CHANGE_IDENTIFIER = gql`
+  mutation($id: ID, $new_identifier: String) {
+    ChangeIdentifier(id: $id, new_identifier: $new_identifier) {
+      id
+    }
+  }
+`;
+
 export const CHANGE_SIGNON = gql`
   mutation($id: ID, $identifier: String!, $dept: String!) {
     ChangeSignOn(id: $id, identifier: $identifier, dept: $dept) {
       id
       session_identifier
+    }
+  }
+`;
+
+export const SIGNOFF = gql`
+  mutation($id: Int) {
+    SignOff(id: $id) {
+      id
     }
   }
 `;

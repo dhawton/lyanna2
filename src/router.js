@@ -10,6 +10,9 @@ import Departments from "./components/login/departments";
 import Characters from "./components/login/characters";
 import NewCharacter from "./components/login/newcharacter";
 
+import CAD from "./components/dispatch/layout";
+import CADCalls from "./components/dispatch/calls";
+
 import Civ from "./components/civ/layout";
 import CivProfile from "./components/civ/profile";
 import EditInfo from "./components/civ/EditInfo";
@@ -22,6 +25,9 @@ import MDTPCCharacter from "./components/leo/character";
 import MDTVC from "./components/leo/vehiclecheck";
 import MDTChangeDept from "./components/leo/chgdept";
 import MDTActiveUnits from "./components/leo/units";
+import MDTBOLOs from "./components/leo/bolos";
+import MDTCases from "./components/leo/cases";
+import MDTCase from "./components/leo/viewcase";
 
 Vue.use(Router);
 
@@ -67,6 +73,17 @@ export default new Router({
       name: "LoginCharactersNew",
       component: NewCharacter,
       beforeEnter: AuthGuard
+    },
+    {
+      path: "/cad",
+      component: CAD,
+      beforeEnter: AuthGuard,
+      children: [
+        {
+          path: "",
+          component: CADCalls
+        }
+      ]
     },
     {
       path: "/civ",
@@ -116,6 +133,19 @@ export default new Router({
         {
           path: "units",
           component: MDTActiveUnits
+        },
+        {
+          path: "bolos",
+          component: MDTBOLOs
+        },
+        {
+          path: "cases",
+          component: MDTCases
+        },
+        {
+          path: "cases/:id",
+          component: MDTCase,
+          props: true
         }
       ]
     }

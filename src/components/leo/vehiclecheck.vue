@@ -119,7 +119,6 @@ export default {
           }
         })
         .then(r => {
-          console.dir(r);
           this.results = r.data.VehicleSearch;
           this.loadingResults = false;
         })
