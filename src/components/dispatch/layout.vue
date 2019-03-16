@@ -74,6 +74,7 @@ export default {
     }
     if (this.$store.getters.units.length === 0) {
       // API needs to settle for a couple seconds
+      this.$store.commit("dispatchInitial", true);
       setTimeout(() => {
         this.$apollo
           .query({
@@ -104,6 +105,7 @@ export default {
             this.$store.commit("fillunits", r.data.server.signedons);
             this.$store.commit("fillcalls", r.data.server.calls);
             EventBus.$emit("channel-held", r.data.server.channel_held);
+            this.$store.commit("dispatchInitial", false);
           });
       }, 5000);
     }

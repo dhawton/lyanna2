@@ -77,7 +77,8 @@ export default new Vuex.Store({
       channelHeld: false,
       phoneRing: false,
       channelHeldStage: 0,
-      phoneRingStage: 0
+      phoneRingStage: 0,
+      initialLoading: false
     }
   },
   mutations: {
@@ -208,6 +209,9 @@ export default new Vuex.Store({
     },
     laws: (state, payload) => {
       state.laws = payload;
+    },
+    dispatchInitial: (state, payload) => {
+      state.dispatch.initialLoading = payload;
     }
   },
   getters: {
@@ -232,6 +236,7 @@ export default new Vuex.Store({
     phoneCall: state => state.phoneCall,
     bolos: state => state.bolos,
     cases: state => state.cases,
-    laws: state => state.laws
+    laws: state => state.laws,
+    dispatchInitial: state => state.dispatch.initialLoading
   }
 });

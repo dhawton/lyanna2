@@ -17,6 +17,13 @@
         </tr>
       </tbody>
     </table>
+    <table class="table table-sm" v-if="dispatchInitial">
+      <tr>
+        <td class="text-center">
+          <b-spinner style="height: 3rem; width: 3rem;" variant="primary"/>
+        </td>
+      </tr>
+    </table>
     <UnitBox v-for="unit in unitsFiltered()" :key="unit.session_identifier" :unit="unit"/>
   </div>
 </template>
@@ -37,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["units"])
+    ...mapGetters(["units", "dispatchInitial"])
   },
   created() {
     EventBus.$on("unit-filter", msg => {

@@ -13,6 +13,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr v-if="dispatchInitial">
+          <td colspan="7" class="text-center">
+            <b-spinner style="height: 3rem; width: 3rem;" variant="primary"/>
+          </td>
+        </tr>
         <tr
           v-for="(call, i) in pending()"
           :key="call.callnumber"
@@ -173,7 +178,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["calls"]),
+    ...mapGetters(["calls", "dispatchInitial"]),
     type: {
       get() {
         return this.$store.getters.forms.newcall.type;
