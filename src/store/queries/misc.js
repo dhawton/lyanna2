@@ -86,6 +86,26 @@ export const CREATE_BOLO = gql`
   }
 `;
 
+export const GET_USERS = gql`
+  query($id: ID!) {
+    server(id: $id) {
+      id
+      signedons {
+        id
+        identifier
+        session_identifier
+        session_name
+        status
+        department {
+          id
+          role
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const GET_SERVER_CALLS_USERS = gql`
   query($id: ID!) {
     server(id: $id) {

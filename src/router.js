@@ -9,6 +9,7 @@ import Servers from "./components/login/servers";
 import Departments from "./components/login/departments";
 import Characters from "./components/login/characters";
 import NewCharacter from "./components/login/newcharacter";
+import LoginFire from "./components/login/fire";
 
 import CAD from "./components/dispatch/layout";
 import CADCalls from "./components/dispatch/calls";
@@ -25,13 +26,17 @@ import CivProfile from "./components/civ/profile";
 import EditInfo from "./components/civ/EditInfo";
 import CivDMV from "./components/civ/DMV";
 
+import Fire from "./components/fire/layout";
+import FireCalls from "./components/fire/call";
+import Units from "./components/shared/units";
+import FireApparatus from "./components/fire/chgapparatus";
+
 import MDT from "./components/leo/layout";
 import MDTCall from "./components/leo/call";
 import MDTPC from "./components/leo/personcheck";
 import MDTPCCharacter from "./components/leo/character";
 import MDTVC from "./components/leo/vehiclecheck";
 import MDTChangeDept from "./components/leo/chgdept";
-import MDTActiveUnits from "./components/leo/units";
 import MDTBOLOs from "./components/leo/bolos";
 import MDTCases from "./components/leo/cases";
 import MDTCase from "./components/leo/viewcase";
@@ -79,6 +84,11 @@ export default new Router({
       path: "/login/characters/new",
       name: "LoginCharactersNew",
       component: NewCharacter,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: "/login/fire",
+      component: LoginFire,
       beforeEnter: AuthGuard
     },
     {
@@ -141,6 +151,25 @@ export default new Router({
       ]
     },
     {
+      path: "/fire",
+      component: Fire,
+      beforeEnter: AuthGuard,
+      children: [
+        {
+          path: "",
+          component: FireCalls
+        },
+        {
+          path: "units",
+          component: Units
+        },
+        {
+          path: "apparatus",
+          component: FireApparatus
+        }
+      ]
+    },
+    {
       path: "/mdt",
       component: MDT,
       beforeEnter: AuthGuard,
@@ -168,7 +197,7 @@ export default new Router({
         },
         {
           path: "units",
-          component: MDTActiveUnits
+          component: Units
         },
         {
           path: "bolos",

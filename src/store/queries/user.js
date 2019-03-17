@@ -41,6 +41,7 @@ export const SIGNON = gql`
     $server: Int!
     $prefix: String
     $character_id: Int!
+    $session_identifier: String
   ) {
     signon(
       identifier: $identifier
@@ -48,6 +49,7 @@ export const SIGNON = gql`
       server: $server
       prefix: $prefix
       character_id: $character_id
+      session_identifier: $session_identifier
     ) {
       id
       identifier

@@ -8,7 +8,7 @@
             <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
           </div>
           <div v-else-if="prepared">
-            <div v-if="department.role !== 'civ'" class="mb-2">
+            <div v-if="!['civ','dispatch','fire'].includes(department.role)" class="mb-2">
               Unit Identifier
               <select v-model="prefix" class="small-select">
                 <option value selected>&nbsp;</option>
@@ -110,7 +110,7 @@ export default {
     },
     selectCharacter(character) {
       this.$store.commit("character", character);
-      if (this.department.role !== "civ") {
+      if (!["civ", "fire"].includes(this.department.role)) {
         this.$apollo
           .mutate({
             mutation: SIGNON,
@@ -139,6 +139,9 @@ export default {
           break;
         case "dispatch":
           this.$router.push("/cad");
+          break;
+        case "fire":
+          this.$router.push("/login/fire");
           break;
         default:
           this.$router.push("/signout");

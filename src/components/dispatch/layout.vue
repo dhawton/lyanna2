@@ -134,10 +134,6 @@ export default {
         });
     }
   },
-  beforeDestroy() {
-    this.$pusher.unsubscribe(`server${this.server.id}`);
-    // We should do other cleanup here...
-  },
   methods: {
     toggleDark() {
       this.darkMode = !this.darkMode;

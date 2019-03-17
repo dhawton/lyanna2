@@ -28,6 +28,13 @@ export default new Vuex.Store({
       character: {},
       vehicle: {}
     },
+    fire: {
+      station: null,
+      apparatus: null,
+      company: null,
+      id: null,
+      radio: null
+    },
     forms: {
       personcheck: {
         idnumber: null,
@@ -157,6 +164,9 @@ export default new Vuex.Store({
         state.units.push(payload);
       }
     },
+    fire: (state, payload) => {
+      state.fire = payload;
+    },
     removeunit: (state, payload) => {
       state.units = state.units.filter(v => v.id !== payload);
     },
@@ -257,6 +267,7 @@ export default new Vuex.Store({
     laws: state => state.laws,
     dispatchInitial: state => state.dispatch.initialLoading,
     mapCenter: state => state.mapCurrentCenter,
-    mapZoom: state => state.mapCurrentZoom
+    mapZoom: state => state.mapCurrentZoom,
+    fire: state => state.fire
   }
 });

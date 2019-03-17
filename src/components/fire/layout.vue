@@ -9,7 +9,7 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2" id="mainheader">{{ agencyLongNames[department.role] }}</h1>
+            <h1 class="h2" id="mainheader">San Andreas Fire Department</h1>
           </div>
 
           <router-view></router-view>
@@ -28,9 +28,7 @@ import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
 import { agencyLongNames } from "@/utils/commondata";
 import { EventBus } from "@/EventBus";
-import { GET_BOLOS, GET_SERVER_CALLS_USERS } from "@/store/queries/misc";
-import { GET_CASES } from "@/store/queries/cases";
-import { GET_LAWS } from "@/store/queries/legal";
+import { GET_SERVER_CALLS_USERS } from "@/store/queries/misc";
 
 export default {
   name: "MDT",
@@ -56,15 +54,6 @@ export default {
     this.darkMode = window.localStorage.getItem("darkMode") || true;
     if (this.server !== undefined && this.server !== null) {
       this.buildWS();
-    }
-    if (this.$store.getters.laws.length === 0) {
-      this.$apollo
-        .query({
-          query: GET_LAWS
-        })
-        .then(r => {
-          this.$store.commit("laws", r.data.laws);
-        });
     }
     if (this.$store.getters.units.length === 0) {
       // API needs to settle for a couple seconds
@@ -96,35 +85,8 @@ export default {
           });
       }, 5000);
     }
-    if (this.$store.getters.bolos.length === 0) {
-      this.$apollo
-        .query({
-          query: GET_BOLOS,
-          variables: {
-            server_id: this.server.id
-          }
-        })
-        .then(r => {
-          r.data.BOLOs = r.data.BOLOs.filter(b => b.status === "live");
-          r.data.BOLOs.forEach((v, i) => {
-            r.data.BOLOs[i].id = parseInt(v.id, 10);
-          });
-          this.$store.commit("bolos", r.data.BOLOs);
-        });
-    }
-    if (this.$store.getters.cases.length === 0) {
-      this.$apollo
-        .query({
-          query: GET_CASES
-        })
-        .then(r => {
-          r.data.cases.forEach((v, i) => {
-            r.data.cases[i].id = parseInt(v.id, 10);
-          });
-          this.$store.commit("cases", r.data.cases);
-        });
-    }
   },
+  beforeDestroy() {},
   methods: {
     toggleDark() {
       this.darkMode = !this.darkMode;

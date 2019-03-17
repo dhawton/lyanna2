@@ -35,7 +35,7 @@ export default {
       // Bind events to channel
       channel.bind("ChangeUnit", e => {
         e.id = parseInt(e.id, 10);
-        if (this.$store.getters.signon.id === e.id) {
+        if (this.$store.getters.signon.id === parseInt(e.id, 10)) {
           this.$store.commit("signon", {
             session_identifier: e.session_identifier,
             status: e.status

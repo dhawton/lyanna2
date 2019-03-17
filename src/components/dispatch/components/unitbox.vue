@@ -10,7 +10,7 @@
       <td colspan="2">{{unit.session_name}}</td>
       <td
         style="width: 50px;"
-        class="hovercursor"
+        class="hovercursor dept"
         :class="`dept-${agencySuperShort[unit.dept.role]}`"
         @click="EventBus.$emit('unit-edit', { identifier: unit.session_identifier, field: 'dept'})"
       >{{ agencySuperShort[unit.dept.role] }}</td>
@@ -100,7 +100,7 @@ export default {
   background-color: darkgreen;
   color: #000 !important;
 }
-.dept-FIRE {
+.dept-FR {
   background-color: darkred;
   color: white;
 }
