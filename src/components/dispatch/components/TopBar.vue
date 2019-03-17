@@ -17,22 +17,22 @@
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton">Vehicle Chk
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/vc' })">Vehicle Chk
             <br>(F3)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton">Person Chk
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/pc' })">Person Chk
             <br>(F4)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton">Call Archive
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/archived' })">Call Archive
             <br>&nbsp;
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton">Map
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/map' })">Map
             <br>&nbsp;
           </div>
         </b-col>
@@ -41,18 +41,18 @@
             <br>(F5)
           </div>
         </b-col>
-        <b-col md="1" class="navcol">
-          <div class="navcolbutton">Phone
+        <b-col md="1" class="navcol" :class="{ flashCall: callStage === true }">
+          <div class="navcolbutton" @click="EventBus.$emit('clear-ecall')">Phone
             <br>(F6)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton">Radio Codes
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/radio' })">Radio Codes
             <br>&nbsp;
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton">BOLOs
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/bolos' })">BOLOs
             <br>(F7)
           </div>
         </b-col>
@@ -83,7 +83,10 @@ export default {
       months: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"],
       prefix: undefined,
       priorityStage: false,
-      priorityTimer: undefined
+      priorityTimer: undefined,
+      callStage: false,
+      callTimer: undefined,
+      EventBus
     };
   },
   computed: {
@@ -101,6 +104,18 @@ export default {
         this.priorityStage = true;
         this.priorityTimer = setInterval(() => {
           this.priorityStage = !this.priorityStage;
+        }, 1000);
+      }
+    });
+    EventBus.$on("ecall", h => {
+      if (!h) {
+        clearInterval(this.callTimer);
+        this.callTimer = undefined;
+        this.callStage = false;
+      } else {
+        this.callStage = true;
+        this.callTimer = setInterval(() => {
+          this.callStage = !this.callStage;
         }, 1000);
       }
     });
@@ -147,6 +162,9 @@ export default {
 .flash {
   background-color: rgb(100, 100, 0);
 }
+.flashCall {
+  background-color: rgb(100, 0, 0);
+}
 .bg-dispatch {
   background-color: rgb(18, 30, 48);
 }
@@ -167,7 +185,7 @@ export default {
   left: 0;
   right: 0;
   height: 125px;
-  z-index: 9999;
+  z-index: 9;
 }
 .navbuttons {
   height: 125px;
@@ -175,7 +193,7 @@ export default {
   color: rgb(128, 168, 255);
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 9999;
+  z-index: 9;
   > .navcol {
     display: table;
     height: 125px;

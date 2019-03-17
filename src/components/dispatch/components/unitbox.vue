@@ -4,17 +4,29 @@
       <td
         rowspan="2"
         style="width: 60px; text-align: center; vertical-align: middle;"
+        @click="EventBus.$emit('unit-edit', { identifier: unit.session_identifier, field: 'identifier'})"
+        class="hovercursor"
       >{{unit.session_identifier}}</td>
       <td colspan="2">{{unit.session_name}}</td>
       <td
         style="width: 50px;"
-        class="dept"
+        class="hovercursor"
         :class="`dept-${agencySuperShort[unit.dept.role]}`"
+        @click="EventBus.$emit('unit-edit', { identifier: unit.session_identifier, field: 'dept'})"
       >{{ agencySuperShort[unit.dept.role] }}</td>
     </tr>
     <tr>
-      <td class="stat" :class="`stat-${formatClass(unit.status)}`">{{unit.status}}</td>
-      <td colspan="2" :class="callnumber() === '00000000' ? 'invis' : ''">{{callnumber()}}</td>
+      <td
+        class="hovercursor"
+        :class="`stat-${formatClass(unit.status)}`"
+        @click="EventBus.$emit('unit-edit', { identifier: unit.session_identifier, field: 'status'})"
+      >{{unit.status}}</td>
+      <td
+        colspan="2"
+        :class="callnumber() === '00000000' ? 'invis' : ''"
+        @click="EventBus.$emit('unit-edit', { identifier: unit.session_identifier, field: 'callnumber'})"
+        class="hovercursor"
+      >{{callnumber()}}</td>
     </tr>
   </table>
 </template>
@@ -22,18 +34,21 @@
 <script>
 import { mapGetters } from "vuex";
 import { agencySuperShort } from "@/utils/commondata";
+import { EventBus } from "@/EventBus";
 
 export default {
   name: "UnitBox",
   props: ["unit"],
   data() {
     return {
-      agencySuperShort
+      agencySuperShort,
+      EventBus
     };
   },
   computed: {
     ...mapGetters(["calls"])
   },
+  created() {},
   methods: {
     callnumber() {
       let ret = "00000000";

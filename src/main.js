@@ -1,9 +1,11 @@
+/* eslint-disable global-require */
 import Vue from "vue";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
+import { Icon } from "leaflet";
 import VueApollo from "vue-apollo";
 import BootstrapVue from "bootstrap-vue";
 import Pusher from "pusher-js";
@@ -15,6 +17,17 @@ import store from "./store";
 
 import "./assets/app.scss";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "leaflet/dist/leaflet.css";
+
+// this part resolve an issue where the markers would not appear
+// eslint-disable-next-line no-underscore-dangle
+delete Icon.Default.prototype._getIconUrl;
+
+Icon.Default.mergeOptions({
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+});
 
 Vue.use(VueHotkey);
 

@@ -18,39 +18,42 @@
             <b-spinner style="height: 3rem; width: 3rem;" variant="primary"/>
           </td>
         </tr>
-        <tr
-          v-for="(call, i) in pending()"
-          :key="call.callnumber"
-          class="call-pending"
-          @click="$router.push({ path: `/cad/call/${call.callnumber}` })"
-        >
+        <tr v-for="(call, i) in pending()" :key="call.callnumber" class="call-pending">
           <td>{{ getPendingShortcut(i) }}</td>
-          <td>{{ call.callnumber.substring(4) }}</td>
+          <td
+            @click="askArchive(call.callnumber)"
+            class="hovercursor"
+          >{{ call.callnumber.substring(4) }}</td>
           <td>{{ call.created_at.substring(11, 16) }}</td>
-          <td>{{ call.type }}</td>
-          <td>
+          <td @click="popupEdit(call.callnumber, 'type')" class="hovercursor">{{ call.type }}</td>
+          <td @click="popupEdit(call.callnumber, 'address')" class="hovercursor">
             {{ call.address }}
             <br>
             {{ call.city }}
           </td>
-          <td>{{ call.description.substring(0, 300)}}{{ (call.description.length > 300) ? "..." : ""}}</td>
+          <td
+            @click="popupEdit(call.callnumber, 'description')"
+            class="hovercursor"
+          >{{ call.description.substring(0, 300)}}{{ (call.description.length > 300) ? "..." : ""}}</td>
           <td>PENDING</td>
         </tr>
-        <tr
-          v-for="(call, i) in assigned()"
-          :key="call.callnumber"
-          @click="$router.push({ path: `/cad/call/${call.callnumber}` })"
-        >
+        <tr v-for="(call, i) in assigned()" :key="call.callnumber">
           <td>{{ getAssignedShortcut(i) }}</td>
-          <td>{{ call.callnumber.substring(4) }}</td>
+          <td
+            @click="askArchive(call.callnumber)"
+            class="hovercursor"
+          >{{ call.callnumber.substring(4) }}</td>
           <td>{{ call.created_at.substring(11, 16) }}</td>
-          <td>{{ call.type }}</td>
-          <td>
+          <td @click="popupEdit(call.callnumber, 'type')" class="hovercursor">{{ call.type }}</td>
+          <td @click="popupEdit(call.callnumber, 'address')" class="hovercursor">
             {{ call.address }}
             <br>
             {{ call.city }}
           </td>
-          <td>{{ call.description.substring(0, 300)}}{{ (call.description.length > 300) ? "..." : ""}}</td>
+          <td
+            @click="popupEdit(call.callnumber, 'description')"
+            class="hovercursor"
+          >{{ call.description.substring(0, 300)}}{{ (call.description.length > 300) ? "..." : ""}}</td>
           <td>{{ call.assigned.join(", ")}}</td>
         </tr>
         <tr>
@@ -67,8 +70,8 @@
           <td>
             <input type="text" class="input-darkblue" v-model="address" style="width: 100%;">
             <br>
-            <select v-model="city" class="input-darkblue" style="width: 100%;">
-              <option v-for="c in cities" :key="c">{{c.toUpperCase()}}</option>
+            <select v-model="city" class="input-darkblue text-uppercase" style="width: 100%;">
+              <option v-for="c in cities" :key="c">{{c}}</option>
             </select>
           </td>
           <td>
@@ -114,6 +117,58 @@
       footer-bg-variant="dark"
       footer-text-variant="light"
     >{{ errorModalText }}</b-modal>
+    <b-modal
+      id="archive"
+      size="md"
+      title="Are you sure?"
+      v-model="modelArchiveCall"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      body-text-variant="light"
+      footer-bg-variant="dark"
+      footer-text-variant="light"
+      ok-title="Yes"
+      ok-variant="danger"
+      cancel-title="No"
+      @ok="doArchive"
+    >Archive call #{{ archivecall }}?</b-modal>
+    <b-modal
+      id="callEdit"
+      title="Edit Call"
+      ref="calledit"
+      :size="(callEdit.field === 'description') ? 'xl' : 'md'"
+      v-model="callEdit.show"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      body-text-variant="light"
+      footer-bg-variant="dark"
+      footer-text-variant="light"
+      lazy
+      @ok="doEdit"
+    >
+      <div v-if="callEdit.field === 'type'">
+        <b-form-group class="col-md-12" label="Type" label-for="idnumber">
+          <b-form-input v-model="callEdit.data" class="text-uppercase"/>
+        </b-form-group>
+      </div>
+      <div v-if="callEdit.field === 'address'">
+        <b-form-group class="col-md-12" label="Address" label-for="idnumber">
+          <b-form-input v-model="callEdit.data.address" class="text-uppercase"/>
+        </b-form-group>
+        <b-form-group class="col-md-12" label="City" label-for="idnumber">
+          <b-form-select v-model="callEdit.data.city">
+            <option v-for="c in cities" :key="c">{{c.toUpperCase()}}</option>
+          </b-form-select>
+        </b-form-group>
+      </div>
+      <div v-if="callEdit.field === 'description'">
+        <b-form-group class="col-md-12" label="Description" label-for="idnumber">
+          <b-form-textarea v-model="callEdit.data" class="text-uppercase" rows="10"></b-form-textarea>
+        </b-form-group>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -162,7 +217,16 @@ export default {
       consoleRet: "",
       modelErrorShow: false,
       errorModalText: undefined,
-      isCreating: false
+      modelArchiveCall: false,
+      archivecall: undefined,
+      isCreating: false,
+      callEdit: {
+        callnumber: null,
+        field: null,
+        data: null,
+        show: false,
+        unit: null
+      }
     };
   },
   created() {
@@ -173,8 +237,8 @@ export default {
       this.$refs.console.focus();
     });
     EventBus.$on("console-return", msg => {
-      this.consoleRet = msg;
-      this.console = "";
+      this.consoleRet = msg.ret;
+      if (!msg.override) this.console = "";
     });
   },
   computed: {
@@ -231,6 +295,69 @@ export default {
     }
   },
   methods: {
+    askArchive(callnumber) {
+      this.modelArchiveCall = true;
+      this.archivecall = callnumber;
+    },
+    doArchive() {
+      EventBus.$emit("console-override", `${this.archivecall} X`);
+      this.modelArchiveCall = false;
+    },
+    popupEdit(callnumber, field) {
+      const [call] = this.calls.filter(c => c.callnumber === callnumber);
+      this.callEdit.callnumber = call.callnumber;
+      this.callEdit.field = field;
+      switch (this.callEdit.field) {
+        case "type":
+          this.callEdit.data = call.type;
+          break;
+        case "address":
+          this.callEdit.data = { address: call.address, city: call.city };
+          break;
+        case "description":
+          this.callEdit.data = call.description;
+          break;
+        default:
+          break;
+      }
+      this.callEdit.show = true;
+    },
+    doEdit() {
+      let console;
+      switch (this.callEdit.field) {
+        case "type":
+          console = `${
+            this.callEdit.callnumber
+          } T R ${this.callEdit.data.toUpperCase()}`;
+          break;
+        case "address":
+          if (
+            !this.callEdit.data.address.match(/(\d+) (.+)/g) &&
+            !this.callEdit.data.address.match(
+              /[A-Za-z 0-9]+ and [A-za-z 0-9]/g
+            ) &&
+            !this.callEdit.data.address.match(/Route|highway \d+ Mile \d+/g)
+          ) {
+            this.errorModalText = "The address is not formatted correctly";
+            this.modelErrorShow = true;
+            break;
+          }
+          console = `${
+            this.callEdit.callnumber
+          } AD R ${this.callEdit.data.address.toUpperCase()}///${
+            this.callEdit.callnumber
+          } C R ${this.callEdit.data.city}`;
+          break;
+        case "description":
+          console = `${
+            this.callEdit.callnumber
+          } D R ${this.callEdit.data.toUpperCase()}`;
+          break;
+        default:
+          break;
+      }
+      EventBus.$emit("console-override", console);
+    },
     pending() {
       if (this.calls === undefined) {
         return [];
@@ -334,6 +461,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.hovercursor {
+  cursor: pointer;
+}
+</style>
 
 <style lang="scss" scoped>
 .call-pending {

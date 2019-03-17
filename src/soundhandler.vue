@@ -25,6 +25,7 @@ export default {
     this.priority = this.loadAudio("/sounds/pri.wav"); // Priority tones
     this.tone = this.loadAudio("/sounds/tone.mp3");
     this.phone = this.loadAudio("/sounds/ring.mp3");
+    this.bolo = this.loadAudio("/sounds/bolo.mp3");
 
     EventBus.$on("channel-held", msg => {
       if (msg && this.heldInterval === undefined) {
@@ -52,6 +53,18 @@ export default {
       const { unassign } = this;
       unassign.volume = 0.5;
       unassign.play();
+    });
+    EventBus.$on("ecall", h => {
+      if (h) {
+        const { phone } = this;
+        phone.volume = 0.5;
+        phone.play();
+      }
+    });
+    EventBus.$on("new-bolo", () => {
+      const { bolo } = this;
+      bolo.volume = 0.5;
+      bolo.play();
     });
   },
   methods: {

@@ -37,11 +37,12 @@ import { EventBus } from "@/EventBus";
 import {
   GET_BOLOS,
   GET_SERVER_CALLS_USERS,
-  TOGGLE_HOLD
+  TOGGLE_HOLD,
+  CLEAR_ECALL
 } from "@/store/queries/misc";
 
 export default {
-  name: "MDT",
+  name: "CAD",
   components: {
     TopBar,
     Units,
@@ -59,7 +60,11 @@ export default {
       return {
         F1: this.handleKey,
         F2: this.handleKey,
-        F5: this.handleKey
+        F3: this.handleKey,
+        F4: this.handleKey,
+        F5: this.handleKey,
+        F6: this.handleKey,
+        F7: this.handleKey
       };
     }
   },
@@ -68,6 +73,9 @@ export default {
   },
   created() {
     EventBus.$emit("login-sound");
+    EventBus.$on("clear-ecall", () => {
+      this.ClearECall();
+    });
     this.darkMode = window.localStorage.getItem("darkMode") || true;
     if (this.server !== undefined && this.server !== null) {
       this.buildWS();
@@ -153,8 +161,11 @@ export default {
           this.$router.push({ path: "/cad" });
         }
       }
+      if (e.code === "F3") {
+        this.$router.push({ path: "/cad/vc" });
+      }
+      if (e.code === "F4") this.$router.push({ path: "/cad/pc" });
       if (e.code === "F5") {
-        console.log("Caught F5");
         this.$apollo.mutate({
           mutation: TOGGLE_HOLD,
           variables: {
@@ -162,6 +173,18 @@ export default {
           }
         });
       }
+      if (e.code === "F6") {
+        this.ClearECall();
+      }
+      if (e.code === "F7") this.$router.push({ path: "/cad/bolos" });
+    },
+    ClearECall() {
+      this.$apollo.mutate({
+        mutation: CLEAR_ECALL,
+        variables: {
+          server_id: this.$store.getters.server.id
+        }
+      });
     }
   }
 };
@@ -179,5 +202,16 @@ export default {
   padding-top: 165px;
   overflow-x: hidden;
   overflow-y: auto;
+}
+</style>
+
+<style lang="scss">
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0px; /* remove scrollbar space */
+  background: transparent; /* optional: just make scrollbar invisible */
 }
 </style>

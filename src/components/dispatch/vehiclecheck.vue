@@ -28,7 +28,7 @@
     <div v-if="loadingResults" style="text-align: center;">
       <b-spinner variant="primary" style="height: 3rem; width: 3rem;"/>
     </div>
-    <table v-else class="table">
+    <table v-else class="table table-sm">
       <thead>
         <tr>
           <th>Plate</th>
@@ -38,7 +38,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="vehicle in results" :key="vehicle.id" @click="showVehicle(vehicle)">
+        <tr
+          v-for="vehicle in results"
+          :key="vehicle.id"
+          @click="$router.push({ path: `/cad/pc/${vehicle.character.idnumber}` })"
+        >
           <td>{{vehicle.licenseplate}}</td>
           <td>{{vehicle.make}}, {{vehicle.model}}, {{vehicle.color}}</td>
           <td>
@@ -48,7 +52,7 @@
           </td>
           <td>
             <b-button variant="danger" v-if="vehicle.stolen" disabled>Stolen</b-button>
-            <b-button variant="warning" v-if="!vehicle.insurance" disabled>No Insurance</b-button>
+            <b-button variant="yellow" v-if="!vehicle.insurance" disabled>No Insurance</b-button>
           </td>
         </tr>
       </tbody>
@@ -134,8 +138,9 @@ export default {
         });
     },
     showVehicle(vehicle) {
+      this.$store.commit("leovehicle", vehicle);
       this.$router.push({
-        path: `/mdt/pc/${vehicle.character.idnumber}`
+        path: `/mdt/vc/${vehicle.licenseplate}`
       });
     }
   }
@@ -154,20 +159,31 @@ export default {
 }
 input,
 input:focus {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(0, 0, 40);
   color: #fff;
+  border: 1px solid rgb(0, 0, 150);
+  text-transform: uppercase;
 }
-thead tr th {
-  color: #fff;
-}
+thead tr th,
 tbody tr td {
-  color: #fff;
+  border-color: rgb(0, 45, 112);
+  color: rgb(206, 222, 255);
+  text-transform: uppercase;
 }
 tbody tr td:hover {
   cursor: pointer;
 }
+.btn {
+  text-transform: uppercase;
+  padding: 5px;
+}
 .btn.disabled,
 .btn:disabled {
   opacity: unset;
+}
+.btn-yellow,
+.btn-yellow:disabled,
+.btn-yellow.disabled {
+  background-color: rgb(255, 255, 0);
 }
 </style>

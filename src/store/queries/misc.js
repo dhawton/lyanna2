@@ -44,6 +44,48 @@ export const GET_BOLOS = gql`
   }
 `;
 
+export const EDIT_BOLO = gql`
+  mutation(
+    $id: ID!
+    $server_id: Int
+    $person_info: String
+    $vehicle_info: String
+    $details: String
+    $status: String
+  ) {
+    EditBOLO(
+      id: $id
+      server_id: $server_id
+      person_info: $person_info
+      vehicle_info: $vehicle_info
+      details: $details
+      status: $status
+    ) {
+      id
+    }
+  }
+`;
+
+export const CREATE_BOLO = gql`
+  mutation(
+    $server_id: ID!
+    $person_info: String
+    $vehicle_info: String
+    $details: String!
+    $status: String
+  ) {
+    CreateBOLO(
+      server_id: $server_id
+      person_info: $person_info
+      vehicle_info: $vehicle_info
+      details: $details
+      status: $status
+    ) {
+      id
+    }
+  }
+`;
+
 export const GET_SERVER_CALLS_USERS = gql`
   query($id: ID!) {
     server(id: $id) {
@@ -79,6 +121,14 @@ export const GET_SERVER_CALLS_USERS = gql`
 export const TOGGLE_HOLD = gql`
   mutation($id: ID!) {
     ToggleHold(server_id: $id) {
+      id
+    }
+  }
+`;
+
+export const CLEAR_ECALL = gql`
+  mutation($server_id: Int!) {
+    ClearECall(server_id: $server_id) {
       id
     }
   }

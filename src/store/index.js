@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import { EventBus } from "../EventBus";
 
 Vue.use(Vuex, axios);
 
@@ -63,6 +64,11 @@ export default new Vuex.Store({
         city: null,
         description: null,
         console: null
+      },
+      bolo: {
+        suspect_info: null,
+        vehicle_info: null,
+        details: null
       }
     },
     calls: [],
@@ -79,7 +85,9 @@ export default new Vuex.Store({
       channelHeldStage: 0,
       phoneRingStage: 0,
       initialLoading: false
-    }
+    },
+    mapCurrentZoom: undefined,
+    mapCurrentCenter: undefined
   },
   mutations: {
     loggedIn: (state, payload) => {
@@ -124,6 +132,9 @@ export default new Vuex.Store({
     },
     formnewcall: (state, payload) => {
       state.forms.newcall = { ...state.forms.newcall, ...payload };
+    },
+    formbolo: (state, payload) => {
+      state.forms.bolo = { ...state.forms.bolo, ...payload };
     },
     calls: (state, payload) => {
       state.calls[payload.id] = payload.call;
@@ -188,6 +199,7 @@ export default new Vuex.Store({
       });
       if (!changed && payload.status === "live") {
         state.bolos.push(payload);
+        EventBus.$emit("new-bolo");
       }
     },
     bolos: (state, payload) => {
@@ -212,6 +224,12 @@ export default new Vuex.Store({
     },
     dispatchInitial: (state, payload) => {
       state.dispatch.initialLoading = payload;
+    },
+    mapCenter(state, payload) {
+      state.mapCurrentCenter = payload;
+    },
+    mapZoom(state, payload) {
+      state.mapCurrentZoom = payload;
     }
   },
   getters: {
@@ -237,6 +255,8 @@ export default new Vuex.Store({
     bolos: state => state.bolos,
     cases: state => state.cases,
     laws: state => state.laws,
-    dispatchInitial: state => state.dispatch.initialLoading
+    dispatchInitial: state => state.dispatch.initialLoading,
+    mapCenter: state => state.mapCurrentCenter,
+    mapZoom: state => state.mapCurrentZoom
   }
 });

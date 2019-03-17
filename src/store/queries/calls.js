@@ -63,3 +63,17 @@ export const CALL_ARCHIVE = gql`
     }
   }
 `;
+
+export const GET_ARCHIVED_CALLS = gql`
+  query($limit: Int, $server_id: Int!) {
+    CallArchive(limit: $limit, server_id: $server_id) {
+      id
+      callnumber
+      type
+      address
+      city
+      description
+      created_at
+    }
+  }
+`;

@@ -17,6 +17,14 @@ export const cities = [
   "Zancudo"
 ];
 
+export const citiesUpper = () => {
+  const c = [];
+  cities.forEach(v => {
+    c.push(v.toUpper);
+  });
+  return c;
+};
+
 export const agencies = {
   Highway: "SASP",
   State: "SASP",

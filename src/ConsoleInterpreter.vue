@@ -17,6 +17,9 @@ import { cities } from "@/utils/commondata";
 
 export default {
   name: "ConsoleInterpreter",
+  data() {
+    return {};
+  },
   computed: {
     console: {
       get() {
@@ -32,12 +35,14 @@ export default {
   },
   created() {
     EventBus.$on("console-process", () => {
-      this.processConsole();
+      this.processConsole(this.console.split("///"));
+    });
+    EventBus.$on("console-override", msg => {
+      this.processConsole(msg.split("///"), true);
     });
   },
   methods: {
-    processConsole() {
-      const toProcess = this.console.split("///");
+    processConsole(toProcess, override = false) {
       const msgs = [];
 
       toProcess.forEach(line => {
@@ -241,7 +246,11 @@ export default {
             }
           } else if (args[1] === "C" || args[1] === "CITY") {
             if (arg2[0] === "R" || arg2[0] === "REPLACE") {
-              if (cities.includes(arg2[1])) {
+              let matched = false;
+              cities.forEach(v => {
+                if (v.toUpperCase() === arg2[1].toUpperCase()) matched = true;
+              });
+              if (matched) {
                 this.$apollo.mutate({
                   mutation: CALL_EDIT,
                   variables: {
@@ -392,7 +401,10 @@ export default {
         }
       });
 
-      EventBus.$emit("console-return", msgs.join(" // "));
+      EventBus.$emit("console-return", {
+        ret: msgs.join(" // "),
+        override
+      });
     }
   }
 };

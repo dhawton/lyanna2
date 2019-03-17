@@ -53,6 +53,9 @@ export default {
       });
       channel.bind("SignOff", e => {
         this.$store.commit("removeunit", e.id);
+        if (this.$store.getters.signon === undefined) {
+          return; /* We haven't finished setting up */
+        }
         if (this.$store.getters.signon.id === e.id) {
           // eslint-disable-next-line no-alert
           alert("You have been signed off remotely.");
@@ -125,6 +128,12 @@ export default {
       });
       channel.bind("BOLO", e => {
         this.$store.commit("bolo", e.bolo);
+      });
+      channel.bind("ECallPending", () => {
+        EventBus.$emit("ecall", true);
+      });
+      channel.bind("ECallClear", () => {
+        EventBus.$emit("ecall", false);
       });
     });
   }

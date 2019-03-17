@@ -12,6 +12,13 @@ import NewCharacter from "./components/login/newcharacter";
 
 import CAD from "./components/dispatch/layout";
 import CADCalls from "./components/dispatch/calls";
+import CADVC from "./components/dispatch/vehiclecheck";
+import CADPC from "./components/dispatch/personcheck";
+import CADCharacter from "./components/dispatch/character";
+import CADRadioCodes from "./components/dispatch/radiocodes";
+import CADMap from "./components/dispatch/map";
+import CADArchived from "./components/dispatch/components/archivedcalls";
+import CADBolos from "./components/dispatch/bolos";
 
 import Civ from "./components/civ/layout";
 import CivProfile from "./components/civ/profile";
@@ -82,6 +89,35 @@ export default new Router({
         {
           path: "",
           component: CADCalls
+        },
+        {
+          path: "vc",
+          component: CADVC
+        },
+        {
+          path: "pc",
+          component: CADPC
+        },
+        {
+          path: "pc/:idnumber",
+          component: CADCharacter,
+          props: true
+        },
+        {
+          path: "radio",
+          component: CADRadioCodes
+        },
+        {
+          path: "map",
+          component: CADMap
+        },
+        {
+          path: "archived",
+          component: CADArchived
+        },
+        {
+          path: "bolos",
+          component: CADBolos
         }
       ]
     },
