@@ -16,6 +16,7 @@ export default {
   mounted() {
     EventBus.$on("bind-cases", () => {
       const channel = this.$pusher.subscribe("cases");
+      this.$store.commit("ws", { cases: channel });
       channel.bind("LCase", e => {
         this.$apollo
           .query({
@@ -32,6 +33,7 @@ export default {
     });
     EventBus.$on("bind-server", msg => {
       const channel = this.$pusher.subscribe(`server${msg}`);
+      this.$store.commit("ws", { server: channel });
       // Bind events to channel
       channel.bind("ChangeUnit", e => {
         e.id = parseInt(e.id, 10);

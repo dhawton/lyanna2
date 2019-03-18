@@ -94,7 +94,8 @@ export default new Vuex.Store({
       initialLoading: false
     },
     mapCurrentZoom: undefined,
-    mapCurrentCenter: undefined
+    mapCurrentCenter: undefined,
+    ws: {}
   },
   mutations: {
     loggedIn: (state, payload) => {
@@ -240,6 +241,9 @@ export default new Vuex.Store({
     },
     mapZoom(state, payload) {
       state.mapCurrentZoom = payload;
+    },
+    ws: (state, payload) => {
+      state.ws = { ...state.ws, ...payload };
     }
   },
   getters: {
@@ -268,6 +272,7 @@ export default new Vuex.Store({
     dispatchInitial: state => state.dispatch.initialLoading,
     mapCenter: state => state.mapCurrentCenter,
     mapZoom: state => state.mapCurrentZoom,
-    fire: state => state.fire
+    fire: state => state.fire,
+    ws: state => state.ws
   }
 });

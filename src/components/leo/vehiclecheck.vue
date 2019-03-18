@@ -134,6 +134,7 @@ export default {
         });
     },
     showVehicle(vehicle) {
+      this.$store.commit("leocharacter", vehicle.character);
       this.$router.push({
         path: `/mdt/pc/${vehicle.character.idnumber}`
       });

@@ -249,6 +249,15 @@ export const SEARCH_VEHICLE = gql`
         lastname
         address
         city
+        gender
+        race
+        dob
+        haircolor
+        height_feet
+        height_inches
+        weight
+        photo
+        licensestatus
       }
     }
   }

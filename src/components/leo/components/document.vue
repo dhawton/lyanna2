@@ -386,6 +386,18 @@ export default {
     },
     issue() {
       if (
+        this.address === null ||
+        this.type === null ||
+        this.city === null ||
+        this.address === null ||
+        this.violations === null
+      ) {
+        this.errorModalText =
+          "Document Type, Address, City and Violations cannot be blank.";
+        this.modelErrorShow = true;
+        return;
+      }
+      if (
         !this.address.match(/(\d+) (.+)/g) &&
         !this.address.match(/[A-Za-z 0-9]+ and [A-za-z 0-9]/g) &&
         !this.address.match(/Route|highway \d+ Mile \d+/g)

@@ -38,11 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="vehicle in results"
-          :key="vehicle.id"
-          @click="$router.push({ path: `/cad/pc/${vehicle.character.idnumber}` })"
-        >
+        <tr v-for="vehicle in results" :key="vehicle.id" @click="showVehicle(vehicle)">
           <td>{{vehicle.licenseplate}}</td>
           <td>{{vehicle.make}}, {{vehicle.model}}, {{vehicle.color}}</td>
           <td>
@@ -138,9 +134,9 @@ export default {
         });
     },
     showVehicle(vehicle) {
-      this.$store.commit("leovehicle", vehicle);
+      this.$store.commit("leocharacter", vehicle.character);
       this.$router.push({
-        path: `/mdt/vc/${vehicle.licenseplate}`
+        path: `/cad/pc/${vehicle.character.idnumber}`
       });
     }
   }

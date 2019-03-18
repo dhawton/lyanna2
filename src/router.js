@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import Vue from "vue";
 import Router from "vue-router";
 
@@ -11,35 +12,40 @@ import Characters from "./components/login/characters";
 import NewCharacter from "./components/login/newcharacter";
 import LoginFire from "./components/login/fire";
 
-import CAD from "./components/dispatch/layout";
-import CADCalls from "./components/dispatch/calls";
-import CADVC from "./components/dispatch/vehiclecheck";
-import CADPC from "./components/dispatch/personcheck";
-import CADCharacter from "./components/dispatch/character";
-import CADRadioCodes from "./components/dispatch/radiocodes";
-import CADMap from "./components/dispatch/map";
-import CADArchived from "./components/dispatch/components/archivedcalls";
-import CADBolos from "./components/dispatch/bolos";
+const Civ = () => import(/* webpackChunkName: "Civ" */ "./components/civ/layout.vue");
+const CivProfile = () => import(/* webpackChunkName: "Civ" */ "./components/civ/profile.vue");
+const EditInfo = () => import(/* webpackChunkName: "Civ" */ "./components/civ/EditInfo.vue");
+const CivDMV = () => import(/* webpackChunkName: "Civ" */ "./components/civ/DMV.vue");
 
-import Civ from "./components/civ/layout";
-import CivProfile from "./components/civ/profile";
-import EditInfo from "./components/civ/EditInfo";
-import CivDMV from "./components/civ/DMV";
+const Units = () => import(/* webpackChunkName: "ActiveUnits" */ "./components/shared/units.vue");
 
-import Fire from "./components/fire/layout";
-import FireCalls from "./components/fire/call";
-import Units from "./components/shared/units";
-import FireApparatus from "./components/fire/chgapparatus";
+const Fire = () => import(/* webpackChunkName: "Fire" */ "./components/fire/layout.vue");
+const FireCalls = () => import(/* webpackChunkName: "Fire" */ "./components/fire/call.vue");
+const FireApparatus = () =>
+  import(/* webpackChunkName: "Fire" */ "./components/fire/chgapparatus.vue");
 
-import MDT from "./components/leo/layout";
-import MDTCall from "./components/leo/call";
-import MDTPC from "./components/leo/personcheck";
-import MDTPCCharacter from "./components/leo/character";
-import MDTVC from "./components/leo/vehiclecheck";
-import MDTChangeDept from "./components/leo/chgdept";
-import MDTBOLOs from "./components/leo/bolos";
-import MDTCases from "./components/leo/cases";
-import MDTCase from "./components/leo/viewcase";
+const MDT = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
+const MDTCall = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
+const MDTPC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
+const MDTPCCharacter = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
+const MDTVC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
+const MDTChangeDept = () => import(/* webpackChunkName: "MDT1" */ "./components/leo/layout.vue");
+const MDTBOLOs = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
+const MDTCases = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/layout.vue");
+const MDTCase = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/layout.vue");
+
+const CAD = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/layout.vue");
+const CADCalls = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/calls.vue");
+const CADVC = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/vehiclecheck.vue");
+const CADPC = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/personcheck.vue");
+const CADCharacter = () =>
+  import(/* webpackChunkName: "CAD" */ "./components/dispatch/character.vue");
+const CADRadioCodes = () =>
+  import(/* webpackChunkName: "CAD1" */ "./components/dispatch/radiocodes.vue");
+const CADMap = () => import(/* webpackChunkName: "CAD2" */ "./components/dispatch/map.vue");
+const CADArchived = () =>
+  import(/* webpackChunkName: "CAD3" */ "./components/dispatch/components/archivedcalls.vue");
+const CADBolos = () => import(/* webpackChunkName: "CAD4" */ "./components/dispatch/bolos.vue");
 
 Vue.use(Router);
 

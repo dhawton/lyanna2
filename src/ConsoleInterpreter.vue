@@ -65,6 +65,26 @@ export default {
           } else {
             msgs.push(`[${line}] Invalid filter option ${args[1]}`);
           }
+        } else if (args[0] === "VC" || args[0] === "28") {
+          this.$store.commit("forms", {
+            vehiclecheck: {
+              licenseplate: args[1],
+              make: null,
+              model: null,
+              color: null
+            }
+          });
+          this.$router.push({ path: "/cad/vc" });
+        } else if (args[0] === "PC" || args[1] === "27") {
+          this.$store.commit("forms", {
+            personcheck: {
+              idnumber: null,
+              firstname: args[1],
+              lastname: args[2],
+              dob: null
+            }
+          });
+          this.$router.push({ path: "/cad/pc" });
         } else if (
           this.units.filter(a => a.session_identifier === args[0]).length > 0
         ) {
