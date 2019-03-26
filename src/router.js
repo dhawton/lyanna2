@@ -25,7 +25,7 @@ const FireApparatus = () =>
   import(/* webpackChunkName: "Fire" */ "./components/fire/chgapparatus.vue");
 
 const MDT = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTCall = () => import(/* webpackChunkName: "MDT" */ "./components/leo/cad.vue");
+const MDTCall = () => import(/* webpackChunkName: "MDT" */ "./components/leo/call.vue");
 const MDTPC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/personcheck.vue");
 const MDTPCCharacter = () => import(/* webpackChunkName: "MDT" */ "./components/leo/character.vue");
 const MDTVC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/vehiclecheck.vue");
