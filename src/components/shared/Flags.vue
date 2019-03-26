@@ -71,6 +71,14 @@ export default {
             eluding += 1;
           }
         });
+        console.dir({
+          felony,
+          battery,
+          murder,
+          weapon,
+          escape,
+          eluding
+        });
       }
     });
     if (felony > 0) {
