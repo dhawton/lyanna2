@@ -81,19 +81,33 @@ export default {
         });
       }
     });
+    console.log("Checking");
+    console.dir({
+      felony,
+      battery,
+      murder,
+      weapon,
+      escape,
+      eluding
+    });
     if (felony > 0) {
       this.isFelon = true;
+      console.log("Felon");
     }
     if ((battery > 0 || murder > 0) && weapon >= 1) {
       this.isArmedAndDangerous = true;
+      console.log("A&D");
     }
     if (warrant > 0) {
       this.isWanted = true;
+      console.log("WANTED");
     }
     if (eluding > 2 || escape > 0) {
       this.isRunner = true;
+      console.log("Runner");
     }
     this.isPrepared = true;
+    console.log("Prepared");
   }
 };
 </script>
