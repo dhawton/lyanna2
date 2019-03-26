@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col md="3">
-      <Flags :documents="documents" />
+      <Flags :documents="documents"/>
     </b-col>
     <b-col md="5">
       <table class="table table-info table-sm table-borderless" style="color: #000 !important;">
@@ -21,17 +21,18 @@
               id="profilepic"
               style="width: 150px;"
               ref="pic"
-            />
-            <br />
-            <h2 v-if="character.licensestatus != 'Valid'" class="label">
-              {{ character.licensestatus }}
-            </h2>
+            >
+            <br>
+            <h2
+              v-if="character.licensestatus != 'Valid'"
+              class="label"
+            >{{ character.licensestatus }}</h2>
           </td>
           <td>
             4d
             <b class="label">LIC NO:</b>
             {{ character.idnumber }}
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <b class="label">Status:</b>
             {{ character.licensestatus }}
           </td>
@@ -62,7 +63,7 @@
             8
             <b class="label">Address</b>
             {{ character.address }}
-            <br />
+            <br>
             {{ character.city }}, SA
           </td>
         </tr>
@@ -97,7 +98,7 @@
               <b-input-group-addon>
                 <b-button v-if="!processing" variant="black" @click="edit">Change</b-button>
                 <b-button v-else variant="black" disabled>
-                  <b-spinner small />
+                  <b-spinner small/>
                 </b-button>
                 <b-button variant="grey" @click="editInfo">Edit Info</b-button>
               </b-input-group-addon>
@@ -110,19 +111,19 @@
 </template>
 
 <script>
-import Flags from './Flags';
-import { licensestatus as commonLicenseStatus } from '@/utils/commondata';
-import { EDIT_CHARACTER } from '@/store/queries/civ';
+import Flags from "./Flags";
+import { licensestatus as commonLicenseStatus } from "@/utils/commondata";
+import { EDIT_CHARACTER } from "@/store/queries/civ";
 
 export default {
-  name: 'License',
+  name: "License",
   components: {
     Flags
   },
   data() {
     return {
       processing: false,
-      licensestatus: 'Valid',
+      licensestatus: "Valid",
       commonLicenseStatus
     };
   },
@@ -153,7 +154,7 @@ export default {
           }
         })
         .then(r => {
-          this.$store.commit('character', r.data.editCharacter);
+          this.$store.commit("character", r.data.editCharacter);
           this.processing = false;
         })
         .catch(err => {
@@ -162,7 +163,7 @@ export default {
         });
     },
     editInfo() {
-      this.$router.push('/civ/edit');
+      this.$router.push("/civ/edit");
     }
   }
 };
@@ -206,8 +207,9 @@ table {
   border-collapse: collapse;
   border-radius: 10px;
   border-style: hidden; /* hide standard table (collapsed) border */
+  border-color: unset !important;
   box-shadow: 0 0 0 1px #000000; /* this draws the table border  */
-  background: url('../../assets/licensebg.png');
+  background: url("../../assets/licensebg.png");
   background-size: cover;
 }
 
@@ -232,7 +234,7 @@ td {
   border-radius: 0.25rem;
 }
 .signature {
-  font-family: 'Homemade Apple', cursive;
+  font-family: "Homemade Apple", cursive;
   text-align: center;
   font-size: 0.7rem;
   white-space: nowrap;
