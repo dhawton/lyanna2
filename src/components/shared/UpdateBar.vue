@@ -1,17 +1,17 @@
 <template>
-  <div v-if="updateReady" class="updateDiv" style="display: none;">
+  <div v-if="updateReady" class="updateDiv">
     Lyanna has received an upgrade. Finish what you're doing and refresh this screen to load the new
     changes.
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'UpdateBar',
+  name: "UpdateBar",
   computed: {
-    ...mapGetters(['updateReady'])
+    ...mapGetters(["updateReady"])
   }
 };
 </script>
