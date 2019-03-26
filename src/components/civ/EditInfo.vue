@@ -103,15 +103,10 @@
           <td>
             15
             <b class="label">SEX:</b>
-            <input
-              type="text"
-              id="gender"
-              v-model="character.gender"
-              class="small-select"
-              size="1"
-              maxsize="1"
-              required
-            >
+            <select v-model="character.gender" class="small-select" size="1" required>
+              <option>M</option>
+              <option>F</option>
+            </select>
             16
             <b class="label">HGT:</b>
             <select id="height_feet" v-model="character.height_feet" class="small-select">
