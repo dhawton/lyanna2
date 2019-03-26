@@ -1,12 +1,11 @@
 <template>
   <div>
-    <b-list-group v-if="isPrepared === true" :class="{ smallitem: tiny === 'true' }">
+    <b-list-group :class="{ smallitem: tiny === 'true' }">
       <b-list-group-item variant="danger" v-if="isFelon">Felon</b-list-group-item>
       <b-list-group-item variant="danger" v-if="isArmedAndDangerous">Armed And Dangerous</b-list-group-item>
       <b-list-group-item variant="danger" v-if="isWanted">Wanted</b-list-group-item>
       <b-list-group-item variant="warning" v-if="isRunner">Runner</b-list-group-item>
     </b-list-group>
-    <p v-else>Loading...</p>
   </div>
 </template>
 
@@ -15,7 +14,7 @@ export default {
   name: "Flags",
   data() {
     return {
-      isPrepared: false,
+      isready: false,
       isFelon: false,
       isArmedAndDangerous: false,
       isWanted: false,
@@ -72,43 +71,21 @@ export default {
             eluding += 1;
           }
         });
-        console.dir({
-          felony,
-          battery,
-          murder,
-          weapon,
-          escape,
-          eluding
-        });
       }
-    });
-    console.log("Checking");
-    console.dir({
-      felony,
-      battery,
-      murder,
-      weapon,
-      escape,
-      eluding
     });
     if (felony > 0) {
       this.isFelon = true;
-      console.log("Felon");
     }
     if ((battery > 0 || murder > 0) && weapon >= 1) {
       this.isArmedAndDangerous = true;
-      console.log("A&D");
     }
     if (warrant > 0) {
       this.isWanted = true;
-      console.log("WANTED");
     }
     if (eluding > 2 || escape > 0) {
       this.isRunner = true;
-      console.log("Runner");
     }
-    this.isPrepared = true;
-    console.log("Prepared");
+    this.isready = true;
   }
 };
 </script>

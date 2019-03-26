@@ -6,7 +6,13 @@
       </b-col>
     </b-row>
     <div v-else>
-      <License :documents="this.documents" :character="character"/>
+      <b-spinner
+        variant="primary"
+        style="width: 3rem; height: 3rem; align-self: center;"
+        class="align-center"
+        v-if="documents === undefined"
+      />
+      <License v-else :documents="this.documents" :character="character"/>
       <b-card no-body>
         <b-tabs content-class="mt-3">
           <b-tab title-link-class="titlegray" ref="records" title="Record" active>
@@ -202,6 +208,12 @@ export default {
 .card {
   background-color: unset;
   color: #fff;
+}
+
+.align-center {
+  align-self: center;
+  left: auto;
+  right: auto;
 }
 
 >>> .table {

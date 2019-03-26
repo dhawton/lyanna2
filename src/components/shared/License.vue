@@ -211,6 +211,8 @@ table {
   box-shadow: 0 0 0 1px #000000; /* this draws the table border  */
   background: url("../../assets/licensebg.png");
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top left;
 }
 
 .label {
