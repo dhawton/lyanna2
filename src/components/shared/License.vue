@@ -213,10 +213,6 @@ table {
   background-size: cover;
 }
 
-td {
-  border: 1px solid #ccc;
-}
-
 .label {
   color: rgba(200, 0, 0, 1);
 }
