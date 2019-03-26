@@ -25,14 +25,14 @@ const FireApparatus = () =>
   import(/* webpackChunkName: "Fire" */ "./components/fire/chgapparatus.vue");
 
 const MDT = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTCall = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTPC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTPCCharacter = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTVC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTChangeDept = () => import(/* webpackChunkName: "MDT1" */ "./components/leo/layout.vue");
-const MDTBOLOs = () => import(/* webpackChunkName: "MDT" */ "./components/leo/layout.vue");
-const MDTCases = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/layout.vue");
-const MDTCase = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/layout.vue");
+const MDTCall = () => import(/* webpackChunkName: "MDT" */ "./components/leo/cad.vue");
+const MDTPC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/personcheck.vue");
+const MDTPCCharacter = () => import(/* webpackChunkName: "MDT" */ "./components/leo/character.vue");
+const MDTVC = () => import(/* webpackChunkName: "MDT" */ "./components/leo/vehiclecheck.vue");
+const MDTChangeDept = () => import(/* webpackChunkName: "MDT1" */ "./components/leo/chgdept.vue");
+const MDTBOLOs = () => import(/* webpackChunkName: "MDT" */ "./components/leo/bolos.vue");
+const MDTCases = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/cases.vue");
+const MDTCase = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/viewcase.vue");
 
 const CAD = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/layout.vue");
 const CADCalls = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/calls.vue");
