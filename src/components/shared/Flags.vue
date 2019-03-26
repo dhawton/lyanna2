@@ -1,11 +1,12 @@
 <template>
   <div>
-    <b-list-group v-if="isPrepared" :class="{ smallitem: tiny === 'true' }">
+    <b-list-group v-if="isPrepared === true" :class="{ smallitem: tiny === 'true' }">
       <b-list-group-item variant="danger" v-if="isFelon">Felon</b-list-group-item>
       <b-list-group-item variant="danger" v-if="isArmedAndDangerous">Armed And Dangerous</b-list-group-item>
       <b-list-group-item variant="danger" v-if="isWanted">Wanted</b-list-group-item>
       <b-list-group-item variant="warning" v-if="isRunner">Runner</b-list-group-item>
     </b-list-group>
+    <p v-else>Loading...</p>
   </div>
 </template>
 
