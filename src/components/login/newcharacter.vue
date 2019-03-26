@@ -98,7 +98,7 @@
             <td>
               15
               <b class="label">SEX:</b>
-              <select v-model="character.gender" class="small-select" size="1" required>
+              <select v-model="gender" class="small-select" size="1" required>
                 <option>M</option>
                 <option>F</option>
               </select>
