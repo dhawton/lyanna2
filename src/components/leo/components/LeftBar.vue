@@ -14,7 +14,6 @@
         <b-nav-item to="/mdt/units" class="purewhite">Active Units</b-nav-item>
         <b-nav-item to="/mdt/dept" class="purewhite">Change Dept</b-nav-item>
         <b-nav-item to="/login/characters" class="purewhite">Change Character</b-nav-item>
-        <b-nav-item @click="testSocket">Test Cmd</b-nav-item>
       </b-nav>
     </div>
   </b-col>
@@ -27,13 +26,6 @@ export default {
     changeCharacter() {
       // Soon... need to signoff current character and then redirect to /login/characters
       // and update store information
-    },
-    testSocket() {
-      console.dir(this.$pusher);
-      console.dir(this.$store.getters.ws.server);
-      this.$store.getters.ws.server.trigger("client-test", {
-        msg: "hi"
-      });
     }
   }
 };
