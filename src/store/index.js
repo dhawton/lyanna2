@@ -3,8 +3,6 @@ import Vuex from "vuex";
 import axios from "axios";
 import { EventBus } from "../EventBus";
 
-Vue.config.devtools = true;
-
 Vue.use(Vuex, axios);
 
 export default new Vuex.Store({

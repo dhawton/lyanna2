@@ -19,8 +19,6 @@ import "./assets/app.scss";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "leaflet/dist/leaflet.css";
 
-Vue.config.devtools = true;
-
 // this part resolve an issue where the markers would not appear
 // eslint-disable-next-line no-underscore-dangle
 delete Icon.Default.prototype._getIconUrl;
