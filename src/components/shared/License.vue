@@ -15,7 +15,7 @@
             <img
               :src="
                 character.photo !== null
-                  ? character.photo
+                  ? `${character.photo}?v=${ new Date().getTime() }`
                   : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'
               "
               id="profilepic"

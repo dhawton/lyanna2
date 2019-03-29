@@ -101,9 +101,12 @@ const pusher = new Pusher(process.env.VUE_APP_PUSHER_APP_KEY, wsOptions);
 Vue.prototype.$pusher = pusher;
 Vue.pusher = pusher;
 
-new Vue({
-  apolloProvider,
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#lyanna");
+// eslint-disable-next-line no-restricted-globals
+if (location.origin.indexOf("nui://") !== -1) {
+  new Vue({
+    apolloProvider,
+    router,
+    store,
+    render: h => h(App)
+  }).$mount("#lyanna");
+}
