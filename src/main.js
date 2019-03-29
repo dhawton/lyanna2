@@ -102,7 +102,7 @@ Vue.prototype.$pusher = pusher;
 Vue.pusher = pusher;
 
 // eslint-disable-next-line no-restricted-globals
-if (location.origin.indexOf("nui://") !== -1) {
+if (location.origin.indexOf("nui://") === -1) {
   new Vue({
     apolloProvider,
     router,
