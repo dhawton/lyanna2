@@ -66,7 +66,8 @@ export default new Router({
     {
       path: "/logout",
       name: "Logout",
-      component: Logout
+      component: Logout,
+      beforeEnter: AuthGuard
     },
     {
       path: "/login/servers",

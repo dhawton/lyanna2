@@ -23,13 +23,13 @@ export default {
           window.localStorage.setItem("t", "");
           window.localStorage.setItem("te", "");
           this.$store.commit("loggedIn", false);
-          this.$router.go("/login"); // Reset state and websockets
+          this.$router.go("/"); // Reset state and websockets
         });
     } else {
       window.localStorage.setItem("t", "");
       window.localStorage.setItem("te", "");
       this.$store.commit("loggedIn", false);
-      this.$router.go("/login"); // Reset state and websockets
+      this.$router.go("/"); // Reset state and websockets
     }
   }
 };
