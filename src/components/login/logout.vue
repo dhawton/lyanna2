@@ -9,7 +9,7 @@ export default {
   name: "Logout",
   created() {
     if (
-      !["civ", "fire"].includes(this.department.role) &&
+      !["civ", "fire"].includes(this.$store.getters.department.role) &&
       this.$store.getters.signon !== undefined
     ) {
       this.$apollo
