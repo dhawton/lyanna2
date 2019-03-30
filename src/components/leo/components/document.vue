@@ -208,35 +208,36 @@
       body-text-variant="light"
       footer-bg-variant="dark"
       footer-text-variant="light"
-    >{{ errorModalText }}</b-modal>
+      v-html="errorModalText"
+    ></b-modal>
   </div>
 </template>
 
 <script>
-import { cities, agencyLongNames, agencyRoleToDB } from '@/utils/commondata';
-import { ISSUE_DOCUMENT } from '@/store/queries/legal';
+import { cities, agencyLongNames, agencyRoleToDB } from "@/utils/commondata";
+import { ISSUE_DOCUMENT } from "@/store/queries/legal";
 
 export default {
-  name: 'LEODocument',
-  props: ['character', 'documents'],
+  name: "LEODocument",
+  props: ["character", "documents"],
   data() {
     return {
       cities,
       agencyLongNames,
       fields: [
-        { key: 'code', label: 'Code', sortable: true, sortDirection: 'desc' },
-        { key: 'title', label: 'Title', sortable: true },
-        { key: 'type', label: 'Type', sortable: true },
-        { key: 'fine', label: 'Fine', sortable: true }
+        { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
+        { key: "title", label: "Title", sortable: true },
+        { key: "type", label: "Type", sortable: true },
+        { key: "fine", label: "Fine", sortable: true }
       ],
       items: [],
       currentPage: 1,
       perPage: 10,
       totalRows: 0,
       pageOptions: [5, 10, 15, 25, 50, 100],
-      sortBy: 'date',
+      sortBy: "date",
       sortDesc: false,
-      sortDirection: 'desc',
+      sortDirection: "desc",
       filter: null,
       modalLawsShow: false,
       errorModalText: undefined,
@@ -258,7 +259,7 @@ export default {
         return this.$store.state.forms.document.type;
       },
       set(value) {
-        this.$store.commit('formdocument', { type: value });
+        this.$store.commit("formdocument", { type: value });
       }
     },
     casenumber: {
@@ -266,7 +267,7 @@ export default {
         return this.$store.state.forms.document.casenumber;
       },
       set(value) {
-        this.$store.commit('formdocument', { casenumber: value });
+        this.$store.commit("formdocument", { casenumber: value });
       }
     },
     character_id: {
@@ -274,7 +275,7 @@ export default {
         return this.$store.state.forms.document.character_id;
       },
       set(value) {
-        this.$store.commit('formdocument', { character_id: value });
+        this.$store.commit("formdocument", { character_id: value });
       }
     },
     licenseplate: {
@@ -282,7 +283,7 @@ export default {
         return this.$store.state.forms.document.licenseplate;
       },
       set(value) {
-        this.$store.commit('formdocument', { licenseplate: value });
+        this.$store.commit("formdocument", { licenseplate: value });
       }
     },
     make: {
@@ -290,7 +291,7 @@ export default {
         return this.$store.state.forms.document.make;
       },
       set(value) {
-        this.$store.commit('formdocument', { make: value });
+        this.$store.commit("formdocument", { make: value });
       }
     },
     model: {
@@ -298,7 +299,7 @@ export default {
         return this.$store.state.forms.document.model;
       },
       set(value) {
-        this.$store.commit('formdocument', { model: value });
+        this.$store.commit("formdocument", { model: value });
       }
     },
     color: {
@@ -306,7 +307,7 @@ export default {
         return this.$store.state.forms.document.color;
       },
       set(value) {
-        this.$store.commit('formdocument', { color: value });
+        this.$store.commit("formdocument", { color: value });
       }
     },
     address: {
@@ -314,7 +315,7 @@ export default {
         return this.$store.state.forms.document.address;
       },
       set(value) {
-        this.$store.commit('formdocument', { address: value });
+        this.$store.commit("formdocument", { address: value });
       }
     },
     city: {
@@ -322,7 +323,7 @@ export default {
         return this.$store.state.forms.document.city;
       },
       set(value) {
-        this.$store.commit('formdocument', { city: value });
+        this.$store.commit("formdocument", { city: value });
       }
     },
     violations: {
@@ -330,7 +331,7 @@ export default {
         return this.$store.state.forms.document.violations;
       },
       set(value) {
-        this.$store.commit('formdocument', { violations: value });
+        this.$store.commit("formdocument", { violations: value });
       }
     }
   },
@@ -338,50 +339,50 @@ export default {
     rowSelected(row) {
       const v = row[0];
       let previous = 0;
-      if (v.code.toUpperCase() === '625 SACS 5/11-204(C)') {
-        previous = this.previousCheck('625 sacs 5/11-204(a)');
+      if (v.code.toUpperCase() === "625 SACS 5/11-204(C)") {
+        previous = this.previousCheck("625 sacs 5/11-204(a)");
         if (previous < 2) {
           this.errorModalText = `They are not eligible for that violation unless they have received a minimum of 2 violations of 625 SACS 5/11-204(a). They current have ${previous} violations.`;
           this.modelErrorShow = true;
           return;
         }
       }
-      if (v.code.toUpperCase() === '625 SACS 5/11-204(A)') {
-        previous = this.previousCheck('625 sacs 5/11-204(a)');
+      if (v.code.toUpperCase() === "625 SACS 5/11-204(A)") {
+        previous = this.previousCheck("625 sacs 5/11-204(a)");
         if (previous >= 2) {
           this.errorModalText = `They are not eligible for that violation as they have at least 2 convictions of 625 SACS 5/11-204(a). Third and subsequent violations are 625 SACS 5/11-204(C) violations.`;
           this.modelErrorShow = true;
           return;
         }
       }
-      if (v.code.toLowerCase() === '625 sacs 5/11-506(d)(1)') {
-        previous = this.previousCheck('625 sacs 5/11-506(a)');
+      if (v.code.toLowerCase() === "625 sacs 5/11-506(d)(1)") {
+        previous = this.previousCheck("625 sacs 5/11-506(a)");
         if (previous === 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(1), section (d)(1) is only applicable on a <u>second or subsequent violation</u> of section (a). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
+          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(1), section (d)(1) is only applicable on a <u>second or subsequent violation</u> of section (a), so they should be charged under Section (a). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
           this.modelErrorShow = true;
           return;
         }
       }
-      if (v.code.toLowerCase() === '625 sacs 5/11-506(a)') {
-        previous = this.previousCheck('625 sacs 5/11-506(a)');
+      if (v.code.toLowerCase() === "625 sacs 5/11-506(a)") {
+        previous = this.previousCheck("625 sacs 5/11-506(a)");
         if (previous > 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(1), section (d)(1) is applicable on a <u>second or subsequent violation</u> of section (a). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
+          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(1), section (d)(1) is applicable on a <u>second or subsequent violation</u> of section (a), so they should be charged under Section (d)(1). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
           this.modelErrorShow = true;
           return;
         }
       }
-      if (v.code.toLowerCase() === '625 sacs 5/11-506(d)(2)') {
-        previous = this.previousCheck('625 sacs 5/11-506(b)');
+      if (v.code.toLowerCase() === "625 sacs 5/11-506(d)(2)") {
+        previous = this.previousCheck("625 sacs 5/11-506(b)");
         if (previous === 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(2), section (d)(2) is only applicable on a <u>second or subsequent violation</u> of section (b). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
+          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(2), section (d)(2) is only applicable on a <u>second or subsequent violation</u> of section (b), so they should be charged under Section (b). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
           this.modelErrorShow = true;
           return;
         }
       }
-      if (v.code.toLowerCase() === '625 sacs 5/11-506(b)') {
-        previous = this.previousCheck('625 sacs 5/11-506(b)');
+      if (v.code.toLowerCase() === "625 sacs 5/11-506(b)") {
+        previous = this.previousCheck("625 sacs 5/11-506(b)");
         if (previous >= 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(2), section (d)(2) is applicable on a <u>second or subsequent violation</u> of section (b). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
+          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(2), section (d)(2) is applicable on a <u>second or subsequent violation</u> of section (b), so they should be charged under Section (d)(2). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
           this.modelErrorShow = true;
           return;
         }
@@ -418,7 +419,7 @@ export default {
         this.violations === null
       ) {
         this.errorModalText =
-          'Document Type, Address, City and Violations cannot be blank.';
+          "Document Type, Address, City and Violations cannot be blank.";
         this.modelErrorShow = true;
         return;
       }
@@ -427,7 +428,7 @@ export default {
         !this.address.match(/[A-Za-z 0-9]+ and [A-za-z 0-9]/g) &&
         !this.address.match(/Route|highway \d+ Mile \d+/g)
       ) {
-        this.errorModalText = 'The address is not formatted correctly';
+        this.errorModalText = "The address is not formatted correctly";
         this.modelErrorShow = true;
         return;
       }
@@ -438,7 +439,7 @@ export default {
         this.violations === undefined
       ) {
         this.errorModalText =
-          'Document Type, Address, City and Violations cannot be blank.';
+          "Document Type, Address, City and Violations cannot be blank.";
         this.modelErrorShow = true;
         return;
       }
@@ -462,7 +463,7 @@ export default {
             violations: JSON.stringify(this.violations),
             fine: this.fineAmt,
             casenumber: this.casenumber,
-            warrant_active: this.type === 'Warrant' ? true : null
+            warrant_active: this.type === "Warrant" ? true : null
           }
         })
         .then(() => {
@@ -476,7 +477,7 @@ export default {
           this.violations = [];
           this.casenumber = undefined;
           this.fine = 0;
-          this.$emit('has-issued');
+          this.$emit("has-issued");
         });
     },
     previousCheck(match) {
