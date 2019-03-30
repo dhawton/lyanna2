@@ -71,3 +71,25 @@ export const ISSUE_DOCUMENT = gql`
     }
   }
 `;
+
+export const DEACTIVATE_WARRANT = gql`
+  mutation($id: String!) {
+    DeactivateWarrant(id: $id) {
+      id
+      type
+      agency
+      issuer
+      casenumber
+      licenseplate
+      make
+      model
+      color
+      address
+      city
+      violations
+      fine
+      warrant_active
+      created_at
+    }
+  }
+`;

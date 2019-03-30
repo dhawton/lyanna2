@@ -28,6 +28,32 @@
       :sort-direction="sortDirection"
       @filtered="onFiltered"
     >
+      <template slot="type" slot-scope="row">
+        <div v-if="row.item.type !== 'Warrant'">{{row.item.type}}</div>
+        <div v-else>
+          <span v-if="row.item.type === 'Warrant' && !row.item.warrant_active">
+            <i>Warrant Inactive</i>
+          </span>
+          <span v-else>
+            <b style="color: #ff0000;">Warrant Active</b>
+            <div
+              v-if="['highway','sheriff','police','intel'].includes($store.getters.department.role)"
+            >
+              <br>
+              <b-button
+                size="sm"
+                variant="danger"
+                @click="deactivateWarrant(row.item.id)"
+                v-if="!processing"
+              >Deactivate</b-button>
+              <b-button size="sm" variant="danger" v-else>
+                <b-spinner/>
+              </b-button>
+            </div>
+          </span>
+        </div>
+      </template>
+
       <template slot="agency" slot-scope="data" v-bind:commonAgencies="commonAgencies">
         {{ data.item.issuer }}
         <br>
@@ -68,6 +94,8 @@
 
 <script>
 import { agencies } from "@/utils/commondata";
+import { DEACTIVATE_WARRANT } from "@/store/queries/legal";
+import { EventBus } from "@/EventBus";
 
 export default {
   name: "Record",
@@ -100,10 +128,11 @@ export default {
       sortDesc: false,
       sortDirection: "desc",
       filter: null,
-      modalInfo: { title: "", content: "" }
+      modalInfo: { title: "", content: "" },
+      processing: false
     };
   },
-  props: ["items"],
+  props: ["items", "charid"],
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -124,6 +153,19 @@ export default {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
+    },
+    deactivateWarrant(id) {
+      this.processing = true;
+      this.$apollo
+        .mutate({
+          mutation: DEACTIVATE_WARRANT,
+          variables: {
+            id
+          }
+        })
+        .then(() => {
+          EventBus.$emit("record-update");
+        });
     }
   }
 };

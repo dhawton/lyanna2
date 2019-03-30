@@ -12,7 +12,7 @@
         class="align-center"
         v-if="documents === undefined"
       />
-      <License v-else :documents="this.documents" :character="character"/>
+      <License v-else :documents="documents" :character="character" :key="number"/>
       <b-card no-body>
         <b-tabs content-class="mt-3">
           <b-tab title-link-class="titlegray" ref="records" title="Record" active>
@@ -21,7 +21,7 @@
               style="width: 3rem; height: 3rem;"
               v-if="documents === undefined"
             />
-            <Record v-else v-bind:items="documents"/>
+            <Record v-else v-bind:items="documents" :charid="character.idnumber"/>
           </b-tab>
           <b-tab title-link-class="titlegray" title="New Document">
             <Document
@@ -69,6 +69,7 @@ import Document from "@/components/leo/components/document";
 import { SEARCH_CHARACTERS, GET_CHARACTER_VEHICLES } from "@/store/queries/civ";
 import { GET_CHARACTER_DOCUMENTS } from "@/store/queries/legal";
 import { mapGetters } from "vuex";
+import { EventBus } from "@/EventBus";
 
 export default {
   data() {
@@ -78,7 +79,8 @@ export default {
       documents: undefined,
       updateRecordTimer: undefined,
       updateVehicleTimer: undefined,
-      vehicles: undefined
+      vehicles: undefined,
+      number: 0
     };
   },
   components: {
@@ -105,8 +107,12 @@ export default {
       // We got a direct query
       this.loadUser(this.idnumber);
     }
-    this.updateRecordTimer = setInterval(this.updateDocuments, 5 * 60 * 1000); // Every 5 minutes
+    this.updateRecordTimer = setInterval(this.updateDocuments, 1 * 60 * 1000); // Every 5 minutes
     this.updateVehicleTimer = setInterval(this.updateVehicles, 10 * 60 * 1000); // Every 10 minutes
+    EventBus.$on("record-update", () => {
+      this.updateDocuments();
+      this.updateVehicles();
+    });
   },
   beforeDestroy() {
     clearInterval(this.updateRecordTimer);
@@ -142,26 +148,40 @@ export default {
           }
         })
         .then(r => {
-          const docs = r.data.documentsByCharacter;
-          docs.forEach((v, i) => {
-            if (!Array.isArray(docs[i].violations)) {
-              docs[i].violations = JSON.parse(docs[i].violations);
+          r.data.documentsByCharacter.forEach((v, i) => {
+            if (typeof r.data.documentsByCharacter[i].violations !== "string") {
+              return;
             }
-            docs[i].violations.forEach((v2, i2) => {
+            if (typeof r.data.documentsByCharacter[i].violations === "string") {
+              r.data.documentsByCharacter[i].violations = JSON.parse(
+                r.data.documentsByCharacter[i].violations
+              );
+            }
+            r.data.documentsByCharacter[i].violations.forEach((v2, i2) => {
               if (typeof vs !== "string") {
-                docs[i].violations[i2] = `${v2.code} ${v2.title} [${v2.type}]`;
+                r.data.documentsByCharacter[i].violations[i2] = `${v2.code} ${
+                  v2.title
+                } [${v2.type}]`;
               }
             });
-            docs[i].violationList = docs[i].violations.join("<br/>");
-            let dt = new Date(docs[i].created_at).toLocaleString("en-US", {
+            r.data.documentsByCharacter[
+              i
+            ].violationList = r.data.documentsByCharacter[i].violations.join(
+              "<br/>"
+            );
+            let dt = new Date(
+              r.data.documentsByCharacter[i].created_at
+            ).toLocaleString("en-US", {
               timeZone: "America/Chicago",
               hour12: false
             });
             dt = dt.substr(0, dt.length - 3);
-            docs[i].created_at = dt.replace(",", "");
+            r.data.documentsByCharacter[i].created_at = dt.replace(",", "");
           });
-          this.documents = docs;
+          this.documents = undefined;
+          this.documents = r.data.documentsByCharacter;
           this.prepared = true;
+          this.number += 1;
         })
         .catch(err => {
           console.error(err);
