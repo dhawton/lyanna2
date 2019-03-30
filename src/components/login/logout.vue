@@ -8,19 +8,29 @@ import { SIGNOFF } from "@/store/queries/user";
 export default {
   name: "Logout",
   created() {
-    this.$apollo
-      .mutate({
-        mutation: SIGNOFF,
-        variables: {
-          id: this.$store.getters.signon.id
-        }
-      })
-      .then(() => {
-        window.localStorage.setItem("t", "");
-        window.localStorage.setItem("te", "");
-        this.$store.commit("loggedIn", false);
-        this.$router.push("/login");
-      });
+    if (
+      !["civ", "fire"].includes(this.department.role) &&
+      this.$store.getters.signon !== undefined
+    ) {
+      this.$apollo
+        .mutate({
+          mutation: SIGNOFF,
+          variables: {
+            id: this.$store.getters.signon.id
+          }
+        })
+        .then(() => {
+          window.localStorage.setItem("t", "");
+          window.localStorage.setItem("te", "");
+          this.$store.commit("loggedIn", false);
+          this.$router.push("/login");
+        });
+    } else {
+      window.localStorage.setItem("t", "");
+      window.localStorage.setItem("te", "");
+      this.$store.commit("loggedIn", false);
+      this.$router.push("/login");
+    }
   }
 };
 </script>
