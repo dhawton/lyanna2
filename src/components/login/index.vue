@@ -2,10 +2,12 @@
   <b-container fluid class="fill">
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
-        <b-img src="../../assets/logo_sq_white.png" fluid class="pb-2" />
+        <div style="width: 100%; text-align: center">
+          <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/>
+        </div>
         <b-card header="Lyanna Login">
           <div v-if="!prepared" class="text-center">
-            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
+            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
           </div>
           <div v-else-if="prepared && !myLoggedIn">
             <b-alert
@@ -13,9 +15,7 @@
               dismissible
               v-model="showDismissibleAlert"
               @dismissed="clearError"
-            >
-              Login failed. Please check your email address and password and try again.
-            </b-alert>
+            >Login failed. Please check your email address and password and try again.</b-alert>
             <b-form @submit.prevent="onSubmit">
               <b-form-group
                 id="fieldsetHorizontal"
@@ -44,7 +44,9 @@
                 />
               </b-form-group>
               <b-button v-if="!loggingIn" type="submit" variant="black" block>Submit</b-button>
-              <b-button v-else variant="black" block disabled><b-spinner small/></b-button>
+              <b-button v-else variant="black" block disabled>
+                <b-spinner small/>
+              </b-button>
             </b-form>
             <p class="mb-0">If you have forgotten your password, please contact HR.</p>
           </div>
@@ -55,12 +57,12 @@
 </template>
 
 <script>
-import { CHECK_AUTH, LOGIN } from '@/store/queries/user';
+import { CHECK_AUTH, LOGIN } from "@/store/queries/user";
 
 export default {
-  name: 'Login',
+  name: "Login",
   beforeCreate() {
-    document.body.className = 'login';
+    document.body.className = "login";
   },
   data() {
     return {
@@ -70,16 +72,17 @@ export default {
       error: undefined,
       showDismissibleAlert: false,
       form: {
-        email: '',
-        password: ''
+        email: "",
+        password: ""
       }
     };
   },
   created() {
     if (
-      window.localStorage.getItem('t') !== null &&
-      window.localStorage.getItem('te') !== null &&
-      Math.floor(new Date().getTime() / 1000) < window.localStorage.getItem('te') - 300
+      window.localStorage.getItem("t") !== null &&
+      window.localStorage.getItem("te") !== null &&
+      Math.floor(new Date().getTime() / 1000) <
+        window.localStorage.getItem("te") - 300
     ) {
       this.$apollo
         .query({
@@ -89,21 +92,21 @@ export default {
           if (r.data.me.id !== undefined) {
             this.prepared = true;
             this.myLoggedIn = true;
-            this.$store.commit('loggedIn', true);
-            this.$router.push('/login/servers');
+            this.$store.commit("loggedIn", true);
+            this.$router.push("/login/servers");
           }
         })
         .catch(() => {
           this.prepared = true;
           this.myLoggedIn = false;
-          window.localStorage.setItem('t', '');
-          window.localStorage.setItem('te', '');
+          window.localStorage.setItem("t", "");
+          window.localStorage.setItem("te", "");
         });
     } else {
       this.prepared = true;
       this.myLoggedIn = false;
-      window.localStorage.setItem('t', '');
-      window.localStorage.setItem('te', '');
+      window.localStorage.setItem("t", "");
+      window.localStorage.setItem("te", "");
     }
   },
   methods: {
@@ -115,18 +118,18 @@ export default {
           variables: { email: this.form.email, password: this.form.password }
         })
         .then(r => {
-          window.localStorage.setItem('t', r.data.Login.token);
-          window.localStorage.setItem('te', r.data.Login.expiresAt);
+          window.localStorage.setItem("t", r.data.Login.token);
+          window.localStorage.setItem("te", r.data.Login.expiresAt);
           this.myLoggedIn = true;
           this.loggingIn = false;
-          this.$store.commit('loggedIn', true);
-          this.$router.push('/login/servers');
+          this.$store.commit("loggedIn", true);
+          this.$router.push("/login/servers");
         })
         .catch(err => {
           this.error = err.debugMessage;
           this.showDismissibleAlert = true;
           this.loggingIn = false;
-          this.password = '';
+          this.password = "";
         });
     },
     clearError() {
