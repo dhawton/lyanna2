@@ -4,6 +4,7 @@ module.exports = {
     port: 8080,
     disableHostCheck: true
   },
+  productionSourceMap: false,
   chainWebpack: config => {
     config.module
       .rule("vue")
