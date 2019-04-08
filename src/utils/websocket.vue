@@ -42,6 +42,51 @@ export default {
             session_identifier: e.session_identifier,
             status: e.status
           });
+          if (e.dept.role !== this.$store.getters.department.role) {
+            // Department has changed...
+            if (
+              ["police", "highway", "sheriff", "intel"].includes(e.dept.role) &&
+              !["police", "highway", "sheriff", "intel"].includes(
+                this.$store.department.role
+              )
+            ) {
+              // they logged in as leo elsewhere
+              this.$store.commit("department", e.dept);
+              this.$store.commit("unit", e);
+              this.$router.push({ path: "/mdt" });
+              return;
+            }
+            if (
+              e.dept.role === "dispatch" &&
+              this.$store.department.role !== "dispatch"
+            ) {
+              // they logged in as dispatch elsewhere
+              this.$store.commit("department", e.dept);
+              this.$store.commit("unit", e);
+              this.$router.push({ path: "/cad" });
+              return;
+            }
+            if (
+              e.dept.role === "civ" &&
+              this.$store.department.role !== "civ"
+            ) {
+              // they logged in as civ elsewhere
+              this.$store.commit("department", e.dept);
+              this.$store.commit("unit", e);
+              this.$router.push({ path: "/civ" });
+              return;
+            }
+            if (
+              e.dept.role === "fire" &&
+              this.$store.department.role !== "fire"
+            ) {
+              // they logged in as dispatch elsewhere
+              this.$store.commit("department", e.dept);
+              this.$store.commit("unit", e);
+              this.$router.push({ path: "/fire" });
+              return;
+            }
+          }
           this.$store.commit("department", e.dept);
         }
         this.$store.commit("unit", e);
