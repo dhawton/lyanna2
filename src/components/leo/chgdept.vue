@@ -68,8 +68,8 @@ export default {
         .mutate({
           mutation: CHANGE_SIGNON,
           variables: {
-            id: this.signon.id,
-            identifier: this.prefix + this.identifier,
+            identifier: this.signon.identifier,
+            new_identifier: this.prefix + this.identifier,
             dept: this.dept
           }
         })

@@ -174,7 +174,7 @@ export default {
             this.units.forEach(v => {
               if (v.session_identifier === args[0]) {
                 // eslint-disable-next-line prefer-destructuring
-                id = v.id;
+                id = v.identifier;
               }
             });
             if (!id) {
@@ -183,7 +183,7 @@ export default {
               this.$apollo.mutate({
                 mutation: SIGNOFF,
                 variables: {
-                  id
+                  identifier: id
                 }
               });
               msgs.push(`[${line}] OK!`);
@@ -197,7 +197,7 @@ export default {
             this.units.forEach(v => {
               if (v.session_identifier === args[0]) {
                 // eslint-disable-next-line prefer-destructuring
-                id = v.id;
+                id = v.identifier;
               }
             });
             if (!id) {
@@ -206,7 +206,7 @@ export default {
               this.$apollo.mutate({
                 mutation: CHANGE_IDENTIFIER,
                 variables: {
-                  id,
+                  identifier: id,
                   new_identifier: args[2]
                 }
               });

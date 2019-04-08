@@ -87,17 +87,23 @@ const wsOptions = {
     headers: {
       Authorization: `Bearer ${window.localStorage.getItem("t")}`
     }
-  }
+  },
+  cluster: null
 };
 if (process.env.NODE_ENV === "production") {
   wsOptions.wssPort = 6003;
-  wsOptions.transport = ["wss", "ws"];
+  wsOptions.enabledTransports = ["wss", "ws"];
   wsOptions.encrypted = true;
 } else {
-  wsOptions.transport = ["ws"];
+  wsOptions.enabledTransports = ["ws"];
   wsOptions.encrypted = false;
 }
 const pusher = new Pusher(process.env.VUE_APP_PUSHER_APP_KEY, wsOptions);
+Pusher.log = message => {
+  if (window.console && window.console.log) {
+    window.console.log(message);
+  }
+};
 Vue.prototype.$pusher = pusher;
 Vue.pusher = pusher;
 
