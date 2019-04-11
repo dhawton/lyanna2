@@ -51,25 +51,12 @@
       <tr>
         <td colspan="2">
           <p>
-            The Undersigned states that the Defendant, upon a Public Highway or other location, specifically
+            The Undersigned states that the Defendant at specifically
             <br>
             <input type="text" v-model="address" placeholder="Address">
             in the city of
             <select v-model="city">
-              <option>Chumash</option>
-              <option>Grapeseed</option>
-              <option>Harmony</option>
-              <option selected>Los Santos</option>
-              <option>Mirror Park</option>
-              <option>Paleto Bay</option>
-              <option>Port of Los Santos</option>
-              <option>Rockford Hills</option>
-              <option>Sandy Shores</option>
-              <option>Unincorporated Blaine County</option>
-              <option>Vespucci</option>
-              <option>Vinewood</option>
-              <option>Vinewood Hills</option>
-              <option>Zancudo</option>
+              <option v-for="city in cities" :key="city">{{ city }}</option>
             </select> did, then and there, commit the following offense(s):
           </p>
         </td>
@@ -108,14 +95,52 @@
         </td>
       </tr>
       <tr>
+        <td
+          colspan="2"
+        >Under penalties as provided by law for false certification, the undersigned certifies that the statements set forth in this instrument are true and correct.</td>
+      </tr>
+      <tr>
         <td colspan="2">
-          Under penalties as provided by law for false certification to Section 1-109 of the Code of Civil Procedure and perjury pursuant to Section 32-2 of the Criminal Code of
-          2019, the undersigned certifies that the statements set forth in this instrument are true and correct.
+          Narrative:
+          <textarea v-model="narrative" rows="5" style="width: 100%;"></textarea>
+        </td>
+      </tr>
+      <tr v-if="type === 'Arrest'">
+        <td colspan="2">
+          Plea:
+          <select v-model="plea">
+            <option>Innocent</option>
+            <option>No Contest</option>
+            <option>Guilty</option>
+          </select>
+        </td>
+      </tr>
+      <tr v-if="type === 'Arrest' && plea === 'Innocent'">
+        <td colspan="2">Bail: ${{bail}}</td>
+      </tr>
+      <tr v-if="type === 'Arrest' && (plea === 'Guilty' || plea === 'No Contest')">
+        <td colspan="2">
+          Fine: ${{compfine}}
+          <br>
+          <u>or</u>
+          <br>
+          Time: {{time[0]}} years
+          <span v-if="time[1] > 0">and a fine of ${{time[1]}}</span>
+        </td>
+      </tr>
+      <tr v-if="type === 'Arrest' && (plea === 'Guilty' || plea === 'No Contest')">
+        <td colspan="2">
+          Restitution Type:
+          <select v-model="restitution" @change="reschange">
+            <option>Fine</option>
+            <option>Time</option>
+          </select>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <button class="btn btn-primary" @click="issue">Certify and Submit</button>
+          <button class="btn btn-primary" @click="issue" v-if="isDocumentReady()">Certify and Submit</button>
+          <button class="btn btn-primary" v-else disabled>Certify and Submit</button>
         </td>
       </tr>
       <tr>
@@ -214,7 +239,14 @@
 </template>
 
 <script>
-import { cities, agencyLongNames, agencyRoleToDB } from "@/utils/commondata";
+import {
+  cities,
+  offenseToBail,
+  offenseToFine,
+  offenseToTime,
+  agencyLongNames,
+  agencyRoleToDB
+} from "@/utils/commondata";
 import { ISSUE_DOCUMENT } from "@/store/queries/legal";
 
 export default {
@@ -333,61 +365,77 @@ export default {
       set(value) {
         this.$store.commit("formdocument", { violations: value });
       }
+    },
+    narrative: {
+      get() {
+        return this.$store.state.forms.document.narrative;
+      },
+      set(value) {
+        this.$store.commit("formdocument", { narrative: value });
+      }
+    },
+    plea: {
+      get() {
+        return this.$store.state.forms.document.plea;
+      },
+      set(value) {
+        this.$store.commit("formdocument", { plea: value });
+      }
+    },
+    restitution: {
+      get() {
+        return this.$store.state.forms.document.restitution;
+      },
+      set(value) {
+        this.$store.commit("formdocument", { restitution: value });
+      }
+    },
+    restitution_amount: {
+      get() {
+        return this.$store.state.forms.document.restitution_amount;
+      },
+      set(value) {
+        this.$store.commit("formdocument", { restitution_amount: value });
+      }
+    },
+    bail() {
+      let bail = 0;
+      this.violations.forEach(v => {
+        if (v.type === "I") {
+          bail += v.fine;
+        } else {
+          bail += offenseToBail[v.type];
+        }
+      });
+      return bail;
+    },
+    compfine() {
+      let fine = 0;
+      this.violations.forEach(v => {
+        if (v.type === "I") {
+          fine += v.fine;
+        } else {
+          fine += offenseToFine[v.type];
+        }
+      });
+      return fine;
+    },
+    time() {
+      let time = 0;
+      let fine = 0;
+      this.violations.forEach(v => {
+        if (v.type === "I") {
+          fine += v.fine;
+        } else {
+          time += offenseToTime[v.type];
+        }
+      });
+      return [time, fine];
     }
   },
   methods: {
     rowSelected(row) {
       const v = row[0];
-      let previous = 0;
-      if (v.code.toUpperCase() === "625 SACS 5/11-204(C)") {
-        previous = this.previousCheck("625 sacs 5/11-204(a)");
-        if (previous < 2) {
-          this.errorModalText = `They are not eligible for that violation unless they have received a minimum of 2 violations of 625 SACS 5/11-204(a). They current have ${previous} violations.`;
-          this.modelErrorShow = true;
-          return;
-        }
-      }
-      if (v.code.toUpperCase() === "625 SACS 5/11-204(A)") {
-        previous = this.previousCheck("625 sacs 5/11-204(a)");
-        if (previous >= 2) {
-          this.errorModalText = `They are not eligible for that violation as they have at least 2 convictions of 625 SACS 5/11-204(a). Third and subsequent violations are 625 SACS 5/11-204(C) violations.`;
-          this.modelErrorShow = true;
-          return;
-        }
-      }
-      if (v.code.toLowerCase() === "625 sacs 5/11-506(d)(1)") {
-        previous = this.previousCheck("625 sacs 5/11-506(a)");
-        if (previous === 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(1), section (d)(1) is only applicable on a <u>second or subsequent violation</u> of section (a), so they should be charged under Section (a). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
-          this.modelErrorShow = true;
-          return;
-        }
-      }
-      if (v.code.toLowerCase() === "625 sacs 5/11-506(a)") {
-        previous = this.previousCheck("625 sacs 5/11-506(a)");
-        if (previous > 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(1), section (d)(1) is applicable on a <u>second or subsequent violation</u> of section (a), so they should be charged under Section (d)(1). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
-          this.modelErrorShow = true;
-          return;
-        }
-      }
-      if (v.code.toLowerCase() === "625 sacs 5/11-506(d)(2)") {
-        previous = this.previousCheck("625 sacs 5/11-506(b)");
-        if (previous === 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(2), section (d)(2) is only applicable on a <u>second or subsequent violation</u> of section (b), so they should be charged under Section (b). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
-          this.modelErrorShow = true;
-          return;
-        }
-      }
-      if (v.code.toLowerCase() === "625 sacs 5/11-506(b)") {
-        previous = this.previousCheck("625 sacs 5/11-506(b)");
-        if (previous >= 0) {
-          this.errorModalText = `The subject is not subject to that charge. Pursuant to 625 SACS 5/11-506(d)(2), section (d)(2) is applicable on a <u>second or subsequent violation</u> of section (b), so they should be charged under Section (d)(2). They have ${previous} violations. For more information, please consult the San Andreas Compiled Statutes and/or the LEO Statute Cheat Sheet.`;
-          this.modelErrorShow = true;
-          return;
-        }
-      }
-
       if (v.fine !== null) {
         this.fineAmt += v.fine;
       }
@@ -398,8 +446,6 @@ export default {
       }, 200);
     },
     onFiltered(filteredItems) {
-      console.dir(filteredItems);
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
@@ -410,13 +456,71 @@ export default {
 
       this.violations.splice(index, 1);
     },
+    reschange() {
+      if (this.restitution === "Time") {
+        this.restitution_amount = this.time;
+      } else if (this.restitution === "Fine") {
+        this.restitution_amount = this.compfine;
+      } else {
+        this.restitution_amount = 0;
+      }
+    },
+    isDocumentReady() {
+      if (
+        this.address === null ||
+        this.type === null ||
+        this.city === null ||
+        this.address === null ||
+        this.violations === null ||
+        this.violations.length === 0
+      ) {
+        return false;
+      }
+      if (
+        !this.address.match(/(\d+) (.+)/g) &&
+        !this.address.match(/[A-Za-z 0-9]+ and [A-za-z 0-9]/g) &&
+        !this.address.match(/Route|highway \d+ Mile \d+/g)
+      ) {
+        return false;
+      }
+      if (
+        this.type === undefined ||
+        this.city === undefined ||
+        this.address === undefined ||
+        this.violations === undefined
+      ) {
+        return false;
+      }
+      if (this.type === "Citation" || this.type === "Warning") {
+        let hasNonInfractions = false;
+        this.violations.forEach(v => {
+          if (v.type !== "I") hasNonInfractions = true;
+        });
+        if (hasNonInfractions) {
+          return false;
+        }
+      }
+      if (this.type === "Arrest") {
+        if (
+          this.plea === null ||
+          (this.plea !== "Innocent" &&
+            (this.restitution === null ||
+              this.restitution_amount === null ||
+              this.restitution_amount === 0))
+        ) {
+          return false;
+        }
+      }
+      return true;
+    },
     issue() {
       if (
         this.address === null ||
         this.type === null ||
         this.city === null ||
         this.address === null ||
-        this.violations === null
+        this.violations === null ||
+        this.violations.length === 0
       ) {
         this.errorModalText =
           "Document Type, Address, City and Violations cannot be blank.";
@@ -443,6 +547,32 @@ export default {
         this.modelErrorShow = true;
         return;
       }
+      if (this.type === "Citation" || this.type === "Warning") {
+        let hasNonInfractions = false;
+        this.violations.forEach(v => {
+          if (v.type !== "I") hasNonInfractions = true;
+        });
+        if (hasNonInfractions) {
+          this.errorModalText =
+            "You cannot issue a written warning or citation for non-infractions.";
+          this.modelErrorShow = true;
+          return;
+        }
+      }
+      if (this.type === "Arrest") {
+        if (
+          this.plea === null ||
+          (this.plea !== "Innocent" &&
+            (this.restitution === null ||
+              this.restitution_amount === null ||
+              this.restitution_amount === 0))
+        ) {
+          this.errorModalText =
+            "On arrests, plea and restitution cannot be left blank.";
+          this.modelErrorShow = true;
+          return;
+        }
+      }
       const issuer = `${this.$store.getters.signon.session_identifier} - ${
         this.$store.getters.signon.session_name
       }`;
@@ -463,7 +593,12 @@ export default {
             violations: JSON.stringify(this.violations),
             fine: this.fineAmt,
             casenumber: this.casenumber,
-            warrant_active: this.type === "Warrant" ? true : null
+            warrant_active: this.type === "Warrant" ? true : null,
+            narrative: this.narrative,
+            plea: this.plea,
+            restitution: this.restitution,
+            restitution_amount:
+              this.plea !== "Innocent" ? this.restitution_amount : this.bail
           }
         })
         .then(() => {
@@ -476,6 +611,10 @@ export default {
           this.city = undefined;
           this.violations = [];
           this.casenumber = undefined;
+          this.plea = null;
+          this.restitution = null;
+          this.narrative = null;
+          this.restitution_amount = null;
           this.fine = 0;
           this.$emit("has-issued");
         });

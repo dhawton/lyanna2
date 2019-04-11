@@ -1,20 +1,57 @@
 export const licensestatus = ["Valid", "Suspended", "Revoked", "Learner's Permit", "ID Card"];
 
+export const offenseToFine = {
+  FU: 250000,
+  FA: 150000,
+  FB: 75000,
+  FC: 50000,
+  MA: 25000,
+  MB: 2000
+};
+
+export const offenseToBail = {
+  FU: offenseToFine.FU * 0.25,
+  FA: offenseToFine.FA * 0.25,
+  FB: offenseToFine.FB * 0.25,
+  FC: offenseToFine.FC * 0.25,
+  MA: offenseToFine.MA * 0.25,
+  MB: offenseToFine.MB * 0.25
+};
+
+export const offenseToTime = {
+  FU: 15,
+  FA: 9,
+  FB: 5,
+  FC: 3,
+  MA: 2,
+  MB: 1
+};
+
 export const cities = [
   "Chumash",
+  "Davis",
+  "Del Perro",
+  "Del Perro Beach",
+  "Downtown",
+  "Downtown Vinewood",
+  "East Vinewood",
+  "El Burro Heights",
+  "Fort Zancudo",
   "Grapeseed",
   "Harmony",
+  "La Mesa",
+  "La Puerta",
+  "Little Seoul",
   "Los Santos",
   "Mirror Park",
   "Paleto Bay",
   "Port of Los Santos",
   "Rockford Hills",
   "Sandy Shores",
-  "Unincorporated Blaine County",
+  "Unincorporated Blaine Borough",
   "Vespucci",
   "Vinewood",
-  "Vinewood Hills",
-  "Zancudo"
+  "Vinewood Hills"
 ];
 
 export const citiesUpper = () => {
@@ -35,10 +72,10 @@ export const agencies = {
 };
 
 export const agencyLongNames = {
-  highway: "San Andreas State Police",
-  sheriff: "Blaine County Sheriff's Office",
-  police: "Los Santos Police Department",
-  intel: "San Andreas Department of Intelligence"
+  highway: "San Andreas State Troopers",
+  sheriff: "Blaine Borough Police",
+  police: "Los Santos Police",
+  intel: "San Andreas Department of Investigations"
 };
 
 export const agencyRoleToDB = {
@@ -46,20 +83,20 @@ export const agencyRoleToDB = {
   state: "State",
   sheriff: "Sheriff",
   police: "Police",
-  intel: "Intelligence"
+  intel: "Investigations"
 };
 
 export const agencyAbbreviations = {
   police: "LSPD",
-  sheriff: "BCSO",
-  highway: "SASP",
+  sheriff: "BBPD",
+  highway: "SAST",
   intel: "SADI",
   fire: "SAFD"
 };
 
 export const agencySuperShort = {
   police: "PD",
-  sheriff: "BC",
+  sheriff: "BB",
   highway: "SP",
   intel: "DI",
   fire: "FD"

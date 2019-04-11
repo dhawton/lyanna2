@@ -63,7 +63,11 @@ export default new Vuex.Store({
         color: null,
         address: null,
         city: null,
-        violations: []
+        violations: [],
+        narrative: null,
+        plea: null,
+        restitution: null,
+        restitution_amount: null
       },
       newcall: {
         type: null,

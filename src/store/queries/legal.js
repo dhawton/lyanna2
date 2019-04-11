@@ -50,6 +50,10 @@ export const ISSUE_DOCUMENT = gql`
     $casenumber: String
     $fine: String
     $warrant_active: Boolean
+    $narrative: String
+    $plea: String
+    $restitution: String
+    $restitution_amount: String
   ) {
     IssueDocument(
       character_id: $character_id
@@ -66,6 +70,10 @@ export const ISSUE_DOCUMENT = gql`
       casenumber: $casenumber
       fine: $fine
       warrant_active: $warrant_active
+      narrative: $narrative
+      restitution: $restitution
+      plea: $plea
+      restitution_amount: $restitution_amount
     ) {
       id
     }
