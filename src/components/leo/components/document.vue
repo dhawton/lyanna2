@@ -591,7 +591,7 @@ export default {
             city: this.city,
             issuer,
             violations: JSON.stringify(this.violations),
-            fine: this.fineAmt,
+            fine: this.compfine,
             casenumber: this.casenumber,
             warrant_active: this.type === "Warrant" ? true : null,
             narrative: this.narrative,
