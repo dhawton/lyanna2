@@ -5,11 +5,18 @@
         <b-nav-item v-if="channelHeld === true">
           <b-button variant="danger" block>Channel Held</b-button>
         </b-nav-item>
-        <b-nav-item class="purewhite text-center">Department
+        <b-nav-item class="purewhite text-center">
+          Unit number
+          <br>
+          <span class="text-info">{{ signon.session_identifier }}</span>
+        </b-nav-item>
+        <b-nav-item class="purewhite text-center">
+          Department
           <br>
           <span class="text-info">{{ agencyAbbreviations[department.role] }}</span>
         </b-nav-item>
-        <b-nav-item class="purewhite text-center">Status
+        <b-nav-item class="purewhite text-center">
+          Status
           <br>
           <span class="text-info">{{ signon.status }}</span>
         </b-nav-item>

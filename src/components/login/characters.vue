@@ -12,11 +12,15 @@
           <div v-else-if="prepared">
             <div v-if="!['civ','dispatch','fire'].includes(department.role)" class="mb-2">
               Unit Identifier
-              <select v-model="prefix" class="small-select">
+              {{ deptIdentifier }} -
+              <select
+                v-model="prefix"
+                class="small-select"
+              >
                 <option value selected>&nbsp;</option>
                 <option v-for="p in unitPrefixes" :key="p">{{ p }}</option>
               </select>
-              {{ me.identifier }}
+              - {{ ident }}
             </div>
             <b-list-group>
               <b-list-group-item
@@ -65,22 +69,34 @@ export default {
       prepared: false,
       characters: [],
       prefix: "",
-      unitPrefixes
+      unitPrefixes,
+      ident: 0
     };
   },
   computed: {
-    ...mapGetters(["department", "me", "server"])
+    ...mapGetters(["department", "me", "server"]),
+    deptIdentifier() {
+      if (
+        this.department.role === "intel" ||
+        this.department.role === "highway" ||
+        this.department.role === "state"
+      ) {
+        return 1;
+      }
+      if (this.department.role === "sheriff") return 5;
+      return 3;
+    }
   },
   created() {
-    /*     if (this.department.role === "police") this.prefix = "P";
-    if (this.department.role === "sheriff") this.prefix = "C";
-    if (
-      this.department.role === "highway" ||
-      this.department.role === "state"
-    ) {
-      this.prefix = "S";
-    } */
-    if (this.department.role === "intel") this.prefix = "I";
+    if (!/^\d+$/.test(this.me.identifier)) {
+      this.prefix = this.me.identifier.substring(0, 1);
+      this.ident = this.me.identifier.substring(1);
+    } else {
+      this.prefix = "P";
+      this.ident = this.me.identifier;
+      if (this.department.role === "intel") this.prefix = "I";
+    }
+
     this.$apollo
       .query({
         query: CIV_CHARACTER_LIST
@@ -121,6 +137,9 @@ export default {
               department: this.department.id,
               server: this.server.id,
               prefix: this.prefix,
+              session_identifier: `${this.deptIdentifier}-${this.prefix}-${
+                this.ident
+              }`,
               character_id: character.id
             }
           })

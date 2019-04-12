@@ -6,25 +6,12 @@
     <div v-if="!processing">
       <b-form @submit.prevent="doSearch">
         <b-form-row>
-          <b-form-group class="col-md-1" label="Unit Prefix" label-for="plate">
-            <b-select v-model="prefix">
-              <option value selected>&nbsp;</option>
-              <option v-for="p in unitPrefixes" :key="p">{{ p }}</option>
-            </b-select>
-          </b-form-group>
-          <b-form-group class="col-md-1" label="Identifier" label-for="plate">
+          <b-form-group class="col-md-2" label="Identifier" label-for="plate">
             <b-form-input v-model="identifier"/>
           </b-form-group>
-          <b-form-group class="col-md-8" label="Department" label-for="make">
+          <b-form-group class="col-md-10" label="Department" label-for="make">
             <b-select v-model="dept" @change="checkPrefix">
-              <option value="highway">San Andreas State Police</option>
-              <option value="sheriff">Blaine County Sheriff's Office</option>
-              <option value="police">Los Santos Police Department</option>
-              <option
-                value="intel"
-                v-if="hasRole('intel')"
-                @change="checkPrefix"
-              >San Andreas Department of Intelligence</option>
+              <option v-for="(agency, k) in agencyLongNames" :key="k" :value="k">{{ agency }}</option>
             </b-select>
           </b-form-group>
           <b-form-group class="col-md-2" style="margin-top: auto;">
@@ -38,7 +25,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { unitPrefixes } from "@/utils/commondata";
+import { unitPrefixes, agencyLongNames } from "@/utils/commondata";
 import { CHANGE_SIGNON } from "@/store/queries/user";
 
 export default {
@@ -49,11 +36,26 @@ export default {
       prefix: "",
       dept: "",
       identifier: "",
-      processing: false
+      processing: false,
+      agencyLongNames
     };
   },
   computed: {
-    ...mapGetters(["department", "me", "server", "signon", "roles"])
+    ...mapGetters(["department", "me", "server", "signon", "roles"]),
+    deptIdentifier() {
+      if (
+        this.dept === "intel" ||
+        this.dept === "highway" ||
+        this.dept === "state"
+      ) {
+        return 1;
+      }
+      if (this.dept === "sheriff") return 5;
+      return 3;
+    },
+    ident() {
+      return `${this.deptIdentifier}-${this.prefix}`;
+    }
   },
   methods: {
     hasRole(role) {
@@ -69,7 +71,7 @@ export default {
           mutation: CHANGE_SIGNON,
           variables: {
             identifier: this.signon.identifier,
-            new_identifier: this.prefix + this.identifier,
+            new_identifier: this.identifier,
             dept: this.dept
           }
         })
@@ -78,15 +80,28 @@ export default {
         });
     },
     checkPrefix() {
-      if (this.dept === "intel") {
-        this.prefix = "I";
+      let ident = this.signon.identifier;
+      if (!/^\d+$/.test(ident)) {
+        ident = ident.substring(1);
+        this.prefix = this.signon.identifier.substring(0, 1);
+      } else {
+        this.prefix = this.signon.session_identifier.substring(2, 3);
       }
+      this.identifier = `${this.deptIdentifier}-${this.prefix}-${ident}`;
+      console.log("Changing identifier");
     }
   },
   created() {
-    this.identifier = this.$store.state.identifier;
     this.dept = this.department.role;
-    this.prefix = this.signon.session_identifier.replace(this.identifier, "");
+    let ident = this.signon.identifier;
+    if (!/^\d+$/.test(ident)) {
+      ident = ident.substring(1);
+      this.prefix = this.signon.identifier.substring(0, 1);
+    } else {
+      this.prefix = this.signon.session_identifier.substring(2, 3);
+      console.log(this.prefix);
+    }
+    this.identifier = `${this.deptIdentifier}-${this.prefix}-${ident}`;
   }
 };
 </script>
