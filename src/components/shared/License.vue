@@ -4,14 +4,12 @@
       <Flags :documents="documents"/>
     </b-col>
     <b-col md="5">
-      <table class="table table-info table-sm table-borderless" style="color: #000 !important;">
+      <table
+        class="table table-info table-sm table-borderless licensetable licensebg2"
+        style="color: #000 !important;"
+      >
         <tr>
-          <td colspan="2">
-            <h3>San Andreas Department of Motor Vehicles</h3>
-          </td>
-        </tr>
-        <tr>
-          <td rowspan="6" style="width: 150px; text-align: center;">
+          <td rowspan="2" style="width: 100px; text-align: center; padding: 0;">
             <img
               :src="
                 character.photo !== null
@@ -19,7 +17,7 @@
                   : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'
               "
               id="profilepic"
-              style="width: 150px;"
+              style="width: 140px;"
               ref="pic"
             >
             <br>
@@ -27,66 +25,61 @@
               v-if="character.licensestatus != 'Valid'"
               class="label"
             >{{ character.licensestatus }}</h2>
+            <span class="signature">{{ character.firstname }} {{ character.lastname }}</span>
           </td>
-          <td>
-            4d
-            <b class="label">LIC NO:</b>
-            {{ character.idnumber }}
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b class="label">Status:</b>
-            {{ character.licensestatus }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            3
-            <b class="label">DOB:</b>
-            {{ character.dob }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            1
-            <b class="label">Last Name</b>
-            {{ character.lastname }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            2
-            <b class="label">First Name</b>
-            {{ character.firstname }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            8
-            <b class="label">Address</b>
-            {{ character.address }}
+          <td style="text-align: right;" class="licensebg">
+            <h1>San Andreas</h1>
             <br>
-            {{ character.city }}, SA
+            <span>
+              {{ licenseType }}
+              <br>
+              <b>{{ character.idnumber}}</b>
+            </span>
           </td>
         </tr>
         <tr>
-          <td>
-            15
-            <b class="label">SEX:</b>
-            {{ character.gender }} 16
-            <b class="label">HGT:</b>
-            {{ character.height_feet }}' {{ character.height_inches }}"
-          </td>
-        </tr>
-        <tr>
-          <td class="signature">{{ character.firstname }} {{ character.lastname }}</td>
-          <td>
-            17
-            <b class="label">WGT:</b>
-            {{ character.weight }} lbs 18
-            <b class="label">RCE:</b>
-            {{ character.race }}
-            19
-            <b class="label">HAIR:</b>
-            {{ character.haircolor }}
+          <td style="padding: 0;">
+            <table
+              border="0"
+              style="background: unset; color: #000; border: 0 !important; width: 100%;"
+            >
+              <tr>
+                <td>
+                  <b class="label">DATE OF BIRTH</b>
+                  <br>
+                  {{ character.dob }}
+                </td>
+                <td>
+                  <b class="label">SEX</b>
+                  <br>
+                  {{ character.gender }}
+                </td>
+                <td>
+                  <b class="label">HEIGHT</b>
+                  <br>
+                  {{ character.height_feet }}-{{ character.height_inches}}
+                </td>
+                <td>
+                  <b class="label">WEIGHT</b>
+                  <br>
+                  {{ character.weight}}
+                </td>
+                <td>
+                  <b class="label">HAIR</b>
+                  <br>
+                  {{ character.haircolor }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {{ character.firstname }} {{ character.lastname }}
+                  <br>
+                  {{ character.address }}
+                  <br>
+                  {{ character.city }}, SA
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         <tr v-if="showedit">
@@ -137,6 +130,13 @@ export default {
     },
     character: {
       default: undefined
+    }
+  },
+  computed: {
+    licenseType() {
+      if (this.licensestatus === "Learner's Permit") return this.licensestatus;
+      if (this.licensestatus === "ID Card") return "ID Card";
+      return "Driver License";
     }
   },
   created() {
@@ -203,20 +203,31 @@ table tr td:last-child {
 table tr:last-child td {
   padding-bottom: 15px;
 }
-table {
+table.licensetable {
   border-collapse: collapse;
-  border-radius: 10px;
+  /*   border-radius: 10px; */
   border-style: hidden; /* hide standard table (collapsed) border */
   border-color: unset !important;
   box-shadow: 0 0 0 1px #000000; /* this draws the table border  */
+  background-color: #fff;
+}
+
+.licensebg {
   background: url("../../assets/licensebg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: top left;
+  background-position: bottom left;
+  border-bottom: 1px solid darkblue;
+}
+.licensebg2 {
+  background: url("../../assets/licensebg2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom left;
 }
 
 .label {
-  color: rgba(200, 0, 0, 1);
+  color: rgb(0, 20, 200);
 }
 
 .small-select {
