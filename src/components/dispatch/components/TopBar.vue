@@ -12,47 +12,56 @@
     <div class="navbuttondiv">
       <b-row class="navbuttons">
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad' })">Calls
+          <div class="navcolbutton" @click="$router.push({ path: '/cad' })">
+            Calls
             <br>(F2)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad/vc' })">Vehicle Chk
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/vc' })">
+            Vehicle Chk
             <br>(F3)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad/pc' })">Person Chk
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/pc' })">
+            Person Chk
             <br>(F4)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad/archived' })">Call Archive
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/archived' })">
+            Call Archive
             <br>&nbsp;
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad/map' })">Map
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/map' })">
+            Map
             <br>&nbsp;
           </div>
         </b-col>
         <b-col md="1" class="navcol" :class="{ flash: priorityStage === true }">
-          <div class="navcolbutton" @click="togglePriority">Priority
+          <div class="navcolbutton" @click="togglePriority">
+            Priority
             <br>(F5)
           </div>
         </b-col>
         <b-col md="1" class="navcol" :class="{ flashCall: callStage === true }">
-          <div class="navcolbutton" @click="EventBus.$emit('clear-ecall')">Phone
+          <div class="navcolbutton" @click="EventBus.$emit('clear-ecall')">
+            Phone
             <br>(F6)
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad/radio' })">Radio Codes
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/radio' })">
+            Radio Codes
             <br>&nbsp;
           </div>
         </b-col>
         <b-col md="1" class="navcol">
-          <div class="navcolbutton" @click="$router.push({ path: '/cad/bolos' })">BOLOs
+          <div class="navcolbutton" @click="$router.push({ path: '/cad/bolos' })">
+            BOLOs
             <br>(F7)
           </div>
         </b-col>
@@ -123,14 +132,14 @@ export default {
   methods: {
     updateTime() {
       this.currentTime = new Date().toLocaleTimeString([], {
-        timeZone: "America/Chicago",
+        timeZone: "America/Anchorage",
         hour: "numeric",
         minute: "numeric",
         hour12: false
       });
       const year = new Date()
         .toLocaleDateString([], {
-          timeZone: "America/Chicago",
+          timeZone: "America/Anchorage",
           year: "numeric"
         })
         .substr(2, 2);

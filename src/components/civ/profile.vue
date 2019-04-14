@@ -1,11 +1,11 @@
 <template>
   <div>
-    <License :showedit="true" v-if="prepared" v-bind:documents="documents" :character="character" />
+    <License :showedit="true" v-if="prepared" v-bind:documents="documents" :character="character"/>
     <b-row>
       <b-col md="12">
-        <Record v-if="prepared" v-bind:items="documents" />
+        <Record v-if="prepared" v-bind:items="documents"/>
         <div v-if="!prepared" class="text-center">
-          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
+          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
         </div>
       </b-col>
     </b-row>
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import License from '@/components/shared/License';
-import Record from '@/components/shared/Record';
-import { GET_CHARACTER_DOCUMENTS } from '@/store/queries/legal';
-import { mapGetters } from 'vuex';
-import { GET_CHARACTER } from '../../store/queries/civ';
+import License from "@/components/shared/License";
+import Record from "@/components/shared/Record";
+import { GET_CHARACTER_DOCUMENTS } from "@/store/queries/legal";
+import { mapGetters } from "vuex";
+import { GET_CHARACTER } from "../../store/queries/civ";
 
 export default {
-  name: 'CivProfile',
+  name: "CivProfile",
   components: {
     License,
     Record
@@ -33,7 +33,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['character'])
+    ...mapGetters(["character"])
   },
   created() {
     this.updateDocuments();
@@ -56,7 +56,7 @@ export default {
           }
         })
         .then(r => {
-          this.$store.commit('character', r.data.Character);
+          this.$store.commit("character", r.data.Character);
         })
         .catch(err => {
           console.error(err);
@@ -77,17 +77,17 @@ export default {
               docs[i].violations = JSON.parse(docs[i].violations);
             }
             docs[i].violations.forEach((v2, i2) => {
-              if (typeof vs !== 'string') {
+              if (typeof vs !== "string") {
                 docs[i].violations[i2] = `${v2.code} ${v2.title} [${v2.type}]`;
               }
             });
-            docs[i].violationList = docs[i].violations.join('<br/>');
-            let dt = new Date(docs[i].created_at).toLocaleString('en-US', {
-              timeZone: 'America/Chicago',
+            docs[i].violationList = docs[i].violations.join("<br/>");
+            let dt = new Date(docs[i].created_at).toLocaleString("en-US", {
+              timeZone: "America/Anchorage",
               hour12: false
             });
             dt = dt.substr(0, dt.length - 3);
-            docs[i].created_at = dt.replace(',', '');
+            docs[i].created_at = dt.replace(",", "");
           });
           this.documents = docs;
           this.prepared = true;

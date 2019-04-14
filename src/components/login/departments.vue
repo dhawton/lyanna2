@@ -139,6 +139,9 @@ h1 {
 .btn-intel:hover {
   background-color: rgb(104, 74, 0);
 }
+.btn-court:hover {
+  background-color: darkgoldenrod;
+}
 
 .btn-gray {
   background-color: rgba(40, 40, 40, 0.8);

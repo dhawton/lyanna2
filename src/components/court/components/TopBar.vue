@@ -1,22 +1,6 @@
 <template>
-  <b-navbar
-    dark
-    class="bg-green flex-md-nowrap p-0"
-    type="dark"
-    fixed="top"
-    v-if="signon !== undefined"
-  >
-    <b-navbar-brand
-      to="/"
-      class="pl-1"
-    >Lyanna Fire MDT - {{ server.name }} - {{ $store.getters.fire.radio }} {{ signon.session_name }}</b-navbar-brand>
-    <b-navbar-nav class="ml-auto">
-      <b-nav-item href="#" class="pr-1">{{ currentTime }}</b-nav-item>
-      <b-nav-item to="/logout">Logout</b-nav-item>
-    </b-navbar-nav>
-  </b-navbar>
-  <b-navbar dark class="bg-green flex-md-nowrap p-0" type="dark" fixed="top" v-else>
-    <b-navbar-brand to="/" class="pl-1">Lyanna MDT - {{ server.name }} - loading...</b-navbar-brand>
+  <b-navbar dark class="bg-green flex-md-nowrap p-0" type="dark" fixed="top">
+    <b-navbar-brand to="/" class="pl-1 gold">Lyanna Justice System - Honorable {{ me.name }}</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
       <b-nav-item href="#" class="pr-1">{{ currentTime }}</b-nav-item>
       <b-nav-item to="/logout">Logout</b-nav-item>
@@ -36,7 +20,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["server", "character", "signon"])
+    ...mapGetters(["me"])
   },
   created() {
     this.updateTime();
@@ -60,12 +44,16 @@ export default {
 
 <style lang="scss" scoped>
 .bg-green {
-  background-color: rgb(30, 0, 0);
+  background-color: #0f204b;
+}
+.gold {
+  color: #ffb612 !important;
 }
 .navbar-dark .navbar-nav .nav-link {
-  color: white;
+  color: #ffb612 !important;
 }
 .navbar-dark .navbar-nav .nav-link:hover {
-  color: white;
+  color: #ffb612;
+  font-weight: bold;
 }
 </style>

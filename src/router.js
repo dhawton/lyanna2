@@ -12,10 +12,14 @@ import Characters from "./components/login/characters";
 import NewCharacter from "./components/login/newcharacter";
 import LoginFire from "./components/login/fire";
 
+const Court = () => import(/* webpackChunkName: "Court" */ "./components/court/layout.vue");
+const CourtCases = () => import(/* webpackChunkName: "Court" */ "./components/court/cases.vue");
+
 const Civ = () => import(/* webpackChunkName: "Civ" */ "./components/civ/layout.vue");
 const CivProfile = () => import(/* webpackChunkName: "Civ" */ "./components/civ/profile.vue");
 const EditInfo = () => import(/* webpackChunkName: "Civ" */ "./components/civ/EditInfo.vue");
 const CivDMV = () => import(/* webpackChunkName: "Civ" */ "./components/civ/DMV.vue");
+const CivCases = () => import(/* webpackChunkName: "Civ" */ "./components/civ/cases.vue");
 
 const Units = () => import(/* webpackChunkName: "ActiveUnits" */ "./components/shared/units.vue");
 
@@ -154,6 +158,21 @@ export default new Router({
         {
           path: "dmv",
           component: CivDMV
+        },
+        {
+          path: "court",
+          component: CivCases
+        }
+      ]
+    },
+    {
+      path: "/court",
+      component: Court,
+      beforeEnter: AuthGuard,
+      children: [
+        {
+          path: "",
+          component: CourtCases
         }
       ]
     },

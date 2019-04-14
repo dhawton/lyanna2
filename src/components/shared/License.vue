@@ -12,10 +12,10 @@
           <td rowspan="2" style="width: 100px; text-align: center; padding: 0;">
             <img
               :src="
-                character.photo !== null
-                  ? `${character.photo}?v=${ new Date().getTime() }`
-                  : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'
-              "
+            character.photo !== null
+            ? `${character.photo}${character.photo.indexOf('http') !== -1 ? '?v=' + new Date().getTime() : ''}`
+            : 'https://www.synbio.cam.ac.uk/images/avatar-generic.jpg/image'
+            "
               id="profilepic"
               style="width: 140px;"
               ref="pic"

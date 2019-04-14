@@ -139,7 +139,7 @@ export default {
             });
             docs[i].violationList = docs[i].violations.join("<br/>");
             let dt = new Date(docs[i].created_at).toLocaleString("en-US", {
-              timeZone: "America/Chicago",
+              timeZone: "America/Anchorage",
               hour12: false
             });
             dt = dt.substr(0, dt.length - 3);

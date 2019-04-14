@@ -45,7 +45,7 @@ export default {
   methods: {
     updateTime() {
       this.currentTime = new Date().toLocaleTimeString([], {
-        timeZone: "America/Chicago",
+        timeZone: "America/Anchorage",
         hour: "numeric",
         minute: "numeric",
         hour12: true

@@ -78,26 +78,29 @@ Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
 
-const wsOptions = {
-  wsHost: process.env.VUE_APP_PUSHER_HOST,
-  wsPort: 6001,
-  disableStats: true,
-  authEndpoint: "/broadcasting/auth",
-  auth: {
-    headers: {
-      Authorization: `Bearer ${window.localStorage.getItem("t")}`
-    }
-  },
-  cluster: null
-};
+let wsOptions = {};
 if (process.env.NODE_ENV === "production") {
-  wsOptions.wssPort = 6003;
-  wsOptions.enabledTransports = ["wss", "ws"];
-  wsOptions.encrypted = true;
+  wsOptions = {
+    wsHost: process.env.VUE_APP_PUSHER_HOST,
+    wsPort: 6001,
+    wssPort: 6003,
+    enabledTransports: ["wss", "ws"],
+    encrypted: true,
+    disableStats: true,
+    authEndpoint: "/broadcasting/auth",
+    auth: {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("t")}`
+      }
+    },
+    cluster: null
+  };
 } else {
-  wsOptions.enabledTransports = ["ws"];
-  wsOptions.encrypted = false;
+  wsOptions = {
+    cluster: "us3"
+  };
 }
+
 const pusher = new Pusher(process.env.VUE_APP_PUSHER_APP_KEY, wsOptions);
 Pusher.log = message => {
   if (window.console && window.console.log) {

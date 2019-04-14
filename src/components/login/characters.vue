@@ -10,7 +10,7 @@
             <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
           </div>
           <div v-else-if="prepared">
-            <div v-if="!['civ','dispatch','fire'].includes(department.role)" class="mb-2">
+            <div v-if="!['civ','dispatch','fire','court'].includes(department.role)" class="mb-2">
               Unit Identifier
               {{ deptIdentifier }} -
               <select
@@ -163,6 +163,9 @@ export default {
           break;
         case "fire":
           this.$router.push("/login/fire");
+          break;
+        case "court":
+          this.$router.push("/court");
           break;
         default:
           this.$router.push("/signout");

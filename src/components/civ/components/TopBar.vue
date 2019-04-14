@@ -12,18 +12,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'TopBar',
+  name: "TopBar",
   data() {
     return {
-      currentTime: '',
+      currentTime: "",
       timerCurrentTime: undefined
     };
   },
   computed: {
-    ...mapGetters(['server', 'me', 'character'])
+    ...mapGetters(["server", "me", "character"])
   },
   created() {
     this.updateTime();
@@ -32,9 +32,9 @@ export default {
   methods: {
     updateTime() {
       this.currentTime = new Date().toLocaleTimeString([], {
-        timeZone: 'America/Chicago',
-        hour: 'numeric',
-        minute: 'numeric',
+        timeZone: "America/Anchorage",
+        hour: "numeric",
+        minute: "numeric",
         hour12: true
       });
     }

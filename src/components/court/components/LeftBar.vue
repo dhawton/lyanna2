@@ -2,10 +2,9 @@
   <b-col md="1" class="bg-green sidebar">
     <div class="sidebar-sticky">
       <b-nav vertical>
-        <b-nav-item to="/civ" class="purewhite">Profile</b-nav-item>
-        <b-nav-item to="/civ/dmv" class="purewhite">DMV</b-nav-item>
-        <b-nav-item to="/civ/court" class="purewhite">Court</b-nav-item>
-        <b-nav-item to="/login/characters" class="purewhite">Switch Character</b-nav-item>
+        <b-nav-item to="/court" class="purewhite">Cases</b-nav-item>
+        <b-nav-item to="/court/pc" class="purewhite">Person Check</b-nav-item>
+        <b-nav-item to="/court/vc" class="purewhite">Vehicle Check</b-nav-item>
       </b-nav>
     </div>
   </b-col>
@@ -19,13 +18,13 @@ export default {
 
 <style lang="scss" scoped>
 .bg-green {
-  background-color: rgb(0, 30, 0);
+  background-color: #0f204b;
 }
 .navbar-dark .navbar-nav .nav-link {
-  color: white;
+  color: #ffb612;
 }
 .navbar-dark .navbar-nav .nav-link:hover {
-  color: white;
+  color: #ffb612;
 }
 .sidebar {
   /*z-index: 100;  Behind the navbar */
@@ -41,6 +40,6 @@ export default {
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 .purewhite a {
-  color: #ffffff !important;
+  color: #ffb612 !important;
 }
 </style>
