@@ -598,7 +598,9 @@ export default {
             plea: this.plea,
             restitution: this.restitution,
             restitution_amount:
-              this.plea !== "Innocent" ? this.restitution_amount : this.bail
+              this.plea !== "Innocent"
+                ? JSON.stringify(this.restitution_amount)
+                : this.bail
           }
         })
         .then(() => {
