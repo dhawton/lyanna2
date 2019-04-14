@@ -479,7 +479,7 @@ export default {
       if (
         !this.address.match(/(\d+) (.+)/g) &&
         !this.address.match(/[A-Za-z 0-9]+ and [A-za-z 0-9]/g) &&
-        !this.address.match(/Route|highway \d+ Mile \d+/g)
+        !this.address.match(/Route|highway \d+ Mile .+/g)
       ) {
         return false;
       }
