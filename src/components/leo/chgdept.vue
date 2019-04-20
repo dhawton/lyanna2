@@ -87,7 +87,7 @@ export default {
       } else {
         this.prefix = this.signon.session_identifier.substring(2, 3);
       }
-      this.identifier = `${this.deptIdentifier}-${this.prefix}-${ident}`;
+      this.identifier = `${this.deptIdentifier}${this.prefix}${ident}`;
       console.log("Changing identifier");
     }
   },
@@ -101,7 +101,7 @@ export default {
       this.prefix = this.signon.session_identifier.substring(2, 3);
       console.log(this.prefix);
     }
-    this.identifier = `${this.deptIdentifier}-${this.prefix}-${ident}`;
+    this.identifier = `${this.deptIdentifier}${this.prefix}${ident}`;
   }
 };
 </script>
