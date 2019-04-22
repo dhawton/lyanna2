@@ -265,7 +265,8 @@ export default {
       sortDirection: "desc",
       filter: null,
       modalInfo: { title: "", content: "" },
-      processing: false
+      processing: false,
+      totalRows: 0
     };
   },
   created() {
@@ -278,9 +279,6 @@ export default {
       return this.fields
         .filter(f => f.sortable)
         .map(f => ({ text: f.label, value: f.key }));
-    },
-    totalRows() {
-      return this.items.length;
     },
     ...mapGetters(["character"])
   },
@@ -386,6 +384,7 @@ export default {
           });
           this.items = docs;
           this.prepared = true;
+          this.totalRows = this.items.length;
         })
         .catch(err => {
           console.error(err);
