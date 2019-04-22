@@ -6,11 +6,11 @@
           <td style="text-align: right">
             <select class="bg-dispatch border-teal-input" v-model="filter">
               <option value="ALL">ALL</option>
-              <option value="LSPD">LSPD</option>
-              <option value="BCSO">BCSO</option>
-              <option value="SASP">SASP</option>
-              <option value="FIRE">SAFR</option>
-              <option value="SADI">SADI</option>
+              <option value="police">LSPD</option>
+              <option value="sheriff">BBPD</option>
+              <option value="highway">SASP</option>
+              <option value="fire">SAFD</option>
+              <option value="intel">SADI</option>
               <option value="OOS">OOS</option>
             </select>
           </td>
@@ -116,7 +116,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["units", "dispatchInitial"])
+    ...mapGetters(["units", "dispatchInitial", "calls"])
   },
   created() {
     EventBus.$on("unit-filter", msg => {
@@ -203,7 +203,7 @@ export default {
         if (v.assigned.length > 0) {
           v.assigned.forEach(v2 => {
             if (v2 === id) {
-              ret = v.callnumber.substr(4);
+              ret = v.callnumber;
             }
           });
         }
