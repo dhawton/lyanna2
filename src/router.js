@@ -38,6 +38,8 @@ const MDTBOLOs = () => import(/* webpackChunkName: "MDT" */ "./components/leo/bo
 const MDTCases = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/cases.vue");
 const MDTCase = () => import(/* webpackChunkName: "MDT2" */ "./components/leo/viewcase.vue");
 
+const MDTMap = () => import(/* webpackChunkName: "LiveMap" */ "./components/leo/map.vue");
+
 const CAD = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/layout.vue");
 const CADCalls = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/calls.vue");
 const CADVC = () => import(/* webpackChunkName: "CAD" */ "./components/dispatch/vehiclecheck.vue");
@@ -192,6 +194,10 @@ export default new Router({
         {
           path: "apparatus",
           component: FireApparatus
+        },
+        {
+          path: "map",
+          component: MDTMap
         }
       ]
     },
@@ -237,6 +243,10 @@ export default new Router({
           path: "cases/:id",
           component: MDTCase,
           props: true
+        },
+        {
+          path: "map",
+          component: MDTMap
         }
       ]
     }

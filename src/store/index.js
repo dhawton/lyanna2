@@ -99,7 +99,8 @@ export default new Vuex.Store({
     },
     mapCurrentZoom: undefined,
     mapCurrentCenter: undefined,
-    ws: {}
+    ws: {},
+    mapPlayers: []
   },
   mutations: {
     loggedIn: (state, payload) => {
@@ -248,6 +249,9 @@ export default new Vuex.Store({
     },
     ws: (state, payload) => {
       state.ws = { ...state.ws, ...payload };
+    },
+    mapPlayers: (state, payload) => {
+      state.mapPlayers = payload;
     }
   },
   getters: {
@@ -277,6 +281,7 @@ export default new Vuex.Store({
     mapCenter: state => state.mapCurrentCenter,
     mapZoom: state => state.mapCurrentZoom,
     fire: state => state.fire,
-    ws: state => state.ws
+    ws: state => state.ws,
+    mapPlayers: state => state.mapPlayers
   }
 });

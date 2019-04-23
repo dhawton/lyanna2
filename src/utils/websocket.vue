@@ -35,6 +35,9 @@ export default {
       const channel = this.$pusher.subscribe(`server${msg}`);
       this.$store.commit("ws", { server: channel });
       // Bind events to channel
+      channel.bind("Map", e => {
+        this.$store.commit("mapPlayers", JSON.parse(e.playerobject));
+      });
       channel.bind("ChangeUnit", e => {
         e.id = parseInt(e.id, 10);
         if (this.$store.getters.signon.id === parseInt(e.id, 10)) {

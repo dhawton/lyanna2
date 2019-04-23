@@ -12,6 +12,7 @@
         <b-nav-item to="/mdt/pc" class="purewhite">Person Check</b-nav-item>
         <b-nav-item to="/mdt/vc" class="purewhite">Vehicle Check</b-nav-item>
         <b-nav-item to="/mdt/units" class="purewhite">Active Units</b-nav-item>
+        <b-nav-item to="/mdt/map" class="purewhite">Live Map</b-nav-item>
         <b-nav-item to="/mdt/dept" class="purewhite">Change Dept</b-nav-item>
         <b-nav-item to="/login/characters" class="purewhite">Change Character</b-nav-item>
       </b-nav>
