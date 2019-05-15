@@ -9,7 +9,7 @@
     @update:zoom="zoomUpdate"
   >
     <l-tile-layer :url="url" :attribution="null"/>
-    <div v-for="dept in ['police','sheriff','highway','fire','civ']" :key="dept">
+    <div v-for="dept in ['police','sheriff','highway','fire']" :key="dept">
       <l-marker
         v-for="marker in markers[dept]"
         :key="marker.id"

@@ -56,6 +56,7 @@ export const SIGNON = gql`
       session_identifier
       session_name
       status
+      steam
     }
   }
 `;

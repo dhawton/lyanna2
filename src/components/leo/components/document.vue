@@ -139,8 +139,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <button class="btn btn-primary" @click="issue" v-if="isDocumentReady()">Certify and Submit</button>
-          <button class="btn btn-primary" v-else disabled>Certify and Submit</button>
+          <button class="btn btn-primary" @click="issue">Certify and Submit</button>
         </td>
       </tr>
       <tr>

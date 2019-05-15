@@ -96,8 +96,22 @@ if (process.env.NODE_ENV === "production") {
     cluster: null
   };
 } else {
-  wsOptions = {
+  /*  wsOptions = {
     cluster: "us3"
+  }; */
+  wsOptions = {
+    wsHost: "cad.rpcad.devel",
+    wsPort: 6001,
+    enabledTransports: ["ws"],
+    encrypted: false,
+    disableStats: true,
+    authEndpoint: "/broadcasting/auth",
+    auth: {
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem("t")}`
+      }
+    },
+    cluster: null
   };
 }
 

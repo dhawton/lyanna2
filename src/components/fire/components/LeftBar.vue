@@ -4,6 +4,7 @@
       <b-nav vertical>
         <b-nav-item to="/fire" class="purewhite">Call Info</b-nav-item>
         <b-nav-item to="/fire/units" class="purewhite">Active Units</b-nav-item>
+        <b-nav-item to="/fire/map" class="purewhite">Live Map</b-nav-item>
         <b-nav-item to="/fire/apparatus" class="purewhite">Change Apparatus</b-nav-item>
         <b-nav-item to="/login/characters" class="purewhite">Change Character</b-nav-item>
       </b-nav>

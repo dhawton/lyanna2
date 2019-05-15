@@ -96,6 +96,7 @@ export const GET_USERS = gql`
         session_identifier
         session_name
         status
+        steam
         department {
           id
           role
@@ -117,6 +118,7 @@ export const GET_SERVER_CALLS_USERS = gql`
         session_identifier
         session_name
         status
+        steam
         department {
           id
           role

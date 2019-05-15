@@ -71,7 +71,7 @@
             <input type="text" class="input-darkblue" v-model="address" style="width: 100%;">
             <br>
             <select v-model="city" class="input-darkblue text-uppercase" style="width: 100%;">
-              <option v-for="c in cities" :key="c">{{c}}</option>
+              <option v-for="c in cities" :key="c" :value="c.toUpperCase()">{{c}}</option>
             </select>
           </td>
           <td>
