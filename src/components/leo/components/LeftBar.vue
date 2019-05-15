@@ -4,11 +4,7 @@
       <b-nav vertical>
         <b-nav-item to="/mdt" class="purewhite">Call Info</b-nav-item>
         <b-nav-item to="/mdt/bolos" class="purewhite">BOLOs</b-nav-item>
-        <b-nav-item
-          to="/mdt/cases"
-          class="purewhite"
-          v-if="this.$store.getters.department.role === 'intel'"
-        >Cases</b-nav-item>
+        <b-nav-item to="/mdt/cases" class="purewhite">Cases</b-nav-item>
         <b-nav-item to="/mdt/pc" class="purewhite">Person Check</b-nav-item>
         <b-nav-item to="/mdt/vc" class="purewhite">Vehicle Check</b-nav-item>
         <b-nav-item to="/mdt/units" class="purewhite">Active Units</b-nav-item>
