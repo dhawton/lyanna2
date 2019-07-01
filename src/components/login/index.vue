@@ -3,7 +3,8 @@
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
         <div style="width: 100%; text-align: center">
-          <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/>
+          <h2>Island Life Role Play</h2>
+          <!-- <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/> -->
         </div>
         <b-card header="Lyanna Login">
           <div v-if="!prepared" class="text-center">
@@ -48,7 +49,12 @@
                 <b-spinner small/>
               </b-button>
             </b-form>
-            <p class="mb-0">If you have forgotten your password, please contact HR.</p>
+            <p
+              class="mb-0"
+            >If you have forgotten your password, please seek assistance on our Discord.</p>
+            <p class="mb-0">
+              <b-button to="https://dashboard.islanfeliferp.org" variant="black" block>Register</b-button>
+            </p>
           </div>
         </b-card>
       </b-col>
