@@ -2,9 +2,8 @@ export const licensestatus = ["Valid", "Suspended", "Revoked", "Learner's Permit
 
 export const offenseToFine = {
   FU: 250000,
-  FA: 150000,
-  FB: 75000,
-  FC: 50000,
+  F1: 150000,
+  F2: 75000,
   MA: 25000,
   MB: 2000
 };
@@ -19,12 +18,11 @@ export const offenseToBail = {
 };
 
 export const offenseToTime = {
-  FU: 15,
-  FA: 9,
-  FB: 5,
-  FC: 3,
-  MA: 2,
-  MB: 1
+  FU: 15 * 60,
+  FA: 9 * 60,
+  FB: 5 * 60,
+  MA: 2 * 60,
+  MB: 0.5 * 60
 };
 
 export const cities = [
@@ -48,7 +46,7 @@ export const cities = [
   "Port of Los Santos",
   "Rockford Hills",
   "Sandy Shores",
-  "Unincorporated Blaine Borough",
+  "Blaine County",
   "Vespucci",
   "Vinewood",
   "Vinewood Hills"
@@ -66,7 +64,7 @@ export const agencies = {
   Highway: "SASP",
   State: "SASP",
   Sheriff: "BCSO",
-  Police: "LSPD",
+  Police: "SAPD",
   Court: "Court",
   Intelligence: "SADI"
 };
@@ -74,7 +72,7 @@ export const agencies = {
 export const agencyLongNames = {
   highway: "San Andreas State Troopers",
   sheriff: "Blaine Borough Police",
-  police: "Los Santos Police",
+  police: "San Andreas Police",
   intel: "San Andreas Department of Investigations"
 };
 
@@ -87,7 +85,7 @@ export const agencyRoleToDB = {
 };
 
 export const agencyAbbreviations = {
-  police: "LSPD",
+  police: "SAPD",
   sheriff: "BBPD",
   highway: "SAST",
   intel: "SADI",
