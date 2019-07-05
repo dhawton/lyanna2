@@ -139,7 +139,7 @@ export default {
               department: this.department.id,
               server: this.server.id,
               prefix: this.prefix,
-              session_identifier: `${this.deptIdentifier}${this.prefix}${this.ident}`,
+              session_identifier: `${this.prefix}${this.ident}`,
               character_id: character.id
             }
           })

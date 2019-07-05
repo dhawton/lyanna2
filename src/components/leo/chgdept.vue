@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="processing" style="text-align: center;">
-      <b-spinner variant="primary" style="height: 3rem; width: 3rem;"/>
+      <b-spinner variant="primary" style="height: 3rem; width: 3rem;" />
     </div>
     <div v-if="!processing">
       <b-form @submit.prevent="doSearch">
         <b-form-row>
           <b-form-group class="col-md-2" label="Identifier" label-for="plate">
-            <b-form-input v-model="identifier"/>
+            <b-form-input v-model="identifier" />
           </b-form-group>
           <b-form-group class="col-md-10" label="Department" label-for="make">
             <b-select v-model="dept" @change="checkPrefix">
@@ -54,7 +54,7 @@ export default {
       return 3;
     },
     ident() {
-      return `${this.deptIdentifier}-${this.prefix}`;
+      return `${this.prefix}`;
     }
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
       } else {
         this.prefix = this.signon.session_identifier.substring(2, 3);
       }
-      this.identifier = `${this.deptIdentifier}${this.prefix}${ident}`;
+      this.identifier = `${this.prefix}${ident}`;
       console.log("Changing identifier");
     }
   },
@@ -101,7 +101,7 @@ export default {
       this.prefix = this.signon.session_identifier.substring(2, 3);
       console.log(this.prefix);
     }
-    this.identifier = `${this.deptIdentifier}${this.prefix}${ident}`;
+    this.identifier = `${this.prefix}${ident}`;
   }
 };
 </script>
