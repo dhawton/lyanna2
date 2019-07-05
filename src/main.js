@@ -48,7 +48,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 const uri =
   process.env.NODE_ENV === "production"
-    ? "https://api.akrp.online/graphql"
+    ? "https://api.islandliferp.org/graphql"
     : "http://cad.rpcad.devel/graphql";
 const httpLink = new HttpLink({ uri });
 const cache = new InMemoryCache({});
