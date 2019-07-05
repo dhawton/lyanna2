@@ -16,7 +16,7 @@
       <tr style="margin-bottom: 10px;">
         <td>
           Case Number:
-          <input type="text" placeholder="18M-81274318247" v-model="casenumber">
+          <input type="text" v-model="casenumber" />
           Agency: {{ agencyLongNames[this.$store.getters.department.role] }}
         </td>
       </tr>
@@ -37,23 +37,23 @@
         <td rowspan="2" class="bg-red"></td>
         <td>
           License Plate:
-          <input type="text" v-model="licenseplate"> State: SA
+          <input type="text" v-model="licenseplate" /> State: SA
         </td>
       </tr>
       <tr style="margin-bottom: 10px;">
         <td>
           Make:
-          <input type="text" v-model="make"> Model:
-          <input type="text" v-model="model"> Color:
-          <input type="text" v-model="color">
+          <input type="text" v-model="make" /> Model:
+          <input type="text" v-model="model" /> Color:
+          <input type="text" v-model="color" />
         </td>
       </tr>
       <tr>
         <td colspan="2">
           <p>
             The Undersigned states that the Defendant at specifically
-            <br>
-            <input type="text" v-model="address" placeholder="Address">
+            <br />
+            <input type="text" v-model="address" placeholder="Address" />
             in the city of
             <select v-model="city">
               <option v-for="city in cities" :key="city">{{ city }}</option>
@@ -82,7 +82,7 @@
               <tr v-for="(v, k) in violations" :key="k">
                 <td>
                   <b-button variant="danger" sm @click="removeViolation(k)">
-                    <i class="fa fa-trash"/>
+                    <i class="fa fa-trash" />
                   </b-button>
                   {{ v.code }}
                 </td>
@@ -121,9 +121,9 @@
       <tr v-if="type === 'Arrest' && (plea === 'Guilty' || plea === 'No Contest')">
         <td colspan="2">
           Fine: ${{compfine}}
-          <br>
+          <br />
           <u>or</u>
-          <br>
+          <br />
           Time: {{time[0]}} years
           <span v-if="time[1] > 0">and a fine of ${{time[1]}}</span>
         </td>
@@ -145,9 +145,9 @@
       <tr>
         <td colspan="2">
           Address formats:
-          <br>117 Grove St
-          <br>Route 68 and Highway 1
-          <br>Highway 1 Mile 3
+          <br />117 Grove St
+          <br />Route 68 and Highway 1
+          <br />Highway 1 Mile 3
         </td>
       </tr>
     </table>
@@ -173,7 +173,7 @@
           <b-col md="6" class="my-1" offset-md="6">
             <b-form-group label-cols-sm="2" label-text-align="right" label="Filter" class="mb-0">
               <b-input-group>
-                <b-form-input v-model="filter" placeholder="Type to Search"/>
+                <b-form-input v-model="filter" placeholder="Type to Search" />
                 <b-input-group-append>
                   <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                 </b-input-group-append>
@@ -205,7 +205,7 @@
         <b-row>
           <b-col md="6" class="my-1">
             <b-form-group label-cols-sm="2" label="Per Page" class="mb-0" label-text-align="right">
-              <b-form-select class="small-select" :options="pageOptions" v-model="perPage"/>
+              <b-form-select class="small-select" :options="pageOptions" v-model="perPage" />
             </b-form-group>
           </b-col>
           <b-col md="6" class="my-1">
@@ -572,9 +572,7 @@ export default {
           return;
         }
       }
-      const issuer = `${this.$store.getters.signon.session_identifier} - ${
-        this.$store.getters.signon.session_name
-      }`;
+      const issuer = `${this.$store.getters.signon.session_identifier} - ${this.$store.getters.signon.session_name}`;
       this.$apollo
         .mutate({
           mutation: ISSUE_DOCUMENT,

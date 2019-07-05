@@ -4,8 +4,7 @@ export const offenseToFine = {
   FU: 250000,
   F1: 150000,
   F2: 75000,
-  MA: 25000,
-  MB: 2000
+  MA: 25000
 };
 
 export const offenseToBail = {
@@ -18,11 +17,10 @@ export const offenseToBail = {
 };
 
 export const offenseToTime = {
-  FU: 15 * 60,
-  FA: 9 * 60,
+  FU: 10 * 60,
+  FA: 10 * 60,
   FB: 5 * 60,
-  MA: 2 * 60,
-  MB: 0.5 * 60
+  MA: 1 * 60
 };
 
 export const cities = [
