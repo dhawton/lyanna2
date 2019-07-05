@@ -1,8 +1,8 @@
-@import 'normalize-scss';
+@import "normalize-scss";
 @include normalize();
 
 // Import custom font from Google
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url("https://fonts.googleapis.com/css?family=Raleway|Satisfy");
 
 // Override / set color variables
 $white: #fff;
@@ -51,14 +51,14 @@ $badge-padding-y: 0.4em;
 $badge-font-weight: normal;
 
 // Override fonts
-$font-family-sans-serif: 'Raleway', sans-serif;
-$font-family-serif: Georgia, 'Times New Roman', Times, serif;
-$font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono',
-  'Courier New', monospace;
+$font-family-sans-serif: "Raleway", sans-serif;
+$font-family-serif: Georgia, "Times New Roman", Times, serif;
+$font-family-monospace: Menlo, Monaco, Consolas, "Liberation Mono",
+  "Courier New", monospace;
 $font-family-base: $font-family-sans-serif;
 
 // Set global options
 $enable-shadows: false;
 $enable-gradients: true;
 
-@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import "./node_modules/bootstrap/scss/bootstrap.scss";

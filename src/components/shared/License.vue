@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col md="3">
-      <Flags :documents="documents"/>
+      <Flags :documents="documents" />
     </b-col>
     <b-col md="5">
       <table
@@ -19,8 +19,8 @@
               id="profilepic"
               style="width: 140px;"
               ref="pic"
-            >
-            <br>
+            />
+            <br />
             <h2
               v-if="character.licensestatus != 'Valid'"
               class="label"
@@ -29,10 +29,10 @@
           </td>
           <td style="text-align: right;" class="licensebg">
             <h1>San Andreas</h1>
-            <br>
+            <br />
             <span>
               {{ licenseType }}
-              <br>
+              <br />
               <b>{{ character.idnumber}}</b>
             </span>
           </td>
@@ -46,36 +46,36 @@
               <tr>
                 <td>
                   <b class="label">DATE OF BIRTH</b>
-                  <br>
+                  <br />
                   {{ character.dob }}
                 </td>
                 <td>
                   <b class="label">SEX</b>
-                  <br>
+                  <br />
                   {{ character.gender }}
                 </td>
                 <td>
                   <b class="label">HEIGHT</b>
-                  <br>
+                  <br />
                   {{ character.height_feet }}-{{ character.height_inches}}
                 </td>
                 <td>
                   <b class="label">WEIGHT</b>
-                  <br>
+                  <br />
                   {{ character.weight}}
                 </td>
                 <td>
                   <b class="label">HAIR</b>
-                  <br>
+                  <br />
                   {{ character.haircolor }}
                 </td>
               </tr>
               <tr>
                 <td>
                   {{ character.firstname }} {{ character.lastname }}
-                  <br>
+                  <br />
                   {{ character.address }}
-                  <br>
+                  <br />
                   {{ character.city }}, SA
                 </td>
               </tr>
@@ -91,7 +91,7 @@
               <b-input-group-addon>
                 <b-button v-if="!processing" variant="black" @click="edit">Change</b-button>
                 <b-button v-else variant="black" disabled>
-                  <b-spinner small/>
+                  <b-spinner small />
                 </b-button>
                 <b-button variant="grey" @click="editInfo">Edit Info</b-button>
               </b-input-group-addon>
@@ -218,6 +218,11 @@ table.licensetable {
   background-repeat: no-repeat;
   background-position: bottom left;
   border-bottom: 1px solid darkblue;
+  color: #fff;
+  text-shadow: 2px 2px #000000;
+}
+.licensebg h1 {
+  font-family: "Satisfy", cursive;
 }
 .licensebg2 {
   background: url("../../assets/licensebg2.jpg");
@@ -227,7 +232,7 @@ table.licensetable {
 }
 
 .label {
-  color: rgb(0, 20, 200);
+  color: rgb(150, 0, 0);
 }
 
 .small-select {
