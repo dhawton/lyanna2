@@ -15,7 +15,7 @@
             </td>
           </tr>
           <tr>
-            <input type="hidden" id="photo" value>
+            <input type="hidden" id="photo" value />
             <td rowspan="7" style="width: 150px;">
               <img
                 :src="
@@ -26,15 +26,15 @@
                 id="profilepic"
                 style="width: 150px;"
                 ref="pic"
-              >
-              <br>
+              />
+              <br />
               <input
                 type="file"
                 ref="file"
                 id="newphoto"
                 style="display: none;"
                 @change="photoChanged"
-              >
+              />
               <b-button variant="black" @click="launchFilePicker">Upload</b-button>
             </td>
             <td>
@@ -53,7 +53,7 @@
                 id="dob"
                 placeholder="YYYY-MM-DD"
                 v-model="dob"
-              >
+              />
             </td>
           </tr>
           <tr>
@@ -80,14 +80,14 @@
                 placeholder="Firstname"
                 v-model="firstname"
                 required
-              >
+              />
             </td>
           </tr>
           <tr>
             <td>
               8
               <b class="label">Address</b>
-              <input type="text" class="form-control" id="address" v-model="address" required>
+              <input type="text" class="form-control" id="address" v-model="address" required />
               <b class="label">City</b>
               <select id="city" v-model="city" class="mt-2 small-select">
                 <option v-for="(city, i) in commonCities" :key="i">{{ city }}</option>
@@ -128,13 +128,13 @@
                   class="small-select"
                   size="5"
                   required
-                >
+                />
                 lbs
               </b>
               18
               <b class="label">RCE:</b>
               <b class="label">
-                <input type="text" id="race" v-model="race" class="small-select" size="15" required>
+                <input type="text" id="race" v-model="race" class="small-select" size="15" required />
               </b>
               19
               <b class="label">HAIR:</b>
@@ -146,7 +146,7 @@
                   class="small-select"
                   size="15"
                   required
-                >
+                />
               </b>
             </td>
           </tr>
@@ -159,7 +159,7 @@
                 <b-input-group-addon>
                   <b-button v-if="!processing" variant="black" @click="createCharacter">Create</b-button>
                   <b-button v-else variant-black disabled>
-                    <b-spinner small/>
+                    <b-spinner small />
                   </b-button>
                   <b-button variant="red" @click="$router.push('/login/characters')">Cancel</b-button>
                 </b-input-group-addon>
@@ -169,6 +169,11 @@
         </table>
       </b-col>
     </b-row>
+    <div
+      style="border: 1px solid black; border-radius: 99px; position: absolute; width: 200px; bottom: 5px; right: 5px;"
+    >
+      <img src="../../assets/logo.png" style="width: 198px;" />
+    </div>
   </b-container>
 </template>
 

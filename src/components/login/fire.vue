@@ -47,19 +47,19 @@
                 >Login</b-button>
                 <p>
                   <b>Identifier:</b>
-                  <br>
+                  <br />
                   {{ fireunitid[apparatus] || '&nbsp;' }}{{company}}
                 </p>
                 <p>
                   <b>Radio Identifier:</b>
-                  <br>
+                  <br />
                   {{fireunitradio[apparatus] || '&nbsp;'}} {{company}}
                 </p>
               </div>
             </b-col>
             <b-col md="6">
               <p>Units</p>
-              <b-spinner v-if="!hasUnits"/>
+              <b-spinner v-if="!hasUnits" />
               <p v-if="units.length === 0">None.</p>
               <p v-for="u in units" :key="u.id">{{u.session_identifier}} - {{u.session_name}}</p>
             </b-col>
@@ -67,6 +67,11 @@
         </b-card>
       </b-col>
     </b-row>
+    <div
+      style="border: 1px solid black; border-radius: 99px; position: absolute; width: 200px; bottom: 5px; right: 5px;"
+    >
+      <img src="../../assets/logo.png" style="width: 198px;" />
+    </div>
   </b-container>
 </template>
 

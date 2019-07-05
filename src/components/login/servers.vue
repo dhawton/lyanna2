@@ -3,7 +3,8 @@
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
         <div style="width: 100%; text-align: center">
-        <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"  />
+          <h2 style="color: white;">Island Life Role Play</h2>
+          <!-- <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/> -->
         </div>
         <b-card header="Select Server">
           <div v-if="!prepared" class="text-center">
@@ -11,24 +12,31 @@
           </div>
           <div v-else-if="prepared">
             <div v-for="server in servers" :key="server.id" style="margin-bottom: -5px;">
-              <b-button block variant="black" dark @click="selectServer(server)">{{
+              <b-button block variant="black" dark @click="selectServer(server)">
+                {{
                 server.name
-              }}</b-button>
+                }}
+              </b-button>
             </div>
           </div>
         </b-card>
       </b-col>
     </b-row>
+    <div
+      style="border: 1px solid black; border-radius: 99px; position: absolute; width: 200px; bottom: 5px; right: 5px;"
+    >
+      <img src="../../assets/logo.png" style="width: 198px;" />
+    </div>
   </b-container>
 </template>
 
 <script>
-import { GET_SERVERS } from '../../store/queries/misc';
+import { GET_SERVERS } from "../../store/queries/misc";
 
 export default {
-  name: 'Servers',
+  name: "Servers",
   beforeCreate() {
-    document.body.className = 'login';
+    document.body.className = "login";
   },
   data() {
     return {
@@ -52,8 +60,8 @@ export default {
       this.error = undefined;
     },
     selectServer(server) {
-      this.$store.commit('server', server);
-      this.$router.push('/login/departments');
+      this.$store.commit("server", server);
+      this.$router.push("/login/departments");
     }
   }
 };

@@ -8,7 +8,7 @@
     @update:center="centerUpdate"
     @update:zoom="zoomUpdate"
   >
-    <l-tile-layer :url="url" :attribution="null"/>
+    <l-tile-layer :url="url" :attribution="null" />
     <div v-for="dept in ['police','sheriff','highway','fire','civ']" :key="dept">
       <l-marker
         v-for="marker in markers[dept]"
@@ -16,7 +16,7 @@
         :lat-lng.sync="marker.position"
         :icon="icon(dept)"
       >
-        <l-tooltip :options="{permanent: true, direction: 'top'}" :content="showname(marker.id)"/>
+        <l-tooltip :options="{permanent: true, direction: 'top'}" :content="showname(marker.id)" />
       </l-marker>
     </div>
   </l-map>
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      url: "https://dashboard.akrp.online/img/maps/{z}/{x}/{y}.png",
+      url: "https://dashboard.islandliferp.org/img/maps/{z}/{x}/{y}.png",
       extent: [-41.33258447, -62.33480126, 49.30103018, 59.53374276],
       bounds: L.latLngBounds([
         L.latLng([-62.33480126, -41.33258447]),

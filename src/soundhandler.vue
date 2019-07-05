@@ -19,7 +19,7 @@ export default {
     };
   },
   created() {
-    this.login = this.loadAudio("/sounds/login.ogg");
+    this.login = this.loadAudio("/sounds/login.mp3");
     this.assign = this.loadAudio("/sounds/notify.wav"); // Call Assign
     this.unassign = this.loadAudio("/sounds/unassign.wav"); // Call Unassigned
     this.priority = this.loadAudio("/sounds/pri.wav"); // Priority tones

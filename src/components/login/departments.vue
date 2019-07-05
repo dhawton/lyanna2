@@ -3,11 +3,12 @@
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
         <div style="width: 100%; text-align: center">
-          <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/>
+          <h2 style="color: white;">Island Life Role Play</h2>
+          <!-- <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/> -->
         </div>
         <b-card header="Select Department">
           <div v-if="!prepared" class="text-center">
-            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
+            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
           </div>
           <div v-else-if="prepared">
             <div
@@ -27,6 +28,11 @@
         </b-card>
       </b-col>
     </b-row>
+    <div
+      style="border: 1px solid black; border-radius: 99px; position: absolute; width: 200px; bottom: 5px; right: 5px;"
+    >
+      <img src="../../assets/logo.png" style="width: 198px;" />
+    </div>
   </b-container>
 </template>
 

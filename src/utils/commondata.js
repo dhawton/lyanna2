@@ -68,8 +68,8 @@ export const agencies = {
 };
 
 export const agencyLongNames = {
-  highway: "San Andreas State Troopers",
-  sheriff: "Blaine Borough Police",
+  /*   highway: "San Andreas State Troopers",
+  sheriff: "Blaine Borough Police", */
   police: "San Andreas Police",
   intel: "San Andreas Department of Investigations"
 };

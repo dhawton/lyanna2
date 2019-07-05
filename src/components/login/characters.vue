@@ -3,20 +3,17 @@
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
         <div style="width: 100%; text-align: center">
-          <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/>
+          <h2 style="color: white;">Island Life Role Play</h2>
+          <!-- <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/> -->
         </div>
         <b-card header="Select Character">
           <div v-if="!prepared" class="text-center">
-            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
+            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
           </div>
           <div v-else-if="prepared">
             <div v-if="!['civ','dispatch','fire','court'].includes(department.role)" class="mb-2">
               Unit Identifier
-              {{ deptIdentifier }} -
-              <select
-                v-model="prefix"
-                class="small-select"
-              >
+              <select v-model="prefix" class="small-select">
                 <option value selected>&nbsp;</option>
                 <option v-for="p in unitPrefixes" :key="p">{{ p }}</option>
               </select>
@@ -35,7 +32,7 @@
                   @click="selectCharacter(character)"
                 >{{ character.firstname }} {{ character.lastname }}</span>
                 <span class="hover-pointer-cursor text-danger" @click="deleteCharacter(character)">
-                  <i class="fa fa-trash-alt"/>
+                  <i class="fa fa-trash-alt" />
                 </span>
               </b-list-group-item>
               <b-list-group-item>
@@ -50,6 +47,11 @@
         </b-card>
       </b-col>
     </b-row>
+    <div
+      style="border: 1px solid black; border-radius: 99px; position: absolute; width: 200px; bottom: 5px; right: 5px;"
+    >
+      <img src="../../assets/logo.png" style="width: 198px;" />
+    </div>
   </b-container>
 </template>
 
@@ -92,7 +94,7 @@ export default {
       this.prefix = this.me.identifier.substring(0, 1);
       this.ident = this.me.identifier.substring(1);
     } else {
-      this.prefix = "P";
+      this.prefix = "";
       this.ident = this.me.identifier;
       if (this.department.role === "intel") this.prefix = "I";
     }
@@ -137,9 +139,7 @@ export default {
               department: this.department.id,
               server: this.server.id,
               prefix: this.prefix,
-              session_identifier: `${this.deptIdentifier}${this.prefix}${
-                this.ident
-              }`,
+              session_identifier: `${this.deptIdentifier}${this.prefix}${this.ident}`,
               character_id: character.id
             }
           })
