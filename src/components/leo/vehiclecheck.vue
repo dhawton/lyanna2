@@ -41,7 +41,7 @@
         <tr v-for="vehicle in results" :key="vehicle.id" @click="showVehicle(vehicle)">
           <td>{{vehicle.licenseplate}}</td>
           <td>{{vehicle.make}}, {{vehicle.model}}, {{vehicle.color}}</td>
-          <td v-if="vehicle.character.id !== 4">
+          <td v-if="vehicle.business === null">
             {{vehicle.character.firstname}} {{vehicle.character.lastname}}
             <br />
             {{vehicle.character.address}}, {{vehicle.character.city}}, SA
