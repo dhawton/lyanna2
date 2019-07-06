@@ -242,6 +242,9 @@ export const SEARCH_VEHICLE = gql`
       color
       insurance
       stolen
+      business
+      business_address
+      business_city
       character {
         id
         idnumber

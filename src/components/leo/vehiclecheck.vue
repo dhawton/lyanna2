@@ -11,13 +11,13 @@
           />
         </b-form-group>
         <b-form-group class="col-md-2" label="Make" label-for="make">
-          <b-form-input v-on:keyup.enter="doSearch" id="make" v-model="make"/>
+          <b-form-input v-on:keyup.enter="doSearch" id="make" v-model="make" />
         </b-form-group>
         <b-form-group class="col-md-2" label="Model" label-for="model">
-          <b-form-input v-on:keyup.enter="doSearch" id="model" v-model="model"/>
+          <b-form-input v-on:keyup.enter="doSearch" id="model" v-model="model" />
         </b-form-group>
         <b-form-group class="col-md-2" label="Color" label-for="color">
-          <b-form-input v-on:keyup.enter="doSearch" id="color" v-model="color"/>
+          <b-form-input v-on:keyup.enter="doSearch" id="color" v-model="color" />
         </b-form-group>
         <b-form-group class="col-md-2" style="margin-top: auto;">
           <b-button @click="doSearch" variant="darkblue" block>Search</b-button>
@@ -26,7 +26,7 @@
     </b-form>
     <!-- Form results -->
     <div v-if="loadingResults" style="text-align: center;">
-      <b-spinner variant="primary" style="height: 3rem; width: 3rem;"/>
+      <b-spinner variant="primary" style="height: 3rem; width: 3rem;" />
     </div>
     <table v-else class="table">
       <thead>
@@ -41,10 +41,15 @@
         <tr v-for="vehicle in results" :key="vehicle.id" @click="showVehicle(vehicle)">
           <td>{{vehicle.licenseplate}}</td>
           <td>{{vehicle.make}}, {{vehicle.model}}, {{vehicle.color}}</td>
-          <td>
+          <td v-if="vehicle.character.id !== 4">
             {{vehicle.character.firstname}} {{vehicle.character.lastname}}
-            <br>
+            <br />
             {{vehicle.character.address}}, {{vehicle.character.city}}, SA
+          </td>
+          <td v-else>
+            {{vehicle.business}}
+            <br />
+            {{vehicle.business_address}}, {{vehicle.business_city}}
           </td>
           <td>
             <b-button variant="danger" v-if="vehicle.stolen" disabled>Stolen</b-button>
@@ -134,6 +139,9 @@ export default {
         });
     },
     showVehicle(vehicle) {
+      if (vehicle.character.id === 4) {
+        return;
+      }
       this.$store.commit("leocharacter", vehicle.character);
       this.$router.push({
         path: `/mdt/pc/${vehicle.character.idnumber}`

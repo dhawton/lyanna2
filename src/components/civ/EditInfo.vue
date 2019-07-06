@@ -14,7 +14,7 @@
           </td>
         </tr>
         <tr>
-          <input type="hidden" id="photo" value>
+          <input type="hidden" id="photo" value />
           <td rowspan="7" style="width: 150px;">
             <img
               :src="
@@ -25,15 +25,15 @@
               id="profilepic"
               style="width: 150px;"
               ref="pic"
-            >
-            <br>
+            />
+            <br />
             <input
               type="file"
               ref="file"
               id="newphoto"
               style="display: none;"
               @change="photoChanged"
-            >
+            />
             <b-button variant="black" @click="launchFilePicker">Upload</b-button>
           </td>
           <td>
@@ -52,7 +52,7 @@
               id="dob"
               placeholder="YYYY-MM-DD"
               v-model="character.dob"
-            >
+            />
           </td>
         </tr>
         <tr>
@@ -79,7 +79,7 @@
               placeholder="Firstname"
               v-model="character.firstname"
               required
-            >
+            />
           </td>
         </tr>
         <tr>
@@ -92,7 +92,7 @@
               id="address"
               v-model="character.address"
               required
-            >
+            />
             <b class="label">City</b>
             <select id="city" v-model="character.city" class="mt-2 small-select">
               <option v-for="(city, i) in commonCities" :key="i">{{ city }}</option>
@@ -133,7 +133,7 @@
                 class="small-select"
                 size="5"
                 required
-              >
+              />
               lbs
             </b>
             18
@@ -146,7 +146,7 @@
                 class="small-select"
                 size="15"
                 required
-              >
+              />
             </b>
             19
             <b class="label">HAIR:</b>
@@ -158,7 +158,7 @@
                 class="small-select"
                 size="15"
                 required
-              >
+              />
             </b>
           </td>
         </tr>
@@ -169,9 +169,9 @@
                 <option v-for="(status, i) in commonLicenseStatus" :key="i">{{ status }}</option>
               </b-form-select>
               <b-input-group-addon>
-                <b-button v-if="!processing" variant="black" @click="editCharacter">Save</b-button>
+                <b-button v-if="!processing" variant="primary" @click="editCharacter">Save</b-button>
                 <b-button v-else variant-black disabled>
-                  <b-spinner small/>
+                  <b-spinner small />
                 </b-button>
                 <b-button variant="red" @click="$router.push('/civ')">Cancel</b-button>
               </b-input-group-addon>
@@ -379,9 +379,10 @@ table {
 
 td {
   border: 1px solid #ccc;
+  color: #fff;
 }
 
 .label {
-  color: rgba(200, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
 }
 </style>
