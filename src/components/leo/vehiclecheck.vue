@@ -139,7 +139,7 @@ export default {
         });
     },
     showVehicle(vehicle) {
-      if (vehicle.character.id === 4) {
+      if (vehicle.business !== null) {
         return;
       }
       this.$store.commit("leocharacter", vehicle.character);
