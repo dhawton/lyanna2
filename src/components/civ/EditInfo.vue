@@ -199,7 +199,8 @@ export default {
       commonCities,
       commonLicenseStatus,
       error: undefined,
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      hasChangedPhoto: false
     };
   },
   computed: {
@@ -211,6 +212,7 @@ export default {
     },
     photoChanged() {
       const reader = new FileReader();
+      this.hasChangedPhoto = true;
       reader.addEventListener(
         "load",
         () => {
@@ -225,10 +227,7 @@ export default {
     editCharacter() {
       this.processing = true;
       if (this.validForm()) {
-        this.$apollo
-          .mutate({
-            mutation: EDIT_CHARACTER,
-            variables: {
+        const variables = {
               id: this.character.id,
               firstname: this.character.firstname,
               lastname: this.character.lastname,
@@ -242,8 +241,12 @@ export default {
               height_inches: this.character.height_inches,
               weight: this.character.weight,
               licensestatus: this.character.licensestatus,
-              photo: this.character.photo
-            }
+            };
+        if (this.hasChangedPhoto) variables.photo = this.character.photo;
+        this.$apollo
+          .mutate({
+            mutation: EDIT_CHARACTER,
+            variables
           })
           .then(() => {
             this.$router.push("/civ");
