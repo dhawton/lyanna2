@@ -11,7 +11,7 @@
               <th>Flags</th>
               <th>
                 Actions
-                <b-button variant="grey" style="float:right" @click="edit({})">Register</b-button>
+                <!--                 <b-button variant="grey" style="float:right" @click="edit({})">Register</b-button> -->
               </th>
             </tr>
           </thead>
@@ -26,12 +26,16 @@
               </td>
               <td>
                 <b-button variant="black" class="mr-1" @click="edit(vehicle)">Edit</b-button>
-                <b-button v-if="delProcessing" variant="black" disabled>
+                <b-button v-if="delProcessing" class="mr-1" variant="black" disabled>
                   <b-spinner small />
                 </b-button>
-                <b-button v-if="!delProcessing" variant="red" @click="del(vehicle)"
-                  >Delete</b-button
-                >
+                <b-button
+                  class="mr-1"
+                  v-if="!delProcessing"
+                  variant="red"
+                  @click="del(vehicle)"
+                >Delete</b-button>
+                <b-button variant="success" @click="transfer(vehicle)">Transfer</b-button>
               </td>
             </tr>
           </tbody>
@@ -50,13 +54,16 @@
 </template>
 
 <script>
-import License from '@/components/shared/License';
-import EditCar from '@/components/civ/EditCar';
-import { mapGetters } from 'vuex';
-import { GET_CHARACTER_VEHICLES, DELETE_VEHICLE } from '../../store/queries/civ';
+import { mapGetters } from "vuex";
+import License from "@/components/shared/License";
+import EditCar from "@/components/civ/EditCar";
+import {
+  GET_CHARACTER_VEHICLES,
+  DELETE_VEHICLE
+} from "../../store/queries/civ";
 
 export default {
-  name: 'CivDMV',
+  name: "CivDMV",
   components: {
     License,
     EditCar
@@ -71,7 +78,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['character'])
+    ...mapGetters(["character"])
   },
   created() {
     this.$apollo
@@ -105,11 +112,16 @@ export default {
         })
         .then(r => {
           this.delProcessing = false;
-          this.vehicles = this.vehicles.filter(v => v.id !== r.data.deleteVehicle.id);
+          this.vehicles = this.vehicles.filter(
+            v => v.id !== r.data.deleteVehicle.id
+          );
         })
         .catch(err => {
           console.error(err);
         });
+    },
+    transfer(vehicle) {
+      this.$store.commit("dmvVehicle", vehicle);
     },
     doneEdit() {
       this.showEdit = false;

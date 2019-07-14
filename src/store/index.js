@@ -21,6 +21,7 @@ export default new Vuex.Store({
       role: null
     },
     character: {},
+    characters: [],
     signon: undefined,
     updateReady: false,
     call: "",
@@ -97,6 +98,7 @@ export default new Vuex.Store({
       phoneRingStage: 0,
       initialLoading: false
     },
+    dmvVehicle: undefined,
     mapCurrentZoom: undefined,
     mapCurrentCenter: undefined,
     ws: {},
@@ -117,6 +119,9 @@ export default new Vuex.Store({
     },
     character: (state, payload) => {
       state.character = { ...state.character, ...payload };
+    },
+    characters: (state, payload) => {
+      state.characters = payload;
     },
     me: (state, payload) => {
       state.identifier = payload.identifier || state.identifier;
@@ -235,6 +240,9 @@ export default new Vuex.Store({
 
       if (!change) state.cases.push(payload);
     },
+    dmvVehicle: (state, payload) => {
+      state.dmvVehicle = payload;
+    },
     laws: (state, payload) => {
       state.laws = payload;
     },
@@ -260,6 +268,7 @@ export default new Vuex.Store({
     server: state => state.server,
     department: state => state.department,
     character: state => state.character,
+    characters: state => state.characters,
     me: state => ({ identifier: state.identifier, name: state.name }),
     signon: state => state.signon,
     updateReady: state => state.updateReady,
@@ -282,6 +291,7 @@ export default new Vuex.Store({
     mapZoom: state => state.mapCurrentZoom,
     fire: state => state.fire,
     ws: state => state.ws,
-    mapPlayers: state => state.mapPlayers
+    mapPlayers: state => state.mapPlayers,
+    dmvVehicle: state => state.dmvVehicle
   }
 });

@@ -232,6 +232,14 @@ export const DELETE_VEHICLE = gql`
   }
 `;
 
+export const TRANSFER_VEHICLE = gql`
+  mutation($licenseplate: String!, $idnumber: Int) {
+    transferVehicle(licenseplate: $licenseplate, idnumber: Int) {
+      licenseplate
+    }
+  }
+`;
+
 export const SEARCH_VEHICLE = gql`
   query($licenseplate: String, $make: String, $model: String, $color: String) {
     VehicleSearch(licenseplate: $licenseplate, make: $make, model: $model, color: $color) {

@@ -44,7 +44,7 @@
     </b-tab>
     <b-tab title="Calls">
       <b-card-text>
-        <table class="table table-bordered text-uppercase" v-for="(call, i) in calls()" :key="i">
+        <table class="table table-bordered text-uppercase" v-for="(call, i) in calls" :key="i">
           <tr>
             <td colspan="2">
               <b>CN:</b>
@@ -127,7 +127,11 @@ export default Vue.extend({
       });
     },
     calls() {
-      return this.calls.sort((a, b) => (a.callnumber.substring(4) > b.callnumber.substring(4) ? 1 : -1));
+      /* eslint-disable arrow-body-style */
+      const c = this.calls.sort((a, b) => {
+        return a.callnumber.substring(4) > b.callnumber.substring(4) ? 1 : -1;
+      });
+      return c;
     },
     assignCall(call) {
       if (call.assigned.includes(this.signon.session_identifier)) {

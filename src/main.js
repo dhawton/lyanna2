@@ -42,14 +42,17 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) => console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
+    graphQLErrors.map(({ message, locations, path }) => {
+      console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+      return false;
+    });
   }
   if (networkError) console.error(`[Network error]: ${networkError}`);
 });
 const uri =
-  process.env.NODE_ENV === "production"
-    ? "https://api.islandliferp.org/graphql"
-    : "http://cad.rpcad.devel/graphql";
+  /*   process.env.NODE_ENV === "production"
+    ?  */ "https://api.islandliferp.org/graphql";
+/*     : "http://cad.rpcad.devel/graphql"; */
 const httpLink = new HttpLink({ uri });
 const cache = new InMemoryCache({});
 
@@ -79,26 +82,23 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 
 let wsOptions = {};
-if (process.env.NODE_ENV === "production") {
-  wsOptions = {
-    wsHost: process.env.VUE_APP_PUSHER_HOST,
-    wsPort: 6001,
-    wssPort: 6003,
-    enabledTransports: ["wss", "ws"],
-    encrypted: true,
-    disableStats: true,
-    authEndpoint: "/broadcasting/auth",
-    auth: {
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem("t")}`
-      }
-    },
-    cluster: null
-  };
-} else {
-  /*  wsOptions = {
-    cluster: "us3"
-  }; */
+/* if (process.env.NODE_ENV === "production") { */
+wsOptions = {
+  wsHost: process.env.VUE_APP_PUSHER_HOST,
+  wsPort: 6001,
+  wssPort: 6003,
+  enabledTransports: ["wss", "ws"],
+  encrypted: true,
+  disableStats: true,
+  authEndpoint: "/broadcasting/auth",
+  auth: {
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem("t")}`
+    }
+  },
+  cluster: null
+};
+/* } else {
   wsOptions = {
     wsHost: "cad.rpcad.devel",
     wsPort: 6001,
@@ -113,7 +113,7 @@ if (process.env.NODE_ENV === "production") {
     },
     cluster: null
   };
-}
+} */
 
 const pusher = new Pusher(process.env.VUE_APP_PUSHER_APP_KEY, wsOptions);
 Pusher.log = message => {

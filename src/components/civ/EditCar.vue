@@ -1,8 +1,10 @@
 <template>
   <div>
-    <b-alert variant="danger" dismissible v-model="showDismissibleAlert" @dismissed="clearError">{{
+    <b-alert variant="danger" dismissible v-model="showDismissibleAlert" @dismissed="clearError">
+      {{
       error
-    }}</b-alert>
+      }}
+    </b-alert>
 
     <b-form-group
       label-cols-sm="4"
@@ -11,7 +13,7 @@
       label-for="licenseplate"
       label-align="right"
     >
-      <b-form-input id="licenseplate" type="text" v-model="vehicleInfo.licenseplate" />
+      <b-form-input id="licenseplate" type="text" readonly v-model="vehicleInfo.licenseplate" />
     </b-form-group>
     <b-form-group
       label-cols-sm="4"
@@ -64,26 +66,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { EDIT_VEHICLE } from '@/store/queries/civ';
+import { mapGetters } from "vuex";
+import { EDIT_VEHICLE } from "@/store/queries/civ";
 
 export default {
-  name: 'EditCar',
+  name: "EditCar",
   data() {
     return {
       processing: false,
       vehicleInfo: {
         id: 0,
-        licenseplate: '',
-        oldlicenseplate: '0',
-        make: '',
-        model: '',
-        color: '',
+        licenseplate: "",
+        oldlicenseplate: "0",
+        make: "",
+        model: "",
+        color: "",
         insurance: true,
         stolen: false
       },
       showDismissibleAlert: false,
-      error: ''
+      error: ""
     };
   },
   props: {
@@ -92,7 +94,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['character'])
+    ...mapGetters(["character"])
   },
   created() {
     // If we're editing a car, merge the objects together
@@ -108,8 +110,12 @@ export default {
         .mutate({
           mutation: EDIT_VEHICLE,
           variables: {
-            oldlicenseplate: this.vehicleInfo.oldlicenseplate.replace(' ', '').toUpperCase(),
-            licenseplate: this.vehicleInfo.licenseplate.replace(' ', '').toUpperCase(),
+            oldlicenseplate: this.vehicleInfo.oldlicenseplate
+              .replace(" ", "")
+              .toUpperCase(),
+            licenseplate: this.vehicleInfo.licenseplate
+              .replace(" ", "")
+              .toUpperCase(),
             make: this.vehicleInfo.make,
             model: this.vehicleInfo.model,
             color: this.vehicleInfo.color,
@@ -124,7 +130,7 @@ export default {
             this.showDismissibleAlert = true;
           } else {
             this.processing = false;
-            this.$emit('done-edit');
+            this.$emit("done-edit");
           }
         })
         .catch(err => {
@@ -134,7 +140,7 @@ export default {
         });
     },
     cancelCar() {
-      this.$emit('done-edit');
+      this.$emit("done-edit");
     },
     clearError() {
       this.showDismissibleAlert = false;
