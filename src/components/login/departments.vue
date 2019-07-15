@@ -3,7 +3,7 @@
     <b-row class="justify-content-center vertical-center">
       <b-col col md="4">
         <div style="width: 100%; text-align: center">
-          <h2 style="color: white;">Island Life Role Play</h2>
+          <h2 style="color: white;">Big Island Role Play</h2>
           <!-- <b-img src="../../assets/logo.png" style="width: 200px;" class="pb-2"/> -->
         </div>
         <b-card header="Select Department">
