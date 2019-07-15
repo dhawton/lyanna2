@@ -53,7 +53,7 @@
               class="mb-0"
             >If you have forgotten your password, please seek assistance on our Discord.</p>
             <p class="mb-0">
-              <b-button to="https://dashboard.islanfeliferp.org" variant="black" block>Register</b-button>
+              <b-button to="https://dashboard.bigislandrp.org/register" variant="black" block>Register</b-button>
             </p>
           </div>
         </b-card>
