@@ -146,6 +146,6 @@ export default {
 <style lang="scss" scoped>
 .maindark {
   background-color: black;
-  color: white;
+  color: lightgray !important;
 }
 </style>

@@ -128,7 +128,7 @@ export default {
       channel.bind("NewCall", e => {
         e.call.assigned = JSON.parse(e.call.assigned);
         this.$store.commit("call", e.call);
-
+        EventBus.$emit("call-new");
         if (
           ["police", "highway", "sheriff", "intel"].includes(
             this.$store.getters.department.role

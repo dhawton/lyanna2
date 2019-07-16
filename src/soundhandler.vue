@@ -26,6 +26,7 @@ export default {
     this.tone = this.loadAudio("/sounds/tone.mp3");
     this.phone = this.loadAudio("/sounds/ring.mp3");
     this.bolo = this.loadAudio("/sounds/bolo.mp3");
+    this.discreet = this.loadAudio("/sounds/discreet.mp3");
 
     EventBus.$on("channel-held", msg => {
       if (msg && this.heldInterval === undefined) {
@@ -43,6 +44,11 @@ export default {
       const { login } = this;
       login.volume = 0.5;
       login.play();
+    });
+    EventBus.$on("call-new", () => {
+      const { discreet } = this;
+      discreet.volume = 0.5;
+      discreet.play();
     });
     EventBus.$on("call-assigned", () => {
       const { assign } = this;
