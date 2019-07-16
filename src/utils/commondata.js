@@ -9,17 +9,16 @@ export const offenseToFine = {
 
 export const offenseToBail = {
   FU: offenseToFine.FU * 0.25,
-  FA: offenseToFine.FA * 0.25,
-  FB: offenseToFine.FB * 0.25,
-  FC: offenseToFine.FC * 0.25,
+  F1: offenseToFine.FA * 0.25,
+  F2: offenseToFine.FB * 0.25,
   MA: offenseToFine.MA * 0.25,
   MB: offenseToFine.MB * 0.25
 };
 
 export const offenseToTime = {
-  FU: 10 * 60,
-  FA: 10 * 60,
-  FB: 5 * 60,
+  FU: 15 * 60,
+  F1: 10 * 60,
+  F2: 5 * 60,
   MA: 1 * 60
 };
 
