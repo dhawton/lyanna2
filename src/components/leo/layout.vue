@@ -1,9 +1,9 @@
 <template>
   <div>
-    <TopBar/>
+    <TopBar />
     <b-container fluid>
       <b-row>
-        <LeftBar @toggle-dark="toggleDark"/>
+        <LeftBar @toggle-dark="toggleDark" />
 
         <b-col role="main" md="10" px="4" class="ml-sm-auto" :class="{ maindark: darkMode }">
           <div
@@ -15,7 +15,7 @@
           <router-view></router-view>
         </b-col>
 
-        <RightBar/>
+        <RightBar />
       </b-row>
     </b-container>
   </div>
@@ -90,6 +90,11 @@ export default {
             r.data.server.signedons = r.data.server.signedons.filter(
               u => u.dept.role !== "civ" && u.dept.role !== "dispatch"
             );
+            r.data.server.calls.forEach((v, i) => {
+              r.data.server.calls[i].assigned = JSON.parse(
+                r.data.server.calls[i].assigned
+              );
+            });
             this.$store.commit("fillunits", r.data.server.signedons);
             this.$store.commit("fillcalls", r.data.server.calls);
             EventBus.$emit("channel-held", r.data.server.channel_held);

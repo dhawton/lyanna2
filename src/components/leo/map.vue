@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      url: "https://dashboard.islandliferp.org/img/maps/{z}/{x}/{y}.png",
+      url: "https://dashboard.bigislandrp.org/img/maps/{z}/{x}/{y}.png",
       extent: [-41.33258447, -62.33480126, 49.30103018, 59.53374276],
       bounds: L.latLngBounds([
         L.latLng([-62.33480126, -41.33258447]),

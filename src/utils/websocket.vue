@@ -40,7 +40,8 @@ export default {
       });
       channel.bind("ChangeUnit", e => {
         e.id = parseInt(e.id, 10);
-        if (this.$store.getters.signon.id === parseInt(e.id, 10)) {
+        if (this.$store.getters.signon === undefined) return;
+        if (this.$store.getters.signon.id === e.id) {
           this.$store.commit("signon", {
             session_identifier: e.session_identifier,
             status: e.status

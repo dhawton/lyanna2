@@ -1,11 +1,11 @@
 <template>
   <div>
-    <License :showedit="true" v-if="prepared" v-bind:documents="documents" :character="character"/>
+    <License :showedit="true" v-if="prepared" v-bind:documents="documents" :character="character" />
     <b-row>
       <b-col md="12">
-        <Record v-if="prepared" v-bind:items="documents"/>
+        <Record v-if="prepared" v-bind:items="documents" />
         <div v-if="!prepared" class="text-center">
-          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"/>
+          <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner" />
         </div>
       </b-col>
     </b-row>
@@ -13,10 +13,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import License from "@/components/shared/License";
 import Record from "@/components/shared/Record";
 import { GET_CHARACTER_DOCUMENTS } from "@/store/queries/legal";
-import { mapGetters } from "vuex";
 import { GET_CHARACTER } from "../../store/queries/civ";
 
 export default {

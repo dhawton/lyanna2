@@ -184,11 +184,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import {
   cities as commonCities,
   licensestatus as commonLicenseStatus
 } from "@/utils/commondata";
-import { mapGetters } from "vuex";
 import { EDIT_CHARACTER } from "../../store/queries/civ";
 
 export default {
@@ -228,20 +228,20 @@ export default {
       this.processing = true;
       if (this.validForm()) {
         const variables = {
-              id: this.character.id,
-              firstname: this.character.firstname,
-              lastname: this.character.lastname,
-              address: this.character.address,
-              city: this.character.city,
-              gender: this.character.gender,
-              race: this.character.race,
-              dob: this.character.dob,
-              haircolor: this.character.haircolor,
-              height_feet: this.character.height_feet,
-              height_inches: this.character.height_inches,
-              weight: this.character.weight,
-              licensestatus: this.character.licensestatus,
-            };
+          id: this.character.id,
+          firstname: this.character.firstname,
+          lastname: this.character.lastname,
+          address: this.character.address,
+          city: this.character.city,
+          gender: this.character.gender,
+          race: this.character.race,
+          dob: this.character.dob,
+          haircolor: this.character.haircolor,
+          height_feet: this.character.height_feet,
+          height_inches: this.character.height_inches,
+          weight: this.character.weight,
+          licensestatus: this.character.licensestatus
+        };
         if (this.hasChangedPhoto) variables.photo = this.character.photo;
         this.$apollo
           .mutate({

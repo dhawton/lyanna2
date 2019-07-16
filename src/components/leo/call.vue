@@ -44,7 +44,11 @@
     </b-tab>
     <b-tab title="Calls">
       <b-card-text>
-        <table class="table table-bordered text-uppercase" v-for="(call, i) in calls()" :key="i">
+        <table
+          class="table table-bordered text-uppercase"
+          v-for="call in callsSorted()"
+          :key="call.callnumber"
+        >
           <tr>
             <td colspan="2">
               <b>CN:</b>
@@ -71,26 +75,26 @@
             <td colspan="2">
               <b>ASSIGNED:</b>
               {{ call.assigned.length > 0 ? call.assigned.join(", ") : "NONE" }}
-              <tr>
-                <td colspan="2">
-                  <button
-                    class="btn btn-green"
-                    @click="assignCall(call)"
-                    v-if="assignedCall !== null && call.callnumber !== assignedCall.callnumber"
-                  >Assign Me</button>
-                  <button class="btn btn-darkblue" disabled v-if="assigning">
-                    <b-spinner variant="primary" />
-                  </button>
-                  <button
-                    class="btn btn-darkblue"
-                    @click="archiveCall(call)"
-                    v-if="!clearing"
-                  >Archive Call</button>
-                  <button class="btn btn-darkblue" disabled v-if="archiving">
-                    <b-spinner variant="primary" />
-                  </button>
-                </td>
-              </tr>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <button
+                class="btn btn-success"
+                @click="assignCall(call)"
+                v-if="(assignedCall === null || (assignedCall !== null && call.callnumber !== assignedCall.callnumber)) && !assigning"
+              >Assign Me</button>
+              <button class="btn btn-success" disabled v-if="assigning">
+                <b-spinner variant="primary" />
+              </button>
+              <button
+                class="btn btn-darkblue"
+                @click="archiveCall(call)"
+                v-if="!archiving"
+              >Archive Call</button>
+              <button class="btn btn-darkblue" disabled v-if="archiving">
+                <b-spinner variant="primary" />
+              </button>
             </td>
           </tr>
         </table>
@@ -114,7 +118,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapGetters(["assignedCall", "signon", "calls"])
+    ...mapGetters(["assignedCall", "signon"])
   },
   methods: {
     clearCall() {
@@ -126,8 +130,8 @@ export default Vue.extend({
         }
       });
     },
-    calls() {
-      return this.calls.sort((a, b) => (a.callnumber.substring(4) > b.callnumber.substring(4) ? 1 : -1));
+    callsSorted() {
+      return this.$store.getters.calls;
     },
     assignCall(call) {
       if (call.assigned.includes(this.signon.session_identifier)) {

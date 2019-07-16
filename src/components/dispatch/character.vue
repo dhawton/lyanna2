@@ -2,11 +2,11 @@
   <div>
     <b-row v-if="!isLoaded">
       <b-col md="12" class="text-center">
-        <b-spinner variant="primary" style="width: 3rem; height: 3rem;"/>
+        <b-spinner variant="primary" style="width: 3rem; height: 3rem;" />
       </b-col>
     </b-row>
     <div v-else>
-      <License :documents="this.documents" :character="character"/>
+      <License :documents="this.documents" :character="character" />
       <b-card no-body>
         <b-tabs content-class="mt-3">
           <b-tab title-link-class="titlecadgray" ref="records" title="Record" active>
@@ -15,11 +15,11 @@
               style="width: 3rem; height: 3rem;"
               v-if="documents === undefined"
             />
-            <Record v-else v-bind:items="documents"/>
+            <Record v-else v-bind:items="documents" />
           </b-tab>
           <b-tab title-link-class="titlecadgray" title="Vehicles">
             <div v-if="this.vehicles === undefined">
-              <b-spinner variant="primary" style="width: 3rem; height: 3rem;"/>
+              <b-spinner variant="primary" style="width: 3rem; height: 3rem;" />
             </div>
             <div v-else>
               <table class="table table-small">
@@ -50,11 +50,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import License from "@/components/shared/License";
 import Record from "@/components/shared/Record";
 import { SEARCH_CHARACTERS, GET_CHARACTER_VEHICLES } from "@/store/queries/civ";
 import { GET_CHARACTER_DOCUMENTS } from "@/store/queries/legal";
-import { mapGetters } from "vuex";
 
 export default {
   data() {

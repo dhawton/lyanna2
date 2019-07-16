@@ -221,9 +221,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { agencies, agencyLongNames } from "@/utils/commondata";
 import { GET_CHARACTER_DOCUMENTS, EDIT_DOCUMENT } from "@/store/queries/legal";
-import { mapGetters } from "vuex";
 
 export default {
   name: "CivCases",

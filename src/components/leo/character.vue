@@ -2,7 +2,7 @@
   <div>
     <b-row v-if="!isLoaded">
       <b-col md="12" class="text-center">
-        <b-spinner variant="primary" style="width: 3rem; height: 3rem;"/>
+        <b-spinner variant="primary" style="width: 3rem; height: 3rem;" />
       </b-col>
     </b-row>
     <div v-else>
@@ -12,7 +12,7 @@
         class="align-center"
         v-if="documents === undefined"
       />
-      <License v-else :documents="documents" :character="character" :key="number"/>
+      <License v-else :documents="documents" :character="character" :key="number" />
       <b-card no-body>
         <b-tabs content-class="mt-3">
           <b-tab title-link-class="titlegray" ref="records" title="Record" active>
@@ -21,7 +21,7 @@
               style="width: 3rem; height: 3rem;"
               v-if="documents === undefined"
             />
-            <Record v-else v-bind:items="documents" :charid="character.idnumber"/>
+            <Record v-else v-bind:items="documents" :charid="character.idnumber" />
           </b-tab>
           <b-tab title-link-class="titlegray" title="New Document">
             <Document
@@ -32,7 +32,7 @@
           </b-tab>
           <b-tab title-link-class="titlegray" title="Vehicles">
             <div v-if="this.vehicles === undefined">
-              <b-spinner variant="primary" style="width: 3rem; height: 3rem;"/>
+              <b-spinner variant="primary" style="width: 3rem; height: 3rem;" />
             </div>
             <div v-else>
               <table class="table table-small">
@@ -63,12 +63,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import License from "@/components/shared/License";
 import Record from "@/components/shared/Record";
 import Document from "@/components/leo/components/document";
 import { SEARCH_CHARACTERS, GET_CHARACTER_VEHICLES } from "@/store/queries/civ";
 import { GET_CHARACTER_DOCUMENTS } from "@/store/queries/legal";
-import { mapGetters } from "vuex";
 import { EventBus } from "@/EventBus";
 
 export default {
@@ -159,9 +159,9 @@ export default {
             }
             r.data.documentsByCharacter[i].violations.forEach((v2, i2) => {
               if (typeof vs !== "string") {
-                r.data.documentsByCharacter[i].violations[i2] = `${v2.code} ${
-                  v2.title
-                } [${v2.type}]`;
+                r.data.documentsByCharacter[i].violations[
+                  i2
+                ] = `${v2.code} ${v2.title} [${v2.type}]`;
               }
             });
             r.data.documentsByCharacter[
