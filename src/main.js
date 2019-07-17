@@ -23,9 +23,6 @@ import "leaflet/dist/leaflet.css";
 // eslint-disable-next-line no-underscore-dangle
 delete Icon.Default.prototype._getIconUrl;
 
-// Before you create app
-Vue.config.devtools = true;
-
 Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
@@ -76,8 +73,6 @@ const apolloProvider = new VueApollo({
 });
 Vue.use(VueApollo);
 
-Vue.config.productionTip = false;
-
 Vue.use(BootstrapVue);
 
 let wsOptions = {};
@@ -118,11 +113,11 @@ wsOptions = {
 } */
 
 const pusher = new Pusher(process.env.VUE_APP_PUSHER_APP_KEY, wsOptions);
-Pusher.log = message => {
+/* Pusher.log = message => {
   if (window.console && window.console.log) {
     window.console.log(message);
   }
-};
+}; */
 Vue.prototype.$pusher = pusher;
 Vue.pusher = pusher;
 
