@@ -7,19 +7,19 @@
           <table class="table table-bordered text-uppercase">
             <tr>
               <td>
-                {{ call.callnumber }} // {{ call.address }}, {{ call.city }} //
+                {{ assignedCall.callnumber }} // {{ assignedCall.address }}, {{ assignedCall.city }} //
                 <span
                   style="color: #15f4ee"
-                >{{ call.type }}</span>
+                >{{ assignedCall.type }}</span>
               </td>
             </tr>
             <tr>
-              <td colspan="3">{{ call.description }}</td>
+              <td colspan="3">{{ assignedCall.description }}</td>
             </tr>
             <tr>
               <td
                 colspan="3"
-              >{{ call.assigned.length > 0 ? call.assigned.join(", ") : "PENDING ASSIGNMENT" }}</td>
+              >{{ assignedCall.assigned.length > 0 ? assignedCall.assigned.join(", ") : "PENDING ASSIGNMENT" }}</td>
             </tr>
             <tr>
               <td colspan="3">
@@ -35,6 +35,7 @@
     </b-tab>
     <b-tab title="Pending Calls">
       <b-card-text>
+        <div v-if="callsUnassignedSorted().length === 0">There are no pending calls.</div>
         <table
           class="table table-bordered text-uppercase"
           v-for="call in callsUnassignedSorted()"
@@ -81,6 +82,7 @@
     </b-tab>
     <b-tab title="All Calls">
       <b-card-text>
+        <div v-if="callsSorted().length === 0">There are no calls.</div>
         <table
           class="table table-bordered text-uppercase"
           v-for="call in callsSorted()"
@@ -156,12 +158,10 @@ export default Vue.extend({
       });
     },
     callsSorted() {
-      return this.$store.getters.calls.sort((a, b) => (a.callnumber.substring(4) > b.callnumber.substring(4) ? 1 : -1));
+      return this.$store.getters.calls;
     },
     callsUnassignedSorted() {
-      return this.$store.getters.calls
-        .filter(a => a.assigned.length === 0)
-        .sort((a, b) => (a.callnumber.substring(4) > b.callnumber.substring(4) ? 1 : -1));
+      return this.$store.getters.calls.filter(a => a.assigned.length === 0);
     },
     assignCall(call) {
       if (call.assigned.includes(this.signon.session_identifier)) {
@@ -212,13 +212,6 @@ export default Vue.extend({
   background-color: rgb(0, 0, 100);
   color: #fff;
 }
-table td {
-  color: lightgray;
-}
-.table-info td {
-  background-color: rgb(0, 0, 100);
-  border: 1px solid white;
-}
 
 .darktabs .nav-tabs .nav-link.active,
 .darktabs .nav-tabs .nav-item.show .nav-link {
@@ -229,5 +222,15 @@ table td {
 .darktabs .nav-tabs .nav-link {
   color: lightgray;
   border: 1px solid darkgray;
+}
+</style>
+
+<style lang="scss" scoped>
+table td {
+  color: lightgray;
+}
+.table-info td {
+  background-color: rgb(0, 0, 100);
+  border: 1px solid white;
 }
 </style>

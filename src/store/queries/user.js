@@ -79,8 +79,8 @@ export const CHANGE_IDENTIFIER = gql`
 `;
 
 export const CHANGE_SIGNON = gql`
-  mutation($id: ID, $identifier: String!, $dept: String!) {
-    ChangeSignOn(id: $id, identifier: $identifier, dept: $dept) {
+  mutation($id: ID, $identifier: String!, $new_identifier: String, $dept: String!) {
+    ChangeSignOn(id: $id, identifier: $identifier, new_identifier: $new_identifier, dept: $dept) {
       id
       session_identifier
     }

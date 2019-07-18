@@ -143,11 +143,6 @@ export default {
               EventBus.$emit("call-assigned");
             }
             this.$store.commit("assignedCall", e.call);
-          } else if (
-            this.$store.getters.assignedCall.callnumber === e.call.callnumber
-          ) {
-            EventBus.$emit("call-cleared");
-            this.$store.commit("assignedCall", null);
           }
         }
       });

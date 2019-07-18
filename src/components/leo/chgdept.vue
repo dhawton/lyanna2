@@ -70,7 +70,7 @@ export default {
         .mutate({
           mutation: CHANGE_SIGNON,
           variables: {
-            identifier: this.signon.identifier,
+            identifier: this.signon.session_identifier,
             new_identifier: this.identifier,
             dept: this.dept
           }
@@ -80,7 +80,7 @@ export default {
         });
     },
     checkPrefix() {
-      let ident = this.signon.identifier;
+      /*       let ident = this.signon.identifier;
       if (!/^\d+$/.test(ident)) {
         ident = ident.substring(1);
         this.prefix = this.signon.identifier.substring(0, 1);
@@ -88,20 +88,13 @@ export default {
         this.prefix = this.signon.session_identifier.substring(2, 3);
       }
       this.identifier = `${this.prefix}${ident}`;
-      console.log("Changing identifier");
+      console.log("Changing identifier"); */
     }
   },
   created() {
     this.dept = this.department.role;
-    let ident = this.signon.identifier;
-    if (!/^\d+$/.test(ident)) {
-      ident = ident.substring(1);
-      this.prefix = this.signon.identifier.substring(0, 1);
-    } else {
-      this.prefix = this.signon.session_identifier.substring(2, 3);
-      console.log(this.prefix);
-    }
-    this.identifier = `${this.prefix}${ident}`;
+    const ident = this.signon.session_identifier;
+    this.identifier = `${ident}`;
   }
 };
 </script>

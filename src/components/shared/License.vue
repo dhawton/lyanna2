@@ -39,10 +39,7 @@
         </tr>
         <tr>
           <td style="padding: 0;">
-            <table
-              border="0"
-              style="background: unset; color: #000; border: 0 !important; width: 100%;"
-            >
+            <table border="0" style="width: 100%;">
               <tr>
                 <td>
                   <b class="label">DATE OF BIRTH</b>
@@ -71,7 +68,7 @@
                 </td>
               </tr>
               <tr>
-                <td>
+                <td colspan="5">
                   {{ character.firstname }} {{ character.lastname }}
                   <br />
                   {{ character.address }}
@@ -204,10 +201,11 @@ table tr:last-child td {
   padding-bottom: 15px;
 }
 table.licensetable {
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
   /*   border-radius: 10px; */
   border-style: hidden; /* hide standard table (collapsed) border */
   border-color: unset !important;
+  border: none !important;
   box-shadow: 0 0 0 1px #000000; /* this draws the table border  */
   background-color: #fff;
 }
