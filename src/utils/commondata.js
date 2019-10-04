@@ -61,15 +61,15 @@ export const agencies = {
   Highway: "SASP",
   State: "SASP",
   Sheriff: "BCSO",
-  Police: "SAPD",
+  Police: "LSPD",
   Court: "Court",
   Intelligence: "SADI"
 };
 
 export const agencyLongNames = {
-  /*   highway: "San Andreas State Troopers",
-  sheriff: "Blaine Borough Police", */
-  police: "San Andreas Police",
+  highway: "San Andreas State Police",
+  //sheriff: "Blaine Borough Police",
+  police: "Los Santos Police",
   intel: "San Andreas Department of Investigations"
 };
 
@@ -82,9 +82,9 @@ export const agencyRoleToDB = {
 };
 
 export const agencyAbbreviations = {
-  police: "SAPD",
+  police: "LSPD",
   sheriff: "BBPD",
-  highway: "SAST",
+  highway: "SASP",
   intel: "SADI",
   fire: "SAFD"
 };
@@ -187,7 +187,7 @@ export const fire = [
 ];
 
 export const fireunitid = {
-  ambulance: "A",
+  ambulance: "M",
   engine: "E",
   brush: "B",
   rescue: "R",
@@ -195,7 +195,7 @@ export const fireunitid = {
 };
 
 export const fireunitradio = {
-  ambulance: "Ambulance",
+  ambulance: "Medic",
   engine: "Engine",
   brush: "Brush",
   rescue: "Rescue",
@@ -203,7 +203,7 @@ export const fireunitradio = {
 };
 
 export const firefullname = {
-  ambulance: "Ambulance",
+  ambulance: "Medic",
   engine: "Engine",
   brush: "Brush",
   rescue: "Rescue Squad",
@@ -211,7 +211,7 @@ export const firefullname = {
 };
 
 export const fireshortname = {
-  ambulance: "Amb",
+  ambulance: "Med",
   engine: "Eng",
   brush: "Brsh",
   rescue: "Resc",
