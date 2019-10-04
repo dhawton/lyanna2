@@ -41,7 +41,9 @@
         {{ row.item.city }}, SA
       </template>
 
-      <span slot="violations" slot-scope="data" v-html="data.value || Hi"/>
+      <template v-slot:cell(violations)="data">
+        <span v-html="data.value" />
+      </template>
       <template slot="status" slot-scope="row">
         <div v-if="row.item.type==='Warrant'">
           <span v-if="row.item.type === 'Warrant' && !row.item.warrant_active">
