@@ -400,18 +400,19 @@ export default {
     bail() {
       let bail = 0;
       this.violations.forEach(v => {
-        if (v.type === "I") {
+        if (v.type === "I" || v.type === "MB") {
           bail += v.fine;
         } else {
           bail += offenseToBail[v.type];
         }
       });
+
       return bail;
     },
     compfine() {
       let fine = 0;
       this.violations.forEach(v => {
-        if (v.type === "I") {
+        if (v.type === "I" || v.type === "MB") {
           fine += v.fine;
         } else {
           fine += offenseToFine[v.type];
@@ -423,7 +424,7 @@ export default {
       let time = 0;
       let fine = 0;
       this.violations.forEach(v => {
-        if (v.type === "I") {
+        if (v.type === "I" || v.type === "MB") {
           fine += v.fine;
         } else {
           time += offenseToTime[v.type];
