@@ -5,7 +5,7 @@
       <b-col md="6" class="my-1" offset-md="6">
         <b-form-group label-cols-sm="1" label="Filter" class="mb-0">
           <b-input-group>
-            <b-form-input v-model="filter" placeholder="Type to Search"/>
+            <b-form-input v-model="filter" placeholder="Type to Search" />
             <b-input-group-append>
               <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
             </b-input-group-append>
@@ -29,22 +29,22 @@
       @filtered="onFiltered"
       :tbody-tr-class="rowClass"
     >
-      <template slot="agency" slot-scope="data" v-bind:commonAgencies="commonAgencies">
+      <template v-slot:cell(agency)="data" v-bind:commonAgencies="commonAgencies">
         {{ data.item.issuer }}
-        <br>
+        <br />
         {{ commonAgencies[data.item.agency] }}
       </template>
 
-      <template slot="location" slot-scope="row">
+      <template v-slot:cell(location)="row">
         {{ row.item.address }},
-        <br>
+        <br />
         {{ row.item.city }}, SA
       </template>
 
       <template v-slot:cell(violations)="data">
         <span v-html="data.value" />
       </template>
-      <template slot="status" slot-scope="row">
+      <template v-slot:cell(status)="row">
         <div v-if="row.item.type==='Warrant'">
           <span v-if="row.item.type === 'Warrant' && !row.item.warrant_active">
             <i>Inactive</i>
@@ -57,7 +57,7 @@
                 v-if="!processing"
               >Activate</b-button>
               <b-button size="sm" variant="danger" v-else>
-                <b-spinner/>
+                <b-spinner />
               </b-button>
             </div>
           </span>
@@ -74,7 +74,7 @@
                 v-if="!processing"
               >Deactivate</b-button>
               <b-button size="sm" variant="danger" v-else>
-                <b-spinner/>
+                <b-spinner />
               </b-button>
             </div>
           </span>
@@ -82,7 +82,7 @@
         <div v-if="row.item.type==='Arrest'">
           <div v-if="row.item.plea === 'Guilty' || row.item.plea === 'No Contest'">
             Closed
-            <br>
+            <br />
             Plead {{ row.item.plea }}
           </div>
           <div v-else>
@@ -91,7 +91,7 @@
             </span>
             <span v-else>
               Court Ruled
-              <br>
+              <br />
               {{ row.item.outcome }}
             </span>
           </div>
@@ -107,7 +107,7 @@
           class="mb-0"
           label-text-align="right"
         >
-          <b-form-select class="small-select" :options="pageOptions" v-model="perPage"/>
+          <b-form-select class="small-select" :options="pageOptions" v-model="perPage" />
         </b-form-group>
       </b-col>
       <b-col md="6" class="my-1">
