@@ -68,14 +68,15 @@ export const agencies = {
 
 export const agencyLongNames = {
   highway: "San Andreas State Police",
-  //sheriff: "Blaine Borough Police",
+  state: "San Andreas State Police",
+  // sheriff: "Blaine Borough Police",
   police: "Los Santos Police",
   intel: "San Andreas Department of Investigations"
 };
 
 export const agencyRoleToDB = {
-  highway: "State",
-  state: "State",
+  highway: "Highway",
+  state: "Highway",
   sheriff: "Sheriff",
   police: "Police",
   intel: "Investigations"
@@ -85,6 +86,7 @@ export const agencyAbbreviations = {
   police: "LSPD",
   sheriff: "BBPD",
   highway: "SASP",
+  state: "SASP",
   intel: "SADI",
   fire: "SAFD"
 };
