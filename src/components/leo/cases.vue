@@ -82,7 +82,7 @@
           </tbody>
         </table>
       </b-tab>
-      <b-tab title-link-class="titlegray" title="New Case">&nbsp;</b-tab>
+      <b-tab title-link-class="titlegray" title="New Case"></b-tab>
     </b-tabs>
   </div>
 </template>

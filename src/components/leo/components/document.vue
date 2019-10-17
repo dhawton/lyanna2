@@ -124,7 +124,7 @@
           <br />
           <u>or</u>
           <br />
-          Time: {{time[0]}} years
+          Time: {{time[0]}} years (minutes)
           <span v-if="time[1] > 0">and a fine of ${{time[1]}}</span>
         </td>
       </tr>

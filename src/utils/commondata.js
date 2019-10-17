@@ -1,10 +1,10 @@
 export const licensestatus = ["Valid", "Suspended", "Revoked", "Learner's Permit", "ID Card"];
 
 export const offenseToFine = {
-  FU: 250000,
-  F1: 150000,
-  F2: 75000,
-  MA: 25000
+  FU: 75000,
+  F1: 25000,
+  F2: 15000,
+  MA: 7500
 };
 
 export const offenseToBail = {
@@ -16,10 +16,10 @@ export const offenseToBail = {
 };
 
 export const offenseToTime = {
-  FU: 15 * 60,
-  F1: 10 * 60,
-  F2: 5 * 60,
-  MA: 1 * 60
+  FU: 10,
+  F1: 5,
+  F2: 3,
+  MA: 1
 };
 
 export const cities = [
